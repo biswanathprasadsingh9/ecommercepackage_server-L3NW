@@ -38,6 +38,8 @@ const ChildCategory = require("./routes/childcategory");
 const Attribute = require("./routes/attribute");
 const Product = require("./routes/product");
 const Tax = require("./routes/tax");
+const Dashboard = require("./routes/dashboard");
+
 
 
 
@@ -291,3 +293,4 @@ app.use("/api/childcategory", ChildCategory);
 app.use("/api/attribute", Attribute);
 app.use("/api/product", Product);
 app.use("/api/tax", Tax);
+app.use("/api/dashboard", Dashboard);
