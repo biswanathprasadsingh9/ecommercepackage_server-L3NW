@@ -63,8 +63,8 @@ const ProductSchema = new Schema({
     default:'-'
   },
   product_tax:{
-    type:String,
-    default:'-'
+    type:Object,
+    default:[],
   },
   product_brand:{
     type:String,

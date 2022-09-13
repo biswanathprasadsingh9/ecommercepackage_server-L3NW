@@ -8,6 +8,12 @@ const TaxSchema = new Schema({
   percentage:{
     type:Number
   },
+  amount:{
+    type:Number
+  },
+  type:{
+    type:String
+  },
   status:{
     type:String
   },
