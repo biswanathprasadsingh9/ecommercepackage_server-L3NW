@@ -55,6 +55,16 @@ const singleproductinformation = (req,res) => {
       data:response
     })
   })
+
+  // Product.findOne({_id: req.params.id })
+  //  .populate("category") // key to populate
+  //  .then(response => {
+  //    res.json({
+  //      response:true,
+  //      data:response
+  //    })
+  //  });
+
 }
 
 
@@ -386,16 +396,15 @@ const productsearch = async (req,res) => {
             Fabric: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$Fabric" },{ $sortByCount: "$Fabric" }]),
             'Payment Type': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$Payment Type" },{ $sortByCount: "$Payment Type" }]),
 
-            // Color: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$myattributes.Color" },{ $sortByCount: "$myattributes.Color" }]),
             'Color': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$Color" },{ $sortByCount: "$Color" }]),
             'Size': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$Size" },{ $sortByCount: "$Size" }]),
 
           },
           main_attributes:{ //---normal attribute
-            product_brand: await query2.distinct("product_brand"),
             category: await query2.distinct("category"),
             subcategory: await query2.distinct("subcategory"),
             childcategory: await query2.distinct("childcategory"),
+            product_brand: await query2.distinct("product_brand"),
             // 'Pattern':await query2.distinct("Pattern"),
             // 'Occasion':await query2.distinct("Occasion"),
             // 'Fabric':await query2.distinct("Fabric"),
@@ -406,12 +415,11 @@ const productsearch = async (req,res) => {
             // '6307a2377fcf4613a88f98f9':await query_paginaton.distinct("6307a2377fcf4613a88f98f9"),
           },
           other_attributes:{ //---config attribute
-            '630b512f5bfe810ff4a29f00': await query2.distinct("630b512f5bfe810ff4a29f00"),
-            '630b51615bfe810ff4a29f01': await query2.distinct("630b51615bfe810ff4a29f01"),
-            '630b52105bfe810ff4a29f02': await query2.distinct("630b52105bfe810ff4a29f02"),
-            '630b523f5bfe810ff4a29f03': await query2.distinct("630b523f5bfe810ff4a29f03"),
-            '630b526b5bfe810ff4a29f04': await query2.distinct("630b526b5bfe810ff4a29f04"),
-            '630b5a3de36f9f2a886fd68c': await query2.distinct("630b5a3de36f9f2a886fd68c"),
+            '6316e5f7bd5f040ca4304a5c': await query2.distinct("6316e5f7bd5f040ca4304a5c"),
+            '6316e676bd5f040ca4304a5d': await query2.distinct("6316e676bd5f040ca4304a5d"),
+            '6316e689bd5f040ca4304a5e': await query2.distinct("6316e689bd5f040ca4304a5e"),
+            '6316e6b9bd5f040ca4304a5f': await query2.distinct("6316e6b9bd5f040ca4304a5f"),
+            '631efdadb76ed839743edc6c': await query2.distinct("631efdadb76ed839743edc6c"),
 
             // 'Size': await query2.distinct("Size"),
             // 'Color': await query2.distinct("Color"),
@@ -776,7 +784,7 @@ const create2config = (req,res) => {
 
   });
 
-
+  console.log(req.body.attributedata)
   //==========MAIN START==========//
   // const update1 = { configproductarray: allarray, step:'step3config',attributedata:req.body.attributedata,myattributes };
   const update1 = { step:'step3config',config_attribues };

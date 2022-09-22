@@ -1,4 +1,6 @@
 const response = require("express");
+var bcrypt = require('bcryptjs');
+var salt = bcrypt.genSaltSync(10);
 
 const User = require("../models/User");
 
@@ -20,6 +22,107 @@ const index = (req, res) => {
 
 
 
+//REGISTER
+const register = (req,res) => {
+
+
+  var hash = bcrypt.hashSync(req.body.password, salt);
+
+  var bodydata=req.body;
+  bodydata.password=hash;
+
+  User.findOne({email:req.body.email},(err,doc)=>{
+    if(doc===null){
+      User.create(bodydata)
+      .then(response=>{
+        res.json({
+          response:true,
+          data:response,
+          message:'user_created'
+        })
+      })
+    }else{
+      res.json({
+        response:false,
+        message:'Email exist',
+      })
+    }
+  })
+}
+
+
+
+//LOGIN
+const login = (req,res) => {
+  var bodydata=req.body;
+
+  User.findOne({email:bodydata.email},(err,doc)=>{
+    if(doc===null){
+      res.json({
+        response:false,
+        message:'Email not found'
+      })
+    }else{
+
+        var match = bcrypt.compareSync(bodydata.password, doc.password);
+        if(match){
+
+          res.json({
+            response:true,
+            data:doc,
+            message:'Login Success'
+          })
+
+        }else{
+          res.json({
+            response:false,
+            message:'Wrong password'
+          })
+        }
+
+
+    }
+  })
+
+}
+
+
+//Email verification
+const emailverification = (req,res) => {
+
+  console.log(req.body)
+
+  User.findById(req.body._id,(err,doc)=>{
+    if(doc===null){
+      res.json({
+        response:false,
+        message:'User if not found'
+      })
+    }else{
+      if(doc.emailverificationcode===req.body.code){
+
+        var updData={
+          emailverification:true
+        }
+        User.findByIdAndUpdate(req.body._id,updData,(err1,doc1)=>{
+          res.json({
+            response:true,
+            message:'Success',
+            data:doc1
+          })
+        })
+
+      }else{
+        res.json({
+          response:false,
+          message:'Wrong verification code'
+        })
+      }
+    }
+  })
+}
+
+
 module.exports = {
-  index
+  index,register,login,emailverification
 };

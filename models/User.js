@@ -4,9 +4,6 @@ const { uuid } = require('uuidv4');
 const moment = require('moment');
 
 const UserSchema = new Schema({
-  loginid:{
-    type:String
-  },
   name:{
     type:String
   },
@@ -14,82 +11,16 @@ const UserSchema = new Schema({
     type:String
   },
   emailverification:{
-    type:String,
-    default:'NotVerified'
+    type:Boolean,
+    default:false
   },
   emailverificationcode:{
-    type:String,
+    type:Number,
+    default:Math.floor(111111 + Math.random() * 999999),
   },
   password:{
     type:String
   },
-  company:{
-    type:String
-  },
-  contact:{
-    type:String
-  },
-  country:{
-    type:String
-  },
-  city:{
-    type:String
-  },
-  type:{
-    type:String
-  },
-  packageid:{
-    type:String
-  },
-  packagename:{
-    type:String
-  },
-  packagetype:{
-    type:String
-  },
-  packagestartdate:{
-    type:Date,
-  },
-  packageenddate:{
-    type:Date,
-  },
-  packagetempstartdate:{
-    type:Date,
-  },
-  packagetempenddate:{
-    type:Date,
-  },
-  packageenddatenumber:{
-    type:Number
-  },
-  planid:{
-    type:String,
-    default:'622af06b40266ce8f0ed4081'
-  },
-  planname:{
-    type:String,
-    default:'Free'
-  },
-  planmaxupload:{
-    type:Number,
-    default:20
-  },
-  planmaxextract:{
-    type:Number,
-    default:90000
-  },
-  planduraction:{
-    type:String,
-    default:'Lifetime'
-  },
-  planstart:{
-    type:Date,
-    default:moment()
-  },
-  planend:{
-    type:Date,
-    default:moment().add(100, 'years')
-  }
 },{timestamps:true})
 
 const User = mongoose.model('User',UserSchema);

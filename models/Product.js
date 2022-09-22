@@ -46,6 +46,7 @@ const ProductSchema = new Schema({
     type:Object,
     default:[]
   },
+  // category: [{ type: Schema.ObjectId, ref: 'Category' }], //one to many
   subcategory:{
     type:Object,
     default:[]
@@ -56,11 +57,13 @@ const ProductSchema = new Schema({
   },
   product_collection:{
     type:String,
-    default:'-'
+    default:''
+    // default:'-'
   },
   product_labels:{
     type:String,
-    default:'-'
+    default:''
+    // default:'-'
   },
   product_tax:{
     type:Object,
@@ -68,7 +71,9 @@ const ProductSchema = new Schema({
   },
   product_brand:{
     type:String,
-    default:'-'
+    default:''
+    // default:'-'
+
   },
   issubtype:{
     type:String

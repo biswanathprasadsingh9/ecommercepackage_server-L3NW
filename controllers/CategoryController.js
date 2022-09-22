@@ -10,6 +10,7 @@ const ChildCategory = require("../models/ChildCategory");
 const index = (req, res) => {
   Category.find()
     .sort({ _id: -1 })
+    .populate('subcategories')
     .then((response) => {
       res.json({
         response: true,
