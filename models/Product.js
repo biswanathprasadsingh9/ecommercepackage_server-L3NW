@@ -101,7 +101,7 @@ const ProductSchema = new Schema({
     type:Number
   },
   pricemain:{
-    type:Object
+    type:Object,
   },
   price_lowest:{
     type:Number

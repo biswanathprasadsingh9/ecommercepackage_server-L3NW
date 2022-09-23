@@ -1107,7 +1107,6 @@ const updateconfigproductwithparent =(req,res) => {
 
 const updatesimpleproduct = (req,res) => {
 
-  console.log(req.body)
 
   Product.findByIdAndUpdate(req.body._id,req.body.data)
   .then(resas=>{

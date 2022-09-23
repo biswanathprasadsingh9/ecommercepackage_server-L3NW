@@ -99,19 +99,19 @@ const emailverification = (req,res) => {
         message:'User if not found'
       })
     }else{
-      if(doc.emailverificationcode===req.body.code){
-
+      if(doc.emailverificationcode===Number(req.body.code)){
         var updData={
           emailverification:true
         }
         User.findByIdAndUpdate(req.body._id,updData,(err1,doc1)=>{
-          res.json({
-            response:true,
-            message:'Success',
-            data:doc1
+          User.findById(req.body._id,(err2,doc2)=>{
+            res.json({
+              response:true,
+              message:'Success',
+              data:doc2
+            })
           })
         })
-
       }else{
         res.json({
           response:false,
