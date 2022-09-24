@@ -219,7 +219,7 @@ const productsearch = async (req,res) => {
 
 
   ////PAGINATION////
-  var page= req.body.page_number;
+  var page= req.body.pagination_page_number;
 
   var showpage = page-1;
   var perPage = 2
@@ -361,7 +361,6 @@ const productsearch = async (req,res) => {
       }
   });
 
-  console.log(searchQuery)
 
 
   //***first 1
@@ -373,6 +372,13 @@ const productsearch = async (req,res) => {
       //***second 2
       var query2 = Product.find(searchQuery)
       query2.exec(async function(err,all_datas){
+
+
+        // console.log(await query2.distinct("product_brand"))
+        // console.log(await query2.distinct("category"))
+        // console.log(await query2.distinct("subcategory"))
+
+        console.log(_.compact(await query2.distinct("product_brand")))
 
 
         res.json({
@@ -401,10 +407,10 @@ const productsearch = async (req,res) => {
 
           },
           main_attributes:{ //---normal attribute
-            category: await query2.distinct("category"),
-            subcategory: await query2.distinct("subcategory"),
-            childcategory: await query2.distinct("childcategory"),
-            product_brand: await query2.distinct("product_brand"),
+            category: _.compact(await query2.distinct("category")),
+            subcategory: _.compact(await query2.distinct("subcategory")),
+            childcategory: _.compact(await query2.distinct("childcategory")),
+            product_brand: _.compact(await query2.distinct("product_brand")),
             // 'Pattern':await query2.distinct("Pattern"),
             // 'Occasion':await query2.distinct("Occasion"),
             // 'Fabric':await query2.distinct("Fabric"),
@@ -415,11 +421,11 @@ const productsearch = async (req,res) => {
             // '6307a2377fcf4613a88f98f9':await query_paginaton.distinct("6307a2377fcf4613a88f98f9"),
           },
           other_attributes:{ //---config attribute
-            '6316e5f7bd5f040ca4304a5c': await query2.distinct("6316e5f7bd5f040ca4304a5c"),
-            '6316e676bd5f040ca4304a5d': await query2.distinct("6316e676bd5f040ca4304a5d"),
-            '6316e689bd5f040ca4304a5e': await query2.distinct("6316e689bd5f040ca4304a5e"),
-            '6316e6b9bd5f040ca4304a5f': await query2.distinct("6316e6b9bd5f040ca4304a5f"),
-            '631efdadb76ed839743edc6c': await query2.distinct("631efdadb76ed839743edc6c"),
+            '6316e5f7bd5f040ca4304a5c': _.compact(await query2.distinct("6316e5f7bd5f040ca4304a5c")),
+            '6316e676bd5f040ca4304a5d': _.compact(await query2.distinct("6316e676bd5f040ca4304a5d")),
+            '6316e689bd5f040ca4304a5e': _.compact(await query2.distinct("6316e689bd5f040ca4304a5e")),
+            '6316e6b9bd5f040ca4304a5f': _.compact(await query2.distinct("6316e6b9bd5f040ca4304a5f")),
+            '631efdadb76ed839743edc6c': _.compact(await query2.distinct("631efdadb76ed839743edc6c")),
 
             // 'Size': await query2.distinct("Size"),
             // 'Color': await query2.distinct("Color"),
