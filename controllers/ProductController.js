@@ -222,7 +222,7 @@ const productsearch = async (req,res) => {
   var page= req.body.pagination_page_number;
 
   var showpage = page-1;
-  var perPage = 2
+  var perPage = req.body.pagination_datas_per_page
   , page = showpage > 0 ? showpage : 0
 
 
@@ -332,10 +332,15 @@ const productsearch = async (req,res) => {
 
   ///////////////////////////////////////////////////////////////////////////////////////
 
+
+  console.log(req.body)
+
   var searchQuery = {
     "status":'Active',
     "type": { "$in": [ 'Configurable', 'Simple' ] },
-    "pricemain":{"$gte": 0,"$lte": 222222222222222},
+    "pricemain":{"$gte": req.body.search_price_min,"$lte": req.body.search_price_max},
+
+    // "pricemain":{"$gte": 0,"$lte": 222222222222222},
     // category: { "$in": [ 'Women', 'Simple' ] },
     // "subcategory": ['Boys']
     // category: { "$in": ['Home and Living'] },
@@ -349,36 +354,35 @@ const productsearch = async (req,res) => {
         searchQuery[item] = { "$in": search_main_attributes[item] }
       }
   });
-  //
+  //****backup dont delete
+  // var search_other_attributes = req.body.search_other_attributes;
+  // var objectkeysZ=Object.keys(search_other_attributes);
+  // objectkeysZ.forEach((item, i) => {
+  //     if(search_other_attributes[item].length!==0){
+  //       var titem='config_attribues.'+item;
+  //       searchQuery[titem] = { "$in": search_other_attributes[item] }
+  //     }
+  // });
   var search_other_attributes = req.body.search_other_attributes;
   var objectkeysZ=Object.keys(search_other_attributes);
   objectkeysZ.forEach((item, i) => {
       if(search_other_attributes[item].length!==0){
-        var titem='myattributes.'+item;
-        // searchQuery[titem] = search_other_attributes[item]
+        var titem=item;
         searchQuery[titem] = { "$in": search_other_attributes[item] }
-
       }
   });
 
 
-
   //***first 1
   // Product.find(searchQuery).limit(perPage).skip(perPage * page)
-  var query = Product.find(searchQuery).sort(req.body.search_sortby).limit(perPage).skip(perPage * page);
+  var query = Product.find(searchQuery,).sort({[req.body.search_sortby.vname]:req.body.search_sortby.value}).limit(perPage).skip(perPage * page);
+  query.select({ _id: 1, name: 1, type:1, price_lowest: 1, price_heighest: 1, images: { $slice: -1 } });
   query.exec(async function(err,main_datas){
 
 
       //***second 2
-      var query2 = Product.find(searchQuery)
+      var query2 = Product.find(searchQuery).select(['-images','-videos']) //remove unnecessary fields here
       query2.exec(async function(err,all_datas){
-
-
-        // console.log(await query2.distinct("product_brand"))
-        // console.log(await query2.distinct("category"))
-        // console.log(await query2.distinct("subcategory"))
-
-        console.log(_.compact(await query2.distinct("product_brand")))
 
 
         res.json({
@@ -393,68 +397,27 @@ const productsearch = async (req,res) => {
             min:all_datas.length>0?_.minBy(all_datas, function(o) { return o.price_lowest }).price_lowest:0,
           },
           count_attributes:{
-            product_brand: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$product_brand" },{ $sortByCount: "$product_brand" }]),
+            // product_brand: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$product_brand" },{ $sortByCount: "$product_brand" }]),
             category: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$category" },{ $sortByCount: "$category" }]),
             subcategory: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$subcategory" },{ $sortByCount: "$subcategory" }]),
             childcategory: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$childcategory" },{ $sortByCount: "$childcategory" }]),
-            Pattern: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$Pattern" },{ $sortByCount: "$Pattern" }]),
-            Occasion: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$Occasion" },{ $sortByCount: "$Occasion" }]),
-            Fabric: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$Fabric" },{ $sortByCount: "$Fabric" }]),
-            'Payment Type': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$Payment Type" },{ $sortByCount: "$Payment Type" }]),
-
-            'Color': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$Color" },{ $sortByCount: "$Color" }]),
-            'Size': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$Size" },{ $sortByCount: "$Size" }]),
-
+            '63329659a7f02029b877a5ce': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63329659a7f02029b877a5ce" },{ $sortByCount: "$63329659a7f02029b877a5ce" }]), //size
+            '633296fea7f02029b877a5d2': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$633296fea7f02029b877a5d2" },{ $sortByCount: "$633296fea7f02029b877a5d2" }]), //size
+            '63329a57a7f02029b877a5e7': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63329a57a7f02029b877a5e7" },{ $sortByCount: "$63329a57a7f02029b877a5e7" }]),
           },
           main_attributes:{ //---normal attribute
             category: _.compact(await query2.distinct("category")),
             subcategory: _.compact(await query2.distinct("subcategory")),
             childcategory: _.compact(await query2.distinct("childcategory")),
-            product_brand: _.compact(await query2.distinct("product_brand")),
-            // 'Pattern':await query2.distinct("Pattern"),
-            // 'Occasion':await query2.distinct("Occasion"),
-            // 'Fabric':await query2.distinct("Fabric"),
-            // 'Payment Type':await query2.distinct("Payment Type"),
-
-
-            // Neck:await query_paginaton.distinct("Neck"),
-            // '6307a2377fcf4613a88f98f9':await query_paginaton.distinct("6307a2377fcf4613a88f98f9"),
           },
           other_attributes:{ //---config attribute
-            '6316e5f7bd5f040ca4304a5c': _.compact(await query2.distinct("6316e5f7bd5f040ca4304a5c")),
-            '6316e676bd5f040ca4304a5d': _.compact(await query2.distinct("6316e676bd5f040ca4304a5d")),
-            '6316e689bd5f040ca4304a5e': _.compact(await query2.distinct("6316e689bd5f040ca4304a5e")),
-            '6316e6b9bd5f040ca4304a5f': _.compact(await query2.distinct("6316e6b9bd5f040ca4304a5f")),
-            '631efdadb76ed839743edc6c': _.compact(await query2.distinct("631efdadb76ed839743edc6c")),
-
-            // 'Size': await query2.distinct("Size"),
-            // 'Color': await query2.distinct("Color"),
-            // Size:await query_paginaton.distinct("myattributes.Size"),
+            '63329659a7f02029b877a5ce': _.compact(await query2.distinct("63329659a7f02029b877a5ce")),
+            '633296fea7f02029b877a5d2': _.compact(await query2.distinct("633296fea7f02029b877a5d2")),
+            '63329a57a7f02029b877a5e7': _.compact(await query2.distinct("63329a57a7f02029b877a5e7")),
           }
-
-
-          // main_attributes:{
-          //
-          //   // subcategory: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$subcategory" },{ $sortByCount: "$subcategory" }]),
-          //   // childcategory: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$childcategory" },{ $sortByCount: "$childcategory" }]),
-          // },
-          // other_attributes:{
-          //   group: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$myattributes.Group" },{ $sortByCount: "$myattributes.Group" }]),
-          //   color: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$myattributes.Color" },{ $sortByCount: "$myattributes.Color" }]),
-          // },
         })
-
-        // console.log(json)
-
-
-
-
       })
-
-
   })
-
-
 }
 
 

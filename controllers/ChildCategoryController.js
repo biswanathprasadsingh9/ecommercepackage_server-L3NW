@@ -19,21 +19,78 @@ const index = (req, res) => {
 
 
 const store = (req,res) => {
-  ChildCategory.create(req.body)
-  .then(response=>{
-    res.json({
-      response:true
-    })
+  // ChildCategory.create(req.body)
+  // .then(response=>{
+  //   res.json({
+  //     response:true
+  //   })
+  // })
+  ChildCategory.findOne({name:req.body.name},(err,doc)=>{
+    if(doc===null){
+
+      ChildCategory.findOne({url:req.body.url},(err1,doc1)=>{
+        if(doc1===null){
+
+          ChildCategory.create(req.body)
+          .then(response=>{
+            res.json({
+              response:true
+            })
+          })
+        }else{
+          res.json({
+            response:false,
+            message:'SubCategory url has already been taken'
+          })
+        }
+      })
+
+
+    }else{
+      res.json({
+        response:false,
+        message:'SubCategory name has already been taken'
+      })
+    }
   })
 }
 
 
 const update = (req,res) => {
-  ChildCategory.findByIdAndUpdate(req.body._id,req.body)
-  .then(response=>{
-    res.json({
-      response:true
-    })
+  // ChildCategory.findByIdAndUpdate(req.body._id,req.body)
+  // .then(response=>{
+  //   res.json({
+  //     response:true
+  //   })
+  // })
+  ChildCategory.findOne({name:req.body.name, _id: { $nin: req.body._id }},(err,doc)=>{
+    if(doc===null){
+
+      ChildCategory.findOne({url:req.body.url, _id: { $nin: req.body._id }},(err1,doc1)=>{
+        if(doc1===null){
+
+          ChildCategory.findByIdAndUpdate(req.body._id,req.body)
+          .then(response=>{
+            res.json({
+              response:true
+            })
+          })
+
+        }else{
+          res.json({
+            response:false,
+            message:'Child Category url has already been taken'
+          })
+        }
+      })
+
+
+    }else{
+      res.json({
+        response:false,
+        message:'Child Category name has already been taken'
+      })
+    }
   })
 }
 

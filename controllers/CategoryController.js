@@ -10,7 +10,7 @@ const ChildCategory = require("../models/ChildCategory");
 const index = (req, res) => {
   Category.find()
     .sort({ _id: -1 })
-    .populate('subcategories')
+    // .populate('subcategories')
     .then((response) => {
       res.json({
         response: true,
@@ -23,15 +23,29 @@ const index = (req, res) => {
 const store = (req,res) => {
   Category.findOne({name:req.body.name},(err,doc)=>{
     if(doc===null){
-      Category.create(req.body)
-      .then(response=>{
-        res.json({
-          response:true
-        })
+
+      Category.findOne({url:req.body.url},(err1,doc1)=>{
+        if(doc1===null){
+
+          Category.create(req.body)
+          .then(response=>{
+            res.json({
+              response:true
+            })
+          })
+        }else{
+          res.json({
+            response:false,
+            message:'Category url has already been taken'
+          })
+        }
       })
+
+
     }else{
       res.json({
-        response:false
+        response:false,
+        message:'Category name has already been taken'
       })
     }
   })
@@ -40,11 +54,41 @@ const store = (req,res) => {
 
 
 const update = (req,res) => {
-  Category.findByIdAndUpdate(req.body._id,req.body)
-  .then(response=>{
-    res.json({
-      response:true
-    })
+  // Category.findByIdAndUpdate(req.body._id,req.body)
+  // .then(response=>{
+  //   res.json({
+  //     response:true
+  //   })
+  // })
+  // { name: { $nin: req.body.name } }
+  Category.findOne({name:req.body.name, _id: { $nin: req.body._id }},(err,doc)=>{
+    if(doc===null){
+
+      Category.findOne({url:req.body.url, _id: { $nin: req.body._id }},(err1,doc1)=>{
+        if(doc1===null){
+
+          Category.findByIdAndUpdate(req.body._id,req.body)
+          .then(response=>{
+            res.json({
+              response:true
+            })
+          })
+          
+        }else{
+          res.json({
+            response:false,
+            message:'Category url has already been taken'
+          })
+        }
+      })
+
+
+    }else{
+      res.json({
+        response:false,
+        message:'Category name has already been taken'
+      })
+    }
   })
 }
 
