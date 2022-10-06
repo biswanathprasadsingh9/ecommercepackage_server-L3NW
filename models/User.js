@@ -10,6 +10,9 @@ const UserSchema = new Schema({
   email:{
     type:String
   },
+  type:{
+    type:String
+  },
   emailverification:{
     type:Boolean,
     default:false

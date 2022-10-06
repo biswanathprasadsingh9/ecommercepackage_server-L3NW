@@ -1086,6 +1086,41 @@ const updatesimpleproduct = (req,res) => {
 }
 
 
+const searchproduct = async (req,res) => {
+
+  console.log(req.body)
+
+  var page= req.body.page;
+
+  var showpage = page-1;
+  var perPage = req.body.perpage
+  , page = showpage > 0 ? showpage : 0
+
+  Product
+    .find({status:'Active',type:['Configurable','Simple'],"$or": [ { "name" : { $regex: req.body.value, $options: 'i' }}, { "sku" : req.body.value }, { "tags" : { $regex: req.body.value, $options: 'i' }} ]})
+    // .select('name')
+    .limit(perPage)
+    .skip(perPage * page)
+    .sort({_id: 'desc'})
+    .exec(function (err, datas) {
+      Product.find({status:'Active',type:['Configurable','Simple'],"$or": [ { "name" : { $regex: req.body.value, $options: 'i' }}, { "sku" : req.body.value }, { "tags" : { $regex: req.body.value, $options: 'i' }}]}).count().exec(function (err, count) {
+        res.json({
+          value:req.body.value,
+          datas: datas,
+          page: page+1,
+          perpage:req.body.perpage,
+          pages: Math.ceil(count / perPage),
+          tot:count
+        })
+      })
+    })
+
+
+
+
+}
+
+
 module.exports = {
   index,
   singleproductinformation,
@@ -1106,5 +1141,6 @@ module.exports = {
   updateconfigproductwithparent,
   productsearchfinal,
   updatesimpleproduct,
-  viewproductinfo
+  viewproductinfo,
+  searchproduct
 };

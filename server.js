@@ -275,6 +275,9 @@ app.get("/api/test-elementmatch", async (req, res) => {
 
 });
 
+// var subjects = require("subject-extractor")
+// console.log(subjects.extractAll("aquariumfishstore"));
+
 
 
 app.listen(process.env.PORT || 5000, function () {
