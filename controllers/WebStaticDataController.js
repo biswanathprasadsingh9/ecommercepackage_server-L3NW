@@ -16,7 +16,7 @@ const flushCache = (req,res) => {
 
 
 
-const header = (req, res) => {
+const navitems = (req, res) => {
 
     nav = myCache.get( "nav_data" );
     if(nav){
@@ -37,17 +37,10 @@ const header = (req, res) => {
         from:'db',
         datas
       })
-
     }
-
-
-
-
-
 
 };
 
-
 module.exports = {
-  header,flushCache
+  navitems,flushCache
 };

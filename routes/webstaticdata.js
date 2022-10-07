@@ -5,6 +5,9 @@ const WebStaticDataController = require('../controllers/WebStaticDataController'
 
 
 router.get('/flushCache',WebStaticDataController.flushCache);
-router.get('/header',WebStaticDataController.header);
+router.get('/navitems',WebStaticDataController.navitems);
+
+
+
 
 module.exports=router;
