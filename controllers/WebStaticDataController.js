@@ -9,9 +9,12 @@ const User = require("../models/User");
 const flushCache = (req,res) => {
   myCache.flushAll();
   res.json({
-    response:true
+    response:true,
+    message:'done'
   })
 }
+
+
 
 
 
