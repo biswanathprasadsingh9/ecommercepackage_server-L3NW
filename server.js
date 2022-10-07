@@ -29,7 +29,7 @@ db.once("open", () => {
   console.log("Successfully Connected");
 });
 // ===DATABASE CONNECTION===
-
+const StaticData = require("./routes/webstaticdata");
 const User = require("./routes/user");
 const Brand = require("./routes/brand");
 const Category = require("./routes/category");
@@ -288,6 +288,7 @@ app.listen(process.env.PORT || 5000, function () {
   );
 });
 
+app.use("/api/static", StaticData);
 app.use("/api/user", User);
 app.use("/api/brand", Brand);
 app.use("/api/category", Category);
