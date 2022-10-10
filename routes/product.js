@@ -52,5 +52,5 @@ router.post('/update_config_product_image_status',ProductController.updateconfig
 router.post('/save_sorting_attribute_products',ProductController.savesortingattributeproducts);
 
 
-
+router.get('/dummyentry',ProductController.dummyentry);
 module.exports=router;

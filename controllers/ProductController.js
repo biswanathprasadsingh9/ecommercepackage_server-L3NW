@@ -188,35 +188,7 @@ const productsearchfinal = async (req,res) => {
 
 const productsearch = async (req,res) => {
 
-
-
-
-
-
-
-
-
-  // ////DYMANIC SEARCH QUERY FOR OTHER ATTRIBUTES////
-  // // var getbody = req.body.myattributes;
-  // var getOtherAttributes = req.body.search_other_attributes;
-  // // var getMainAttributes = req.body.search_main_attributes;
-  //
-  //
-  // var searchData=[]
-  // var objectkeys=Object.keys(getOtherAttributes);
-  // objectkeys.forEach((item, i) => {
-  //   if(getOtherAttributes[item].length>0){
-  //     searchData.push({fieldName:'myattributes.'+item,value:getOtherAttributes[item]})
-  //   }
-  // });
-  //
-  // // var objectkeys=Object.keys(getMainAttributes);
-  // // objectkeys.forEach((item, i) => {
-  // //   if(getMainAttributes[item].length>0){
-  // //     searchData.push({fieldName:item,value:getMainAttributes[item]})
-  // //   }
-  // // });
-
+  console.log(req.body)
 
   ////PAGINATION////
   var page= req.body.pagination_page_number;
@@ -226,119 +198,17 @@ const productsearch = async (req,res) => {
   , page = showpage > 0 ? showpage : 0
 
 
-  // var findQuery={status:'Active',type:['Configurable','Simple'],$or:[{"pricemain":{"$gte": req.body.search_price_min,"$lte": req.body.search_price_max}}]};
-  //
-  //
-  // //SEARCH
-  // // var query = Product.find(findQuery).sort({"name":-1}).limit(perPage).skip(perPage * page);
-  // var query = Product.find(findQuery).sort(req.body.search_sortby).limit(perPage).skip(perPage * page);
-  //
-  // var filters=searchData;
-  // for (var i = 0; i < filters.length; i++) {
-  //     query.where(filters[i].fieldName).in(filters[i].value)
-  // }
-  //
-  // //===FILTER CATEGORY SUBCATEGORY CHILDCATEGORY HERE
-  // if(req.body.search_main_attributes.category.length>0){
-  //   query.where('category').in(req.body.search_main_attributes.category)
-  // }
-  // if(req.body.search_main_attributes.subcategory.length>0){
-  //   query.where('subcategory').in(req.body.search_main_attributes.subcategory)
-  // }
-  // if(req.body.search_main_attributes.childcategory.length>0){
-  //   query.where('childcategory').in(req.body.search_main_attributes.childcategory)
-  // }
-  // if(req.body.search_main_attributes.Closure.length>0){
-  //   query.where('Closure').in(req.body.search_main_attributes.Closure)
-  // }
-  // if(req.body.search_main_attributes.Neck.length>0){
-  //   query.where('Neck').in(req.body.search_main_attributes.Neck)
-  // }
-  // // if(req.body.search_main_attributes['6307a2377fcf4613a88f98f9'].length>0){
-  // //   query.where('6307a2377fcf4613a88f98f9').in(req.body.search_main_attributes['6307a2377fcf4613a88f98f9'])
-  // // }
-  // // query.where('category').in(['Fish'])
-  // // query.where('subcategory').in(req.body.search_main_attributes.subCategory)
-  // // query.where('childcategory').in(req.body.search_main_attributes.childCategory)
-  //
-  //
-  // query.exec(async function(err,doc){
-  //
-  //       ////PAGINATION QUERY////
-  //       var query_paginaton = Product.find(findQuery);
-  //       var filters_paginaton=searchData;
-  //       for (var i = 0; i < filters_paginaton.length; i++) {
-  //           query_paginaton.where(filters_paginaton[i].fieldName).in(filters_paginaton[i].value)
-  //       }
-  //
-  //       //===FILTER CATEGORY SUBCATEGORY CHILDCATEGORY HERE
-  //       if(req.body.search_main_attributes.category.length>0){
-  //         query_paginaton.where('category').equals(req.body.search_main_attributes.category)
-  //       }
-  //       if(req.body.search_main_attributes.subcategory.length>0){
-  //         query_paginaton.where('subcategory').equals(req.body.search_main_attributes.subcategory)
-  //       }
-  //       if(req.body.search_main_attributes.childcategory.length>0){
-  //         query_paginaton.where('childcategory').equals(req.body.search_main_attributes.childcategory)
-  //       }
-  //       if(req.body.search_main_attributes.Closure.length>0){
-  //         query_paginaton.where('Closure').in(req.body.search_main_attributes.Closure)
-  //       }
-  //       if(req.body.search_main_attributes.Neck.length>0){
-  //         query_paginaton.where('Neck').in(req.body.search_main_attributes.Neck)
-  //       }
-  //       // if(req.body.search_main_attributes['6307a2377fcf4613a88f98f9'].length>0){
-  //       //   query_paginaton.where('6307a2377fcf4613a88f98f9').in(req.body.search_main_attributes['6307a2377fcf4613a88f98f9'])
-  //       // }
-  //       // query.where('Skin Type').in(req.body.search_main_attributes['Skin Type'])
-  //
-  //       query_paginaton.exec(async function (errs, data2) {
-  //
-  //
-  //
-  //       //   res.json({
-  //       //     response: true,
-  //       //     page_number: page+1,
-  //       //     total_pages: Math.ceil(data2.length / perPage),
-  //       //     total_datas:data2.length,
-  //       //     datas_per_page:perPage,
-  //       //     datas: doc,
-  //       //     price_slider:{
-  //       //       max:data2.length>0? _.maxBy(data2, function(o) { return o.price_heighest }).price_heighest:0,
-  //       //       min:data2.length>0?_.minBy(data2, function(o) { return o.price_lowest }).price_lowest:0,
-  //       //     },
-  //       //
-  //       //     main_attributes:{ //---normal attribute
-  //       //       category:await query_paginaton.distinct("category"),
-  //       //       subcategory:await query_paginaton.distinct("subcategory"),
-  //       //       childcategory:await query_paginaton.distinct("childcategory"),
-  //       //       // ['Skin Type']:await query_paginaton.distinct("Skin Type"),
-  //       //       // Neck:await query_paginaton.distinct("Neck"),
-  //       //       // '6307a2377fcf4613a88f98f9':await query_paginaton.distinct("6307a2377fcf4613a88f98f9"),
-  //       //     },
-  //       //     other_attributes:{ //---config attribute
-  //       //       Group:await query_paginaton.distinct("myattributes.Group"),
-  //       //       Color:await query_paginaton.distinct("myattributes.Color"),
-  //       //       // Size:await query_paginaton.distinct("myattributes.Size"),
-  //       //     }
-  //       //   })
-  //       })
-  //
-  //
-  //       ////PAGINATION QUERY////
-  //
-  // });
-
-
-  ///////////////////////////////////////////////////////////////////////////////////////
-
-
-  console.log(req.body)
-
   var searchQuery = {
     "status":'Active',
     "type": { "$in": [ 'Configurable', 'Simple' ] },
     "pricemain":{"$gte": req.body.search_price_min,"$lte": req.body.search_price_max},
+
+
+
+    // "category": { "$in": req.body.search_main_attributes.category },
+    // "subcategory": { "$in": req.body.search_main_attributes.subcategory },
+    // "childcategory": { "$in": req.body.search_main_attributes.childcategory },
+
 
     // "pricemain":{"$gte": 0,"$lte": 222222222222222},
     // category: { "$in": [ 'Women', 'Simple' ] },
@@ -398,6 +268,7 @@ const productsearch = async (req,res) => {
           },
           count_attributes:{
             category: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$category" },{ $sortByCount: "$category" }]),
+            // category: await Product.aggregate([{ $unwind: "$category" },{ $sortByCount: "$category" }]),
             subcategory: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$subcategory" },{ $sortByCount: "$subcategory" }]),
             childcategory: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$childcategory" },{ $sortByCount: "$childcategory" }]),
             '63329659a7f02029b877a5ce': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63329659a7f02029b877a5ce" },{ $sortByCount: "$63329659a7f02029b877a5ce" }]), //size
@@ -1120,6 +991,45 @@ const searchproduct = async (req,res) => {
 }
 
 
+
+
+
+
+const dummyentry = (req,res) => {
+
+  // var data={"showImagesInConfigProducts":false,"product_collection":"","product_labels":"","product_brand":"","stock":0,"status":"Active","type":"Simple","url":"dummy","is_parent":"Yes","sku":"565621123","name":"Anubias Nana Petite on Lava Rock","step":"step2simple","issubtype":"No","pricemain":[1400],"price_lowest":1400,"price_heighest":1400,"images":[{"fileId":"63379069bf51c1dc8056a88d","filePath":"/product_images/products_zlmJtZJx5.jpg","size":156353,"url":"https://ik.imagekit.io/nextjsecommerce/product_images/products_zlmJtZJx5.jpg","chosen":false,"selected":false},{"fileId":"633790c0bf51c1dc8058b06d","filePath":"/product_images/products_R-SoWnhqZ.jpg","size":156353,"url":"https://ik.imagekit.io/nextjsecommerce/product_images/products_R-SoWnhqZ.jpg","chosen":false,"selected":false},{"fileId":"633790cbbf51c1dc80593a96","filePath":"/product_images/products_8EoeOSahu.jpg","size":156353,"url":"https://ik.imagekit.io/nextjsecommerce/product_images/products_8EoeOSahu.jpg","chosen":false,"selected":false}],"videos":[],"meta_title":"Anubias Nana Petite on Lava Rock","meta_desc":"Anubias Nana Petite on Lava Rock","meta_key":"","category":["63328bf97bc0e4612c488c6f"],"subcategory":["63328c067bc0e4612c488c77"],"childcategory":[],"product_tax":[],"description":"<p>qwdqw</p>\n","pricedisplay":1500}
+  //
+  // for(var i = 0;i<1990;i++){
+	// // loop code here
+  // Product.create(data)
+  // .then(e=>{
+  //   console.log('success')
+  // })
+  //
+  // console.log(i)
+  // }
+
+
+  /////////////////////
+
+
+  // Product.remove({url: 'dummy'}, function(err){
+  //   if(err){
+  //     console.log(err)
+  //   }else{
+  //     res.json({
+  //       response:true
+  //     })
+  //   }
+  // });
+
+
+
+
+
+}
+
+
 module.exports = {
   index,
   singleproductinformation,
@@ -1141,5 +1051,6 @@ module.exports = {
   productsearchfinal,
   updatesimpleproduct,
   viewproductinfo,
-  searchproduct
+  searchproduct,
+  dummyentry
 };
