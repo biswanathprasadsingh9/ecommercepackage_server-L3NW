@@ -52,6 +52,52 @@ const register = (req,res) => {
 
 
 
+//LOGIN ADMIN
+const loginadmin = (req,res) => {
+  var bodydata=req.body;
+
+  User.findOne({email:bodydata.email},(err,doc)=>{
+    if(doc===null){
+      res.json({
+        response:false,
+        message:'Email not found'
+      })
+    }else{
+
+        var match = bcrypt.compareSync(bodydata.password, doc.password);
+        if(match){
+
+          if(doc.type==='Admin'){
+            res.json({
+              response:true,
+              data:doc,
+              message:'Login Success'
+            })
+          }else{
+            res.json({
+              response:false,
+              message:'Please login as Admin'
+            })
+          }
+
+
+
+        }else{
+          res.json({
+            response:false,
+            message:'Wrong password'
+          })
+        }
+
+
+    }
+  })
+
+}
+
+
+
+
 //LOGIN
 const login = (req,res) => {
   var bodydata=req.body;
@@ -124,5 +170,5 @@ const emailverification = (req,res) => {
 
 
 module.exports = {
-  index,register,login,emailverification
+  index,register,login,emailverification,loginadmin
 };

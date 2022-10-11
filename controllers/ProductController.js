@@ -273,6 +273,8 @@ const productsearch = async (req,res) => {
             childcategory: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$childcategory" },{ $sortByCount: "$childcategory" }]),
             '63329659a7f02029b877a5ce': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63329659a7f02029b877a5ce" },{ $sortByCount: "$63329659a7f02029b877a5ce" }]), //size
             '633296fea7f02029b877a5d2': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$633296fea7f02029b877a5d2" },{ $sortByCount: "$633296fea7f02029b877a5d2" }]), //size
+            '6332971ca7f02029b877a5d6': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$6332971ca7f02029b877a5d6" },{ $sortByCount: "$6332971ca7f02029b877a5d6" }]),
+            '63329744a7f02029b877a5da': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63329744a7f02029b877a5da" },{ $sortByCount: "$63329744a7f02029b877a5da" }]),
             '63329a57a7f02029b877a5e7': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63329a57a7f02029b877a5e7" },{ $sortByCount: "$63329a57a7f02029b877a5e7" }]),
           },
           main_attributes:{ //---normal attribute
@@ -283,6 +285,8 @@ const productsearch = async (req,res) => {
           other_attributes:{ //---config attribute
             '63329659a7f02029b877a5ce': _.compact(await query2.distinct("63329659a7f02029b877a5ce")),
             '633296fea7f02029b877a5d2': _.compact(await query2.distinct("633296fea7f02029b877a5d2")),
+            '6332971ca7f02029b877a5d6': _.compact(await query2.distinct("6332971ca7f02029b877a5d6")),
+            '63329744a7f02029b877a5da': _.compact(await query2.distinct("63329744a7f02029b877a5da")),
             '63329a57a7f02029b877a5e7': _.compact(await query2.distinct("63329a57a7f02029b877a5e7")),
           }
         })
