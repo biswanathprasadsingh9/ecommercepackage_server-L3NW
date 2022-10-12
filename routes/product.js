@@ -10,8 +10,6 @@ router.get('/',ProductController.index);
 
 router.get('/products',ProductController.allproducts);
 router.post('/productsearch',ProductController.productsearch);
-
-
 router.post('/productsearchfinal',ProductController.productsearchfinal);
 
 router.post('/searchproduct',ProductController.searchproduct);

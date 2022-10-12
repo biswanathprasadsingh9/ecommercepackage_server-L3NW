@@ -6,6 +6,9 @@ const Category = require("../models/Category");
 const SubCategory = require("../models/SubCategory");
 const ChildCategory = require("../models/ChildCategory");
 
+const Product = require("../models/Product");
+
+
 
 
 // INDEX
@@ -82,6 +85,59 @@ const navitems = async (req, res) => {
 
 };
 
+
+
+const viewproduct =(req,res) => {
+
+
+
+    Product.findOne({url:req.params.url},(err,data)=>{
+      if(!err){
+        res.json({
+          response:true,
+          data
+        })
+      }else{
+        res.json({
+          response:false,
+          message:'Product not found'
+        })
+      }
+    })
+
+
+  // if(req.params.type==='Configurable'){
+  //   Product.findOne({_id:req.params.id},(err,parentdata)=>{
+  //     if(!err){
+  //       Product.find({type:'ConfigurableChild',is_parent:'No',parent_id:req.params.id},(err1,childdata)=>{
+  //         if(!err1){
+  //
+  //           res.json({
+  //             response:true,
+  //             total:childdata.length,
+  //             parentdata,
+  //             childdata
+  //           })
+  //
+  //         }else{
+  //           res.json({
+  //             response:false,
+  //             message:'childdata_data_error'
+  //           })
+  //         }
+  //       })
+  //
+  //
+  //     }else{
+  //       res.json({
+  //         response:false,
+  //         message:'parent_data_error'
+  //       })
+  //     }
+  //   })
+  // }
+}
+
 module.exports = {
-  navitems,flushCache
+  navitems,flushCache,viewproduct
 };
