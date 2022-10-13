@@ -108,6 +108,68 @@ const viewproductinfo = (req,res) => {
 
 
 
+const viewurl = (req,res) => {
+  Product.findOne({url:req.params.url},(err,parentdata)=>{
+    if(!err){
+
+      if(parentdata.type==='Simple'){
+        res.json({
+          response:true,
+          parentdata,
+          childdata:false
+        })
+
+      }else{
+
+        Product.find({type:'ConfigurableChild',is_parent:'No',parent_id:parentdata._id},(err1,childdata)=>{
+          if(!err1){
+            res.json({
+              response:true,
+              parentdata,
+              childdata
+            })
+
+          }else{
+            res.json({
+              response:false,
+              message:'childdata_data_error'
+            })
+          }
+        })
+      }
+
+
+      // Product.find({type:'ConfigurableChild',is_parent:'No',parent_id:req.params.id},(err1,childdata)=>{
+      //   if(!err1){
+      //
+      //     res.json({
+      //       response:true,
+      //       total:childdata.length,
+      //       parentdata,
+      //       childdata
+      //     })
+      //
+      //   }else{
+      //     res.json({
+      //       response:false,
+      //       message:'childdata_data_error'
+      //     })
+      //   }
+      // })
+
+
+    }else{
+      res.json({
+        response:false,
+        message:'parent_data_error'
+      })
+    }
+  })
+}
+
+
+
+
 
 const allproducts = async (req,res) => {
 
@@ -246,7 +308,7 @@ const productsearch = async (req,res) => {
   //***first 1
   // Product.find(searchQuery).limit(perPage).skip(perPage * page)
   var query = Product.find(searchQuery,).sort({[req.body.search_sortby.vname]:req.body.search_sortby.value}).limit(perPage).skip(perPage * page);
-  query.select({ _id: 1, name: 1, type:1, price_lowest: 1, price_heighest: 1, images: { $slice: -1 } });
+  query.select({ _id: 1, name: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, images: { $slice: 1 } });
   query.exec(async function(err,main_datas){
 
 
@@ -1056,5 +1118,6 @@ module.exports = {
   updatesimpleproduct,
   viewproductinfo,
   searchproduct,
-  dummyentry
+  dummyentry,
+  viewurl
 };

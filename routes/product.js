@@ -19,6 +19,10 @@ router.post('/searchproduct',ProductController.searchproduct);
 router.get('/view_productinfo/:type/:id',ProductController.viewproductinfo);
 
 
+router.get('/view/:url',ProductController.viewurl);
+
+
+
 
 router.get('/showallproductspagination/:page',ProductController.showallproductspagination);
 // router.get('/productsearch',ProductController.productsearch);
