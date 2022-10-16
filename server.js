@@ -99,6 +99,54 @@ app.get("/", (req, res) => {
 
 });
 
+
+
+
+
+app.get("/testemail", (req, res) => {
+  const nodemailer = require('nodemailer');
+  const Email = require('email-templates');
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+      }
+    });
+    const email = new Email({
+    transport: transporter,
+    send: true,
+    preview: false,
+  });
+
+   email.send({
+        template: 'testemail',
+        message: {
+          from:'Testing '+process.env.EMAIL_USER,
+          to:'b21341995returns@gmail.com',
+        },
+        locals: {
+          name:'John Doe',
+        }
+    }).then(response=>{
+      res.json({
+        response:true,
+        message:'send',
+        res:response
+      })
+    });
+
+
+
+});
+
+
+
+
+
+
 app.get("/api/test", (req, res) => {
 
   // https://stackoverflow.com/questions/26820810/mongoose-dynamic-query
