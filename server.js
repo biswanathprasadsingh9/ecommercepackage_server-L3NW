@@ -108,8 +108,8 @@ app.get("/testemail", (req, res) => {
   const Email = require('email-templates');
 
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    // host: 'smtp.gmail.com',
+    service: process.env.EMAIL_SERVICE,
+    host: process.env.EMAIL_HOST,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
@@ -124,8 +124,8 @@ app.get("/testemail", (req, res) => {
    email.send({
         template: 'testemail',
         message: {
-          from:'Testing '+process.env.EMAIL_USER,
-          to:'b21341995returns@gmail.com',
+          from:process.env.EMAIL_FROM+' '+process.env.EMAIL_USER,
+          to:'biswanathprasadsingh9@gmail.com',
         },
         locals: {
           name:'John Doe',

@@ -110,8 +110,7 @@ const viewproductinfo = (req,res) => {
 
 const viewurl = (req,res) => {
   Product.findOne({url:req.params.url},(err,parentdata)=>{
-    if(!err){
-
+    if(parentdata!==null){
       if(parentdata.type==='Simple'){
         res.json({
           response:true,
@@ -138,30 +137,11 @@ const viewurl = (req,res) => {
         })
       }
 
-
-      // Product.find({type:'ConfigurableChild',is_parent:'No',parent_id:req.params.id},(err1,childdata)=>{
-      //   if(!err1){
-      //
-      //     res.json({
-      //       response:true,
-      //       total:childdata.length,
-      //       parentdata,
-      //       childdata
-      //     })
-      //
-      //   }else{
-      //     res.json({
-      //       response:false,
-      //       message:'childdata_data_error'
-      //     })
-      //   }
-      // })
-
-
     }else{
+      console.log(err)
       res.json({
         response:false,
-        message:'parent_data_error'
+        message:'product_not_found'
       })
     }
   })

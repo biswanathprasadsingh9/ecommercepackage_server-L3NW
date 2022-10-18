@@ -1,6 +1,7 @@
 const response = require("express");
 var bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
+var emailsender = require("./emailsender");
 
 const User = require("../models/User");
 
@@ -15,6 +16,15 @@ const index = (req, res) => {
   // .then(response=>{
   //   console.log('111')
   // })
+
+
+  var ss=emailsender.emailsendFunction('testemail','biswanathprasadsingh9@gmail.com',{name:'John Doe'});
+  console.log(ss)
+
+  // .then(response=>{
+  //   console.log(response)
+  // })
+
   res.json({
     response:true
   })
