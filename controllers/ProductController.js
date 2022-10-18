@@ -308,7 +308,7 @@ const productsearch = async (req,res) => {
   //***first 1
   // Product.find(searchQuery).limit(perPage).skip(perPage * page)
   var query = Product.find(searchQuery,).sort({[req.body.search_sortby.vname]:req.body.search_sortby.value}).limit(perPage).skip(perPage * page);
-  query.select({ _id: 1, name: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, images: { $slice: 1 } });
+  query.select({ _id: 1, name: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, images: { $slice: 1 } });
   query.exec(async function(err,main_datas){
 
 
