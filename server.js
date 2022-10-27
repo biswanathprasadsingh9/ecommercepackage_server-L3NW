@@ -39,10 +39,7 @@ const Attribute = require("./routes/attribute");
 const Product = require("./routes/product");
 const Tax = require("./routes/tax");
 const Dashboard = require("./routes/dashboard");
-
-
-
-
+const Cart = require("./routes/cart");
 
 
 
@@ -84,17 +81,108 @@ app.get("/api/imagekitauth", function (req, res) {
   res.send(result);
 });
 
-app.get("/", (req, res) => {
+
+
+
+///////////////////////////////
+const { Resolver } = require("dns").promises;
+
+const isValidRegexEmail = (email) =>
+  /[^@\s]+@[^@\s]+\.[^@\s]+/.test(email) && !/\s/.test(email.trim());
+
+const dnsServers = [
+  "1.1.1.1", // Cloudflare
+  "1.0.0.1", // Cloudflare
+  "8.8.8.8", // Google
+  "8.8.4.4", // Google
+  "208.67.222.222", // OpenDNS
+  "208.67.220.220", // OpenDNS
+];
+
+const resolverOptions = {
+  timeout: 3000,
+  tries: Math.min(4, dnsServers.length),
+};
+
+const resolveDNS = async ({ type, value }) => {
+  try {
+    const resolver = new Resolver(resolverOptions);
+    resolver.setServers(dnsServers);
+
+    let addresses;
+    switch (type) {
+      case "mx":
+        addresses = await resolver.resolveMx(value);
+        break;
+      case "lookup":
+        addresses = await resolver.resolve(value);
+        break;
+      case "ns":
+        addresses = await resolver.resolveNs(value);
+        break;
+      default:
+        throw new Error(`Unknown DNS resolve type: ${type}`);
+    }
+
+    if (Array.isArray(addresses) && addresses.length > 0) {
+      return { isValid: true, addresses };
+    } else {
+      return { isValid: false, addresses: [] };
+    }
+  } catch (error) {
+    if (["ECONNREFUSED", "ENOTFOUND"].includes(error.code)) {
+      return { isValid: false, addresses: [] };
+    } else {
+      return { isValid: false, addresses: [], error: error };
+    }
+  }
+};
+
+const isValidMxEmail = async (emailAddress = "") => {
+  if (typeof emailAddress !== "string") return false;
+
+  emailAddress = emailAddress.toLowerCase();
+
+  if (!isValidRegexEmail(emailAddress)) return false;
+
+  const [, domain] = emailAddress.split("@");
+  const { isValid, addresses = [] } = await resolveDNS({
+    type: "mx",
+    value: domain,
+  });
+
+  const hasAddress = addresses.every(({ exchange }) => !!exchange);
+  if (!hasAddress) return false;
+
+  return isValid;
+};
+////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.get("/", async (req, res) => {
+
+//   const legit = require('legit');
+//
+// legit('validemail@qtonix.com')
+//   .then(result => {
+//     result.isValid ? console.log('Valid!') : console.log('Invalid!');
+//     console.log(JSON.stringify(result));
+//   })
+//   .catch(err => console.log(err));
+
+
   res.send("Server is working");
-  // const Product = require("./models/Product");
-  //
-  //
-  // Product.find().populate({ path: 'attributedata' }).lean()
-  // .then(response=>{
-  //   res.json({
-  //     response
-  //   })
-  // })
 
 
 });
@@ -103,7 +191,7 @@ app.get("/", (req, res) => {
 
 
 
-app.get("/testemail", (req, res) => {
+app.get("/emaileeee", (req, res) => {
   const nodemailer = require('nodemailer');
   const Email = require('email-templates');
 
@@ -346,3 +434,4 @@ app.use("/api/attribute", Attribute);
 app.use("/api/product", Product);
 app.use("/api/tax", Tax);
 app.use("/api/dashboard", Dashboard);
+app.use("/api/cart", Cart);
