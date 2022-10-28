@@ -111,12 +111,13 @@ const viewproductinfo = (req,res) => {
 const viewurl = (req,res) => {
   Product.findOne({url:req.params.url},(err,parentdata)=>{
     if(parentdata!==null){
-      if(parentdata.type==='Simple'){
+      if(parentdata.type==='Simple' || parentdata.type==='ConfigurableChild'){
         res.json({
           response:true,
           parentdata,
           childdata:false
         })
+        console.log(parentdata)
 
       }else{
 

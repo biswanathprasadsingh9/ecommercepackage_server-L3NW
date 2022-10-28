@@ -17,8 +17,8 @@ const getcartitems = (req,res) => {
       if(resdata.length===0){
             Cart.find({user_id:req.params.user_id})
               .sort({ _id: -1 })
-              .populate('user_id')
-              .populate('product_id',['name','sku','pricemain'])
+              .populate('user_id',['name','email'])
+              .populate('product_id',['name','sku','pricemain','stock','images'])
               // .sort({ _id: -1 })
               .then((response) => {
                 res.json({
@@ -40,8 +40,8 @@ const getcartitems = (req,res) => {
 
                     Cart.find({user_id:req.params.user_id})
                       .sort({ _id: -1 })
-                      .populate('user_id')
-                      .populate('product_id',['name','sku','pricemain'])
+                      .populate('user_id',['name','email'])
+                      .populate('product_id',['name','sku','pricemain','stock','images','url'])
                       // .sort({ _id: -1 })
                       .then(response => {
                         res.json({
@@ -93,11 +93,12 @@ const getcartitems = (req,res) => {
     })
 }
 
-//<<<=== show cart items(without login) xxxxx my be not needed ===>>>
+//<<<=== show cart items(without login) ===>>>
 const getcartitemsnologin = (req,res) => {
   Cart.find({system_id:req.params.system_id})
     .sort({ _id: -1 })
-    .populate('product_id',['name','sku','pricemain'])
+    .populate('user_id',['name','email'])
+    .populate('product_id',['name','sku','pricemain','stock','images','url'])
     // .sort({ _id: -1 })
     .then((response) => {
       res.json({
