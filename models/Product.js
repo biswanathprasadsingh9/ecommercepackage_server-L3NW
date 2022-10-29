@@ -42,6 +42,25 @@ const ProductSchema = new Schema({
   sku:{
     type:String
   },
+  return_available:{
+    type:String,
+    default:'No'
+  },
+  warranty_available:{
+    type:String,
+    default:'No'
+  },
+
+  minimum_order:{
+    type:Number,
+    default:1
+  },
+  maximum_order:{
+    type:Number,
+    default:1
+  },
+
+
   category:{
     type:Object,
     default:[]
@@ -92,7 +111,7 @@ const ProductSchema = new Schema({
   },
   stock:{
     type:Number,
-    default:0
+    default:1
   },
   pricetemp:{
     type:Number

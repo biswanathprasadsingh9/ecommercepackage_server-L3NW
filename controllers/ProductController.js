@@ -822,29 +822,61 @@ const productimageadd = (req, res) => {
 };
 
 
-//DELETE PRODUCT
-const deleteproduct = (req,res) => {
-  Product.findByIdAndDelete(req.params.id,(err,doc)=>{
+//<<<===DELETE PRODUCT===>>>
+const deleteproduct = async (req,res) => {
 
-    if(!err){
+  Product.findById(req.params.id, async(errss,doc)=>{
+    // console.log(doc)
+
+    if(doc===null){
       res.json({
-        response:true
+        response:false,
+        message:'Product not found'
       })
     }else{
-      res.josn({
-        response:false
+
+      // delete main/parent product
+      Product.findByIdAndDelete(req.params.id,(err,docx)=>{
+        if(!err){
+          res.json({
+            response:true
+          })
+        }else{
+          res.json({
+            response:false,
+            message:'Failed'
+          })
+        }
+        //delete images
+        if(doc.images.length>0){
+          doc.images.forEach((item, i) => {
+            imagekit
+              .deleteFile(item.fileId)
+          });
+        }
       })
+
+      //delete child products
+      if(doc.type==='Configurable'){
+
+        Product.find({parent_id:req.params.id}).distinct('_id')
+        .then(respids=>{
+
+              respids.forEach((ids, i) => {
+                Product.findByIdAndDelete(ids,(err,docw)=>{
+                  //delete images
+                  if(docw.images.length>0){
+                    docw.images.forEach((itemo, i) => {
+                      imagekit
+                        .deleteFile(itemo.fileId)
+                    });
+                  }
+                })
+              });
+
+        })
+      }
     }
-
-    //delete images
-    if(doc.images.length>0){
-      doc.images.forEach((item, i) => {
-        imagekit
-          .deleteFile(item.fileId)
-      });
-    }
-
-
 
   })
 }
