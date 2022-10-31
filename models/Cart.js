@@ -14,6 +14,7 @@ const CartSchema = new Schema({
   product_price:{
     type:String
   },
+  parent_product_id:{type:mongoose.Schema.Types.ObjectId,ref:'Product'},
   user_id:{type:mongoose.Schema.Types.ObjectId,ref:'User'},
   product_id:{type:mongoose.Schema.Types.ObjectId,ref:'Product'},
   quantity:{

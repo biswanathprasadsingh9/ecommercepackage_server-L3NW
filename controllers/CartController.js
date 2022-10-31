@@ -18,7 +18,8 @@ const getcartitems = (req,res) => {
             Cart.find({user_id:req.params.user_id})
               .sort({ _id: -1 })
               .populate('user_id',['name','email'])
-              .populate('product_id',['name','sku','pricemain','stock','images'])
+              .populate('parent_product_id',['url'])
+              .populate('product_id',['name','sku','pricemain','stock','images','url'])
               // .sort({ _id: -1 })
               .then((response) => {
                 res.json({
@@ -41,6 +42,7 @@ const getcartitems = (req,res) => {
                     Cart.find({user_id:req.params.user_id})
                       .sort({ _id: -1 })
                       .populate('user_id',['name','email'])
+                      .populate('parent_product_id',['url'])
                       .populate('product_id',['name','sku','pricemain','stock','images','url'])
                       // .sort({ _id: -1 })
                       .then(response => {
