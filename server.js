@@ -38,6 +38,7 @@ const ChildCategory = require("./routes/childcategory");
 const Attribute = require("./routes/attribute");
 const Product = require("./routes/product");
 const Tax = require("./routes/tax");
+const Shipping = require("./routes/shipping");
 const Dashboard = require("./routes/dashboard");
 const Cart = require("./routes/cart");
 
@@ -433,5 +434,6 @@ app.use("/api/childcategory", ChildCategory);
 app.use("/api/attribute", Attribute);
 app.use("/api/product", Product);
 app.use("/api/tax", Tax);
+app.use("/api/shipping", Shipping);
 app.use("/api/dashboard", Dashboard);
 app.use("/api/cart", Cart);
