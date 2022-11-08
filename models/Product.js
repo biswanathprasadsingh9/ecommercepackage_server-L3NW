@@ -57,7 +57,7 @@ const ProductSchema = new Schema({
   },
   maximum_order:{
     type:Number,
-    default:1
+    default:5
   },
 
 
@@ -84,10 +84,11 @@ const ProductSchema = new Schema({
     default:''
     // default:'-'
   },
-  product_tax:{
-    type:Object,
-    default:[],
-  },
+  // product_tax:{
+  //   type:Object,
+  //   default:[],
+  // },
+  product_tax:[{type:mongoose.Schema.Types.ObjectId,ref:'Tax'}],
   product_brand:{
     type:String,
     default:''

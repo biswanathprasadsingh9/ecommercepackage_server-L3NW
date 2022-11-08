@@ -21,6 +21,9 @@ router.get('/view_productinfo/:type/:id',ProductController.viewproductinfo);
 
 router.get('/view/:url',ProductController.viewurl);
 
+router.get('/viewweb/:url',ProductController.viewweb);
+
+
 
 
 

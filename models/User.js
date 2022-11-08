@@ -24,6 +24,10 @@ const UserSchema = new Schema({
   password:{
     type:String
   },
+  image:{
+    type:Object,
+    default:{}
+  },
 },{timestamps:true})
 
 const User = mongoose.model('User',UserSchema);
