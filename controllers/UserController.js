@@ -4,6 +4,10 @@ var salt = bcrypt.genSaltSync(10);
 var emailsender = require("./emailsender");
 
 const User = require("../models/User");
+const UserAddress = require("../models/UserAddress");
+
+
+
 
 
 // INDEX
@@ -57,6 +61,53 @@ const register = (req,res) => {
         message:'Email exist',
       })
     }
+  })
+}
+
+
+//ADD ADDRESS FROM CART (unregistrated user)
+const registerfromcart = (req,res) => {
+  var hash = bcrypt.hashSync('123456', salt);
+
+  var bodydata=req.body;
+  bodydata.type='User';
+  bodydata.password=hash;
+
+  User.findOne({email:req.body.email},(err,doc)=>{
+    if(doc===null){
+      User.create(bodydata) //create user
+      .then(response=>{
+
+        bodydata.user_id=response._id;
+        UserAddress.create(bodydata) //add user address
+        .then(asw=>{
+          res.json({
+            response:true,
+            data:response,
+            message:'user_created'
+          })
+        })
+
+      })
+    }else{
+      res.json({
+        response:false,
+        message:'Email exist',
+      })
+    }
+  })
+
+}
+
+
+
+//ADD ADDRESS FROM CART (registrated user)
+const addaddressfromcart = (req,res) => {
+  UserAddress.create(req.body)
+  .then(response=>{
+    res.json({
+        response:true,
+    })
   })
 }
 
@@ -146,8 +197,6 @@ const login = (req,res) => {
 //Email verification
 const emailverification = (req,res) => {
 
-  console.log(req.body)
-
   User.findById(req.body._id,(err,doc)=>{
     if(doc===null){
       res.json({
@@ -179,6 +228,32 @@ const emailverification = (req,res) => {
 }
 
 
+//GET ALL SHIPPING ADDRESS UNDER USER ID
+const getusershippingaddress = (req,res) => {
+
+  UserAddress.find({user_id:req.params.id})
+  .then(datas=>{
+    res.json({
+      response:true,
+      datas
+    })
+  })
+
+
+}
+
+
+//DELETE ADDRESS
+const deleteaddress = (req,res) => {
+  UserAddress.findByIdAndRemove(req.params.id)
+  .then(response=>{
+    res.json({
+      response:true
+    })
+  })
+}
+
+
 module.exports = {
-  index,register,login,emailverification,loginadmin
+  index,register,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress
 };
