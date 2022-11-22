@@ -316,8 +316,8 @@ const productsearchfinal = async (req,res) => {
 const productsearch = async (req,res) => {
 
 
-  console.log(req.body.search_price_min);
-  console.log(req.body.search_price_max);
+  // console.log(req.body.search_price_min);
+  // console.log(req.body.search_price_max);
 
 
   ////PAGINATION////
@@ -341,7 +341,6 @@ const productsearch = async (req,res) => {
     // "subcategory": { "$in": req.body.search_main_attributes.subcategory },
     // "childcategory": { "$in": req.body.search_main_attributes.childcategory },
 
-
     // "pricemain":{"$gte": 0,"$lte": 222222222222222},
     // category: { "$in": [ 'Women', 'Simple' ] },
     // "subcategory": ['Boys']
@@ -356,15 +355,7 @@ const productsearch = async (req,res) => {
         searchQuery[item] = { "$in": search_main_attributes[item] }
       }
   });
-  //****backup dont delete
-  // var search_other_attributes = req.body.search_other_attributes;
-  // var objectkeysZ=Object.keys(search_other_attributes);
-  // objectkeysZ.forEach((item, i) => {
-  //     if(search_other_attributes[item].length!==0){
-  //       var titem='config_attribues.'+item;
-  //       searchQuery[titem] = { "$in": search_other_attributes[item] }
-  //     }
-  // });
+
   var search_other_attributes = req.body.search_other_attributes;
   var objectkeysZ=Object.keys(search_other_attributes);
   objectkeysZ.forEach((item, i) => {
@@ -400,14 +391,13 @@ const productsearch = async (req,res) => {
           },
           count_attributes:{
             category: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$category" },{ $sortByCount: "$category" }]),
-            // category: await Product.aggregate([{ $unwind: "$category" },{ $sortByCount: "$category" }]),
             subcategory: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$subcategory" },{ $sortByCount: "$subcategory" }]),
             childcategory: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$childcategory" },{ $sortByCount: "$childcategory" }]),
             '63651da5838601459cb06b7c': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63651da5838601459cb06b7c" },{ $sortByCount: "$63651da5838601459cb06b7c" }]), //size
             '63651dcb838601459cb06b80': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63651dcb838601459cb06b80" },{ $sortByCount: "$63651dcb838601459cb06b80" }]), //size
             '63651df0838601459cb06b84': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63651df0838601459cb06b84" },{ $sortByCount: "$63651df0838601459cb06b84" }]),
             '63651e33838601459cb06b8b': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63651e33838601459cb06b8b" },{ $sortByCount: "$63651e33838601459cb06b8b" }]),
-            // '63329a57a7f02029b877a5e7': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63329a57a7f02029b877a5e7" },{ $sortByCount: "$63329a57a7f02029b877a5e7" }]),
+
           },
           main_attributes:{ //---normal attribute
             category: _.compact(await query2.distinct("category")),
