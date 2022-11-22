@@ -14,8 +14,8 @@ router.post('/addaddressfromcart',UserController.addaddressfromcart); ////ADD AD
 
 router.get('/getusershippingaddress/:id',UserController.getusershippingaddress);
 
-
 router.get('/deleteaddress/:id',UserController.deleteaddress);
+router.post('/updateuseraddress',UserController.updateuseraddress);
 
 
 

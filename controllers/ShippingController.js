@@ -12,6 +12,29 @@ const index = (req, res) => {
         datas: response,
       });
     });
+
+
+  // const dat = Shipping.aggregate([
+  // {$match:{
+  //  //...
+  //  //...
+  //  }},
+  //
+  //
+  // { $addFields : {
+  //       open: {"$toString" : "$open"},
+  //       close : {"$toString" : "$close"},
+  //   }},
+  // ]);
+  //
+  // res.json({
+  //   dat
+  // })
+  //
+  // console.log(dat)
+
+
+
 };
 
 const store = (req, res) => {

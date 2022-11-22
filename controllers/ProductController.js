@@ -316,6 +316,10 @@ const productsearchfinal = async (req,res) => {
 const productsearch = async (req,res) => {
 
 
+  console.log(req.body.search_price_min);
+  console.log(req.body.search_price_max);
+
+
   ////PAGINATION////
   var page= req.body.pagination_page_number;
 
@@ -327,6 +331,8 @@ const productsearch = async (req,res) => {
   var searchQuery = {
     "status":'Active',
     "type": { "$in": [ 'Configurable', 'Simple' ] },
+    // "pricemain":{"$gte": 4000.11,"$lte": 99999},
+
     "pricemain":{"$gte": req.body.search_price_min,"$lte": req.body.search_price_max},
 
 

@@ -253,7 +253,16 @@ const deleteaddress = (req,res) => {
   })
 }
 
+//UPDATE ADDRESS
+const updateuseraddress =(req,res) => {
+  UserAddress.findByIdAndUpdate(req.body._id,req.body)
+  .then(response=>{
+    res.json({
+      response:true
+    })
+  })
+}
 
 module.exports = {
-  index,register,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress
+  index,register,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress
 };
