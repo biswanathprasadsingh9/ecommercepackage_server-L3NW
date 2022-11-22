@@ -393,10 +393,10 @@ const productsearch = async (req,res) => {
             category: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$category" },{ $sortByCount: "$category" }]),
             subcategory: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$subcategory" },{ $sortByCount: "$subcategory" }]),
             childcategory: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$childcategory" },{ $sortByCount: "$childcategory" }]),
-            // '63651da5838601459cb06b7c': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63651da5838601459cb06b7c" },{ $sortByCount: "$63651da5838601459cb06b7c" }]), //size
-            // '63651dcb838601459cb06b80': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63651dcb838601459cb06b80" },{ $sortByCount: "$63651dcb838601459cb06b80" }]), //size
-            // '63651df0838601459cb06b84': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63651df0838601459cb06b84" },{ $sortByCount: "$63651df0838601459cb06b84" }]),
-            // '63651e33838601459cb06b8b': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63651e33838601459cb06b8b" },{ $sortByCount: "$63651e33838601459cb06b8b" }]),
+            '63651da5838601459cb06b7c': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63651da5838601459cb06b7c" },{ $sortByCount: "$63651da5838601459cb06b7c" }]), //size
+            '63651dcb838601459cb06b80': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63651dcb838601459cb06b80" },{ $sortByCount: "$63651dcb838601459cb06b80" }]), //size
+            '63651df0838601459cb06b84': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63651df0838601459cb06b84" },{ $sortByCount: "$63651df0838601459cb06b84" }]),
+            '63651e33838601459cb06b8b': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63651e33838601459cb06b8b" },{ $sortByCount: "$63651e33838601459cb06b8b" }]),
 
           },
           main_attributes:{ //---normal attribute
@@ -405,10 +405,10 @@ const productsearch = async (req,res) => {
             childcategory: _.compact(await query2.distinct("childcategory")),
           },
           other_attributes:{ //---config attribute
-            // '63651da5838601459cb06b7c': _.compact(await query2.distinct("63651da5838601459cb06b7c")),
-            // '63651dcb838601459cb06b80': _.compact(await query2.distinct("63651dcb838601459cb06b80")),
-            // '63651df0838601459cb06b84': _.compact(await query2.distinct("63651df0838601459cb06b84")),
-            // '63651e33838601459cb06b8b': _.compact(await query2.distinct("63651e33838601459cb06b8b")),
+            '63651da5838601459cb06b7c': _.compact(await query2.distinct("63651da5838601459cb06b7c")),
+            '63651dcb838601459cb06b80': _.compact(await query2.distinct("63651dcb838601459cb06b80")),
+            '63651df0838601459cb06b84': _.compact(await query2.distinct("63651df0838601459cb06b84")),
+            '63651e33838601459cb06b8b': _.compact(await query2.distinct("63651e33838601459cb06b8b")),
           }
         })
       })
