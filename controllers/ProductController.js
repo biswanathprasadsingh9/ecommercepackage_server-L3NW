@@ -374,9 +374,10 @@ const productsearch = async (req,res) => {
 
 
       //***second 2
-      var query2 = Product.find(searchQuery).select(['-images','-videos']) //remove unnecessary fields here
+      var query2 = Product.find(searchQuery).select(['_id','price_heighest','price_lowest']) //remove unnecessary fields here
       query2.exec(async function(err,all_datas){
 
+        console.log(all_datas)
 
         res.json({
           response: true,
