@@ -23,65 +23,91 @@ const flushCache = (req,res) => {
 
 const navitems = async (req, res) => {
 
+  Category.aggregate([
+    // {
+    //   $match:{categories:{status:'Active'}}
+    // },
 
-
-
-    nav = myCache.get( "nav_data" );
-    if(nav){
-      res.json({
-        response:true,
-        from:'cache',
-        data:nav
-      })
-    }else{
-      // var datas=[
-      //   {name:"Home",url:'/'},
-      //   {name:"Products",url:'/products'},
-      //   {name:"Contact",url:'/contact'},
-      //   category,
-      //   subcategory,
-      //   childcategory
-      // ]
-      // myCache.set( "nav_data", datas, 10000 );
-      // res.json({
-      //   response:true,
-      //   from:'db',
-      //   datas
-      // })
-      Category.aggregate([
-      {
-          $lookup: {
-             from: "subcategories",
-             localField: "_id",
-             foreignField: "category_id",
-             as: "subcategory_data",
-             pipeline:[
-               {
-                 $lookup: {
-                  from: "childcategories",
-                  localField: "_id",
-                  foreignField: "subcategory_id",
-                  as: "childcategory_data",
-               }
-             }
-             ]
+  {
+      $lookup: {
+         from: "subcategories",
+         localField: "_id",
+         foreignField: "category_id",
+         as: "subcategory_data",
+         pipeline:[
+           {$match:{status:'Active'}},
+           {
+             $lookup: {
+              from: "childcategories",
+              localField: "_id",
+              foreignField: "subcategory_id",
+              as: "childcategory_data",
+              pipeline:[
+                {$match:{status:'Active'}},
+              ]
+            }
           }
+         ]
       },
-      ],(err,datas)=>{
-
-        var navdata={
-          datas
-        }
-        myCache.set( "nav_data", navdata, 10000 );
-        res.json({
-          response:true,
-          from:'db',
-          data:navdata
-        })
-      })
+  },
+  {$match:{status:'Active'}},
 
 
+  ],(err,datas)=>{
+
+    var navdata={
+      datas
     }
+    res.json({
+      response:true,
+      from:'db',
+      data:navdata
+    })
+  })
+
+
+    // nav = myCache.get( "nav_data" );
+    // if(nav){
+    //   res.json({
+    //     response:true,
+    //     from:'cache',
+    //     data:nav
+    //   })
+    // }else{
+    //   Category.aggregate([
+    //   {
+    //       $lookup: {
+    //          from: "subcategories",
+    //          localField: "_id",
+    //          foreignField: "category_id",
+    //          as: "subcategory_data",
+    //          pipeline:[
+    //            {
+    //              $lookup: {
+    //               from: "childcategories",
+    //               localField: "_id",
+    //               foreignField: "subcategory_id",
+    //               as: "childcategory_data",
+    //            }
+    //          }
+    //          ]
+    //       }
+    //   },
+    //   ],(err,datas)=>{
+    //
+    //     var navdata={
+    //       datas
+    //     }
+    //     myCache.set( "nav_data", navdata, 10000 );
+    //     res.json({
+    //       response:true,
+    //       from:'db',
+    //       data:navdata
+    //     })
+    //   })
+    //
+    //
+    // }
 
 };
 

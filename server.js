@@ -42,6 +42,7 @@ const Coupon = require("./routes/coupon");
 const Shipping = require("./routes/shipping");
 const Dashboard = require("./routes/dashboard");
 const Cart = require("./routes/cart");
+const SEO = require("./routes/seo");
 
 
 
@@ -439,3 +440,4 @@ app.use("/api/coupon", Coupon);
 app.use("/api/shipping", Shipping);
 app.use("/api/dashboard", Dashboard);
 app.use("/api/cart", Cart);
+app.use("/api/seo", SEO);

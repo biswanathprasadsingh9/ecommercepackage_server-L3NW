@@ -377,7 +377,10 @@ const productsearch = async (req,res) => {
       var query2 = Product.find(searchQuery).select(['_id','price_heighest','price_lowest']) //remove unnecessary fields here
       query2.exec(async function(err,all_datas){
 
-        console.log(all_datas)
+
+        // var ca1= await Product.aggregate([{ $match: searchQuery },{ $unwind: "$category" },{ $sortByCount: "$category" }]);
+        // var ca2= await Product.aggregate([{ $match: searchQuery },{ $unwind: "$subcategory" },{ $sortByCount: "$subcategory" }]);
+        // var ca3= await Product.aggregate([{ $match: searchQuery },{ $unwind: "$childcategory" },{ $sortByCount: "$childcategory" }]);
 
         res.json({
           response: true,
@@ -1171,15 +1174,15 @@ const dummyentry = (req,res) => {
   /////////////////////
 
 
-  // Product.remove({url: 'dummy'}, function(err){
-  //   if(err){
-  //     console.log(err)
-  //   }else{
-  //     res.json({
-  //       response:true
-  //     })
-  //   }
-  // });
+  Product.remove({url: 'dummy'}, function(err){
+    if(err){
+      console.log(err)
+    }else{
+      res.json({
+        response:true
+      })
+    }
+  });
 
 
 

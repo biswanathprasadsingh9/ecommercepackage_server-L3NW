@@ -11,6 +11,15 @@ const CategorySchema = new Schema({
   status:{
     type:String
   },
+  meta_title:{
+    type:String
+  },
+  meta_desc:{
+    type:String
+  },
+  meta_key:{
+    type:String
+  },
   // subcategories: [
   //       {type: mongoose.Schema.Types.ObjectId,ref:'SubCategory'}
   // ]
