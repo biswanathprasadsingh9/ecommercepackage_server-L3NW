@@ -33,17 +33,59 @@ const getCategoryNameFromURL = (req,res) => {
 
 
 const getCategorySubcategoryNameFromURL = (req,res) => {
-  Category.aggregate([
-    { $match: { url: req.params.caturl } },
-  ]).exec((err, data) => {
-    res.json({
-      response: true,
-      data
-    });
+
+  SubCategory.findOne({url:req.params.subcaturl}).populate('category_id',['name','url']).exec((err,doc)=>{
+    if(doc===null){
+      res.json({
+        response:false,
+      })
+    }else{
+        if(doc.category_id.url===req.params.caturl){
+          res.json({
+            response:true,
+            data:doc
+          })
+        }else{
+          res.json({
+            response:false,
+          })
+        }
+    }
+  })
+
+}
+
+
+const getCategorySubcategoryChildcategoryNameFromURL = (req,res) => {
+  ChildCategory.findOne({url:req.params.childcaturl}).populate('category_id',['name','url']).populate('subcategory_id',['name','url']).exec((err,doc)=>{
+    if(doc===null){
+      res.json({
+        response:false,
+      })
+    }else{
+        if(doc.category_id.url===req.params.caturl){
+
+          if(doc.subcategory_id.url===req.params.subcaturl){
+            res.json({
+              response:true,
+              data:doc
+            })
+          }else{
+            res.json({
+              response:false,
+            })
+          }
+          
+        }else{
+          res.json({
+            response:false,
+          })
+        }
+    }
   })
 }
 
 
 module.exports = {
-  index,getCategoryNameFromURL,getCategorySubcategoryNameFromURL
+  index,getCategoryNameFromURL,getCategorySubcategoryNameFromURL,getCategorySubcategoryChildcategoryNameFromURL
 };

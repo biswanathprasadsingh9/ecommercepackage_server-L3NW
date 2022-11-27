@@ -5,7 +5,7 @@ const SubCategorySchema = new Schema({
   category:{
     type:String
   },
-  category_id:{type:mongoose.Schema.Types.ObjectId,ref:'Category'}, //one to one 
+  category_id:{type:mongoose.Schema.Types.ObjectId,ref:'Category'}, //one to one
   // category_id: [{ type: Schema.ObjectId, ref: 'Category' }], //one to many
   name:{
     type:String
@@ -14,6 +14,15 @@ const SubCategorySchema = new Schema({
     type:String
   },
   status:{
+    type:String
+  },
+  meta_title:{
+    type:String
+  },
+  meta_desc:{
+    type:String
+  },
+  meta_key:{
     type:String
   },
 },{timestamps:true})

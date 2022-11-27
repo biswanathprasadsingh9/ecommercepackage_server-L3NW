@@ -1158,31 +1158,31 @@ const searchproduct = async (req,res) => {
 
 const dummyentry = (req,res) => {
 
-  // var data={"showImagesInConfigProducts":false,"product_collection":"","product_labels":"","product_brand":"","stock":0,"status":"Active","type":"Simple","url":"dummy","is_parent":"Yes","sku":"565621123","name":"Anubias Nana Petite on Lava Rock","step":"step2simple","issubtype":"No","pricemain":[1400],"price_lowest":1400,"price_heighest":1400,"images":[{"fileId":"63379069bf51c1dc8056a88d","filePath":"/product_images/products_zlmJtZJx5.jpg","size":156353,"url":"https://ik.imagekit.io/nextjsecommerce/product_images/products_zlmJtZJx5.jpg","chosen":false,"selected":false},{"fileId":"633790c0bf51c1dc8058b06d","filePath":"/product_images/products_R-SoWnhqZ.jpg","size":156353,"url":"https://ik.imagekit.io/nextjsecommerce/product_images/products_R-SoWnhqZ.jpg","chosen":false,"selected":false},{"fileId":"633790cbbf51c1dc80593a96","filePath":"/product_images/products_8EoeOSahu.jpg","size":156353,"url":"https://ik.imagekit.io/nextjsecommerce/product_images/products_8EoeOSahu.jpg","chosen":false,"selected":false}],"videos":[],"meta_title":"Anubias Nana Petite on Lava Rock","meta_desc":"Anubias Nana Petite on Lava Rock","meta_key":"","category":["63328bf97bc0e4612c488c6f"],"subcategory":["63328c067bc0e4612c488c77"],"childcategory":[],"product_tax":[],"description":"<p>qwdqw</p>\n","pricedisplay":1500}
-  //
-  // for(var i = 0;i<1990;i++){
-	// // loop code here
-  // Product.create(data)
-  // .then(e=>{
-  //   console.log('success')
-  // })
-  //
-  // console.log(i)
-  // }
+  var data={"showImagesInConfigProducts":false,"product_collection":"","product_labels":"","product_brand":"","stock":0,"status":"Active","type":"Simple","url":"dummy","is_parent":"Yes","sku":"565621123","name":"Anubias Nana Petite on Lava Rock","step":"step2simple","issubtype":"No","pricemain":[1400],"price_lowest":1400,"price_heighest":1400,"images":[{"fileId":"63379069bf51c1dc8056a88d","filePath":"/product_images/products_zlmJtZJx5.jpg","size":156353,"url":"https://ik.imagekit.io/nextjsecommerce/product_images/products_zlmJtZJx5.jpg","chosen":false,"selected":false},{"fileId":"633790c0bf51c1dc8058b06d","filePath":"/product_images/products_R-SoWnhqZ.jpg","size":156353,"url":"https://ik.imagekit.io/nextjsecommerce/product_images/products_R-SoWnhqZ.jpg","chosen":false,"selected":false},{"fileId":"633790cbbf51c1dc80593a96","filePath":"/product_images/products_8EoeOSahu.jpg","size":156353,"url":"https://ik.imagekit.io/nextjsecommerce/product_images/products_8EoeOSahu.jpg","chosen":false,"selected":false}],"videos":[],"meta_title":"Anubias Nana Petite on Lava Rock","meta_desc":"Anubias Nana Petite on Lava Rock","meta_key":"","category":["63328bf97bc0e4612c488c6f"],"subcategory":["63328c067bc0e4612c488c77"],"childcategory":[],"product_tax":[],"description":"<p>qwdqw</p>\n","pricedisplay":1500}
+
+  for(var i = 0;i<1990;i++){
+	// loop code here
+  Product.create(data)
+  .then(e=>{
+    console.log('success')
+  })
+
+  console.log(i)
+  }
 
 
   /////////////////////
 
 
-  Product.remove({url: 'dummy'}, function(err){
-    if(err){
-      console.log(err)
-    }else{
-      res.json({
-        response:true
-      })
-    }
-  });
+  // Product.remove({url: 'dummy'}, function(err){
+  //   if(err){
+  //     console.log(err)
+  //   }else{
+  //     res.json({
+  //       response:true
+  //     })
+  //   }
+  // });
 
 
 

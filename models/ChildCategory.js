@@ -19,6 +19,15 @@ const ChildCategorySchema = new Schema({
   status:{
     type:String
   },
+  meta_title:{
+    type:String
+  },
+  meta_desc:{
+    type:String
+  },
+  meta_key:{
+    type:String
+  },
 },{timestamps:true})
 
 const ChildCategory = mongoose.model('ChildCategory',ChildCategorySchema)
