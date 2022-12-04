@@ -28,6 +28,10 @@ const UserSchema = new Schema({
     type:Object,
     default:{}
   },
+  shipping_info:{
+    type:Object,
+    default:{}
+  },
 },{timestamps:true})
 
 const User = mongoose.model('User',UserSchema);

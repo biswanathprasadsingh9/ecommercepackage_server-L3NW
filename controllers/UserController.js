@@ -3,9 +3,15 @@ var bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
 var emailsender = require("./emailsender");
 
+
+var calculateTax = require("./calculateTax");
+
+
 const User = require("../models/User");
 const UserAddress = require("../models/UserAddress");
-
+const UserShippingMethod = require("../models/UserShippingMethod");
+const Cart = require("../models/Cart");
+const Product = require("../models/Product");
 
 
 
@@ -72,6 +78,7 @@ const registerfromcart = (req,res) => {
   var bodydata=req.body;
   bodydata.type='User';
   bodydata.password=hash;
+  bodydata.is_default=true;
 
   User.findOne({email:req.body.email},(err,doc)=>{
     if(doc===null){
@@ -103,12 +110,33 @@ const registerfromcart = (req,res) => {
 
 //ADD ADDRESS FROM CART (registrated user)
 const addaddressfromcart = (req,res) => {
-  UserAddress.create(req.body)
+
+  UserAddress.find({user_id:req.body.user_id})
   .then(response=>{
-    res.json({
-        response:true,
-    })
+    if(response.length===0){
+
+      var bodydata=req.body;
+      bodydata.is_default=true;
+      UserAddress.create(bodydata)
+      .then(response=>{
+        res.json({
+            response:true,
+        })
+      })
+
+    }else{
+      UserAddress.create(req.body)
+      .then(response=>{
+        res.json({
+            response:true,
+        })
+      })
+    }
   })
+
+
+
+
 }
 
 
@@ -263,6 +291,101 @@ const updateuseraddress =(req,res) => {
   })
 }
 
+//UPDATE DEFAULT ADDRESS
+const updatedefauladdress = (req,res) => {
+  UserAddress.find({user_id:req.body.user_id}).distinct('_id')
+  .then(ids=>{
+
+    UserAddress.updateMany({_id:{$in:ids}},{$set:{is_default:false}},{multi:true})
+    .then(ssu=>{
+
+      UserAddress.findByIdAndUpdate(req.body._id,req.body)
+      .then(response=>{
+        res.json({
+          response:true
+        })
+      })
+
+    })
+  })
+
+}
+
+//GET USER SELECTED SHIPPING ADDRESS
+const getuserdefaultshippingaddress = (req,res) => {
+  UserAddress.findOne({user_id:req.params.user_id,is_default:true},(err,doc)=>{
+    if(doc===null){
+      res.json({
+        response:false
+      })
+    }else{
+      res.json({
+        response:true,
+        data:doc
+      })
+    }
+  })
+}
+
+
+//GET USER SELECTED SHIPPING METHOD (shipping amount)
+const getusershippingmethodselected = (req,res) => {
+  UserShippingMethod.findOne({user_id:req.params.user_id},(err,doc)=>{
+    if(doc===null){
+      res.json({
+        response:false
+      })
+    }else{
+      res.json({
+        response:true,
+        data:doc
+      })
+    }
+  })
+}
+
+
+//SAVE USER SHIPPING METHOD (shipping amount)
+const saveusershippingmethodselected = (req,res) => {
+
+  UserShippingMethod.deleteMany({user_id:req.body.user_id},{multi:true})
+  .then(respo=>{
+    UserShippingMethod.create(req.body)
+    .then(response=>{
+      res.json({
+        response:true,
+        data:req.body
+      })
+    })
+  })
+
+  // UserShippingMethod.findOne({user_id:req.params.user_id},(err,doc)=>{
+  //   if(doc===null){
+  //     res.json({
+  //       response:false
+  //     })
+  //   }else{
+  //     res.json({
+  //       response:true,
+  //       data:doc
+  //     })
+  //   }
+  // })
+}
+
+
+
+
+
+//GET CAT INFO
+const getcartinfo = (req,res) => {
+  res.json({
+    response:true,
+    ss:calculateTax.calculateTaxFunction(1)
+  })
+}
+
+
 module.exports = {
-  index,register,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress
+  index,register,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo
 };

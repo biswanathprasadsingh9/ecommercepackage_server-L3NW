@@ -16,6 +16,16 @@ router.get('/getusershippingaddress/:id',UserController.getusershippingaddress);
 
 router.get('/deleteaddress/:id',UserController.deleteaddress);
 router.post('/updateuseraddress',UserController.updateuseraddress);
+router.post('/updatedefauladdress',UserController.updatedefauladdress);
+
+router.get('/getuserdefaultshippingaddress/:user_id',UserController.getuserdefaultshippingaddress);
+router.get('/getusershippingmethodselected/:user_id',UserController.getusershippingmethodselected);
+
+router.post('/saveusershippingmethodselected',UserController.saveusershippingmethodselected);
+
+
+
+router.get('/getcartinfo/:user_id',UserController.getcartinfo);
 
 
 

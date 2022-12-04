@@ -40,9 +40,6 @@ const getcartitems = (req,res) => {
         resdata.forEach((item, i) => {
 
 
-          console.log(resdata.length)
-          console.log(i)
-
           //check record is already in user cart or not
           Cart.findOne({user_id:req.params.user_id,product_id:item.product_id},(err,doc)=>{
             if(doc===null){
@@ -50,33 +47,7 @@ const getcartitems = (req,res) => {
 
               Cart.findByIdAndUpdate(item._id,{$set:{ user_id:req.params.user_id}})
               .then(aasas=>{
-
-
                     if(resdata.length===i+1){
-                      // Cart.find({user_id:req.params.user_id})
-                      //   .sort({ _id: -1 })
-                      //   // .populate('user_id',['name','email'])
-                      //   // .populate('parent_product_id',['url','product_tax'])
-                      //   // .populate('product_id',['name','sku','pricemain','stock','images','url'])
-                      //   .populate('user_id',['name','email'])
-                      //   .populate({
-                      //     path: 'parent_product_id',
-                      //     select: 'url product_tax',
-                      //     populate: [
-                      //     {
-                      //       path: 'product_tax',
-                      //       model: 'Tax',
-                      //     }]
-                      //  })
-                      //   .populate('product_id',['name','sku','pricemain','stock','images','url','minimum_order','maximum_order'])
-                      //   // .sort({ _id: -1 })
-                      //   .then(responseq => {
-                      //     res.json({
-                      //       response: true,
-                      //       datas: responseq,
-                      //     });
-                      // });
-
                       Cart.find({user_id:req.params.user_id})
                         .sort({ _id: -1 })
                         .populate('user_id',['name','email'])
@@ -98,13 +69,7 @@ const getcartitems = (req,res) => {
                           });
                         });
                     }
-
-
-
-
-
               })
-
 
             }else{
               Cart.findByIdAndRemove(item._id)

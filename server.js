@@ -366,6 +366,33 @@ app.get("/api/test-elementmatch_old", (req, res) => {
 
 
 
+
+
+app.get('/whatsapp', (req,res)=>{
+
+  const accountSid = 'AC47698c5d1a6e08d66b9635bed88aed72';
+  const authToken = '55f9adf08154d1e82726a05707a2d10a';
+  const client = require('twilio')(accountSid, authToken);
+
+  client.messages
+        .create({
+           from: 'whatsapp:+18056692951',
+           body: 'Hello there!',
+           to: 'whatsapp:+919658667287'
+         })
+        .then(message => console.log(message.sid))
+        .catch((error) => {
+            console.error(error);
+          })
+
+        res.json({
+          response:true
+        })
+
+})
+
+
+
 app.get("/api/test-elementmatch", async (req, res) => {
 
   var ProductData = require("./models/Product");

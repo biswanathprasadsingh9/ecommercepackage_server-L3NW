@@ -3,7 +3,9 @@ const Schema = mongoose.Schema;
 
 const UserAddressSchema = new Schema({
   user_id:{type:mongoose.Schema.Types.ObjectId,ref:'User'},
-
+  is_default:{
+    type:Boolean
+  },
   name:{
     type:String
   },
