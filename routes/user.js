@@ -23,10 +23,9 @@ router.get('/getusershippingmethodselected/:user_id',UserController.getusershipp
 
 router.post('/saveusershippingmethodselected',UserController.saveusershippingmethodselected);
 
-
-
 router.get('/getcartinfo/:user_id',UserController.getcartinfo);
 
+router.post('/updateshppingadditionalcomments',UserController.updateshppingadditionalcomments);
 
 
 module.exports=router;

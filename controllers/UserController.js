@@ -12,7 +12,7 @@ const UserAddress = require("../models/UserAddress");
 const UserShippingMethod = require("../models/UserShippingMethod");
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
-
+const UserShippingAdditionalComments = require("../models/UserShippingAdditionalComments");
 
 
 
@@ -386,6 +386,22 @@ const getcartinfo = (req,res) => {
 }
 
 
+
+
+//GET CATEGORY
+const updateshppingadditionalcomments = (req,res) => {
+  UserShippingAdditionalComments.update({user_id: req.body.user_id}, req.body, {upsert: true, setDefaultsOnInsert: true})
+  .then(response=>{
+    res.json({
+      response:true
+    })
+  })
+}
+
+
+
+
+
 module.exports = {
-  index,register,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo
+  index,register,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments
 };
