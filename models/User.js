@@ -32,6 +32,9 @@ const UserSchema = new Schema({
     type:Object,
     default:{}
   },
+  psuuid:{ //payment_secret_uuid
+    type:String
+  }
 },{timestamps:true})
 
 const User = mongoose.model('User',UserSchema);

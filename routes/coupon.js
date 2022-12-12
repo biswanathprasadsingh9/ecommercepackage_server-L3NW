@@ -9,6 +9,7 @@ router.post('/update',CouponController.update);
 router.get('/deletefile/:id',CouponController.deletefile);
 
 
+router.post('/checkcouponcode',CouponController.checkcouponcode);
 
 
 module.exports=router;

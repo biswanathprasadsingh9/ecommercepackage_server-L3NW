@@ -41,10 +41,25 @@ const deletefile = (req,res) => {
   })
 }
 
+const checkcouponcode = (req,res) => {
+  Coupon.findOne({name:req.body.code},(err,doc)=>{
+    if(doc===null){
+      res.json({
+        response:false
+      })
+    }else{
+      res.json({
+        response:true,
+        data:doc
+      })
+    }
+  })
+}
 
 module.exports = {
   index,
   store,
   update,
-  deletefile
+  deletefile,
+  checkcouponcode
 };

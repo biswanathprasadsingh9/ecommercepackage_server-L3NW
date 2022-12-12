@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 const result = require("dotenv").config();
+var paypal = require('paypal-rest-sdk');
 
 // FOR IMAGEKIT AUTH
 const ImageKit = require("imagekit");
@@ -42,7 +43,9 @@ const Coupon = require("./routes/coupon");
 const Shipping = require("./routes/shipping");
 const Dashboard = require("./routes/dashboard");
 const Cart = require("./routes/cart");
-const SEO = require("./routes/seo");
+const Seo = require("./routes/seo");
+const Order = require("./routes/order");
+
 
 
 
@@ -83,6 +86,83 @@ app.get("/api/imagekitauth", function (req, res) {
   const result = imagekit.getAuthenticationParameters();
   res.send(result);
 });
+
+
+
+
+
+
+app.get("/paypal", function (req, res) {
+
+  paypal.configure({
+    'mode': 'sandbox', //sandbox or live
+    'client_id': 'AY10bLMyZLtP3wVNODGh6mdmzGjc1XxBg7m_s61q07kFvEAfVCDYv_16XsX09KytlrAnCx_VTJTnFf-F',
+    'client_secret': 'EKFUR80NNpYESG7u5Au6oC-22noDWM7YzuSomDebJgWr61RqQpFA440NdtWqkbTJ_1CuAtXJ9QwGrVFc'
+  });
+
+  // paypal.configure({
+  //   'mode': 'live', //sandbox or live
+  //   'client_id': 'Ab620lyNESUWkl16w4MPK7HrCACSTTWB1Kd83rGeQAEw_fMiJ6BWbTzii2ZeJrLKU8QsA9p-1D-smjk6',
+  //   'client_secret': 'ECozQIybzglUgNq5Kb_QyagjS39vjlEFNjskpLUnWrLGZrDrj60a4ed1ZC0WNcyNKlLCDUnxIDIJtP3R'
+  // });
+
+
+    var create_payment_json = {
+      "intent": "sale",
+      "payer": {
+          "payment_method": "paypal"
+      },
+      "redirect_urls": {
+          "return_url": "http://return.url",
+          "cancel_url": "http://cancel.url"
+      },
+      "transactions": [{
+          "item_list": {
+              "items": [{
+                  "name": "item",
+                  "sku": "item",
+                  "price": "1.00",
+                  "currency": "USD",
+                  "quantity": 1
+              }]
+          },
+          "amount": {
+              "currency": "USD",
+              "total": "1.00"
+          },
+          "description": "This is the payment description."
+      }]
+  };
+
+
+  paypal.payment.create(create_payment_json, function (error, payment) {
+      if (error) {
+          throw error;
+      } else {
+          console.log(payment);
+
+          for(let i = 0;i < payment.links.length;i++){
+            if(payment.links[i].rel === 'approval_url'){
+              res.redirect(payment.links[i].href);
+            }
+          }
+
+
+          // res.json({
+          //   payment
+          // })
+      }
+  });
+
+
+  // res.json({
+  //   response:true
+  // })
+
+});
+
+
+
 
 
 
@@ -467,4 +547,5 @@ app.use("/api/coupon", Coupon);
 app.use("/api/shipping", Shipping);
 app.use("/api/dashboard", Dashboard);
 app.use("/api/cart", Cart);
-app.use("/api/seo", SEO);
+app.use("/api/seo", Seo);
+app.use("/api/order", Order);
