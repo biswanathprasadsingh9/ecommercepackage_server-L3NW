@@ -44,6 +44,7 @@
     "paypal-rest-sdk": "^1.8.1",
     "portscanner": "^2.2.0",
     "pug": "^3.0.2",
+    "puppeteer": "^19.4.0",
     "qrcode-terminal": "^0.12.0",
     "randomstring": "^1.2.2",
     "redis": "^4.3.1",
