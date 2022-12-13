@@ -531,64 +531,64 @@ app.get("/api/test-elementmatch", async (req, res) => {
 
 
 //whatsapp
-const qrcode = require('qrcode-terminal');
-const { Client } = require('whatsapp-web.js');
-const client = new Client();
-
-
-// app.get("/getwhatsappqr", async (req, res) => {
-
-
-  client.on('qr', qr => {
-      // qrcode.generate(qr, {small: true});
-  });
-
-  client.on('ready', () => {
-      console.log('Client is ready!');
-
-
-   //    // Number where you want to send the message.
-   // const number = "+919090202808";
-   //
-   //  // Your message.
-   // const text = "Hey john";
-   //
-   //  // Getting chatId from the number.
-   //  // we have to delete "+" from the beginning and add "@c.us" at the end of the number.
-   // const chatId = number.substring(1) + "@c.us";
-   //
-   // // Sending message.
-   // client.sendMessage(chatId, text);
-
-  });
-
-
-  client.initialize();
-
+// const qrcode = require('qrcode-terminal');
+// const { Client } = require('whatsapp-web.js');
+// const client = new Client();
+//
+//
+// // app.get("/getwhatsappqr", async (req, res) => {
+//
+//
+//   client.on('qr', qr => {
+//       // qrcode.generate(qr, {small: true});
+//   });
+//
+//   client.on('ready', () => {
+//       console.log('Client is ready!');
+//
+//
+//    //    // Number where you want to send the message.
+//    // const number = "+919090202808";
+//    //
+//    //  // Your message.
+//    // const text = "Hey john";
+//    //
+//    //  // Getting chatId from the number.
+//    //  // we have to delete "+" from the beginning and add "@c.us" at the end of the number.
+//    // const chatId = number.substring(1) + "@c.us";
+//    //
+//    // // Sending message.
+//    // client.sendMessage(chatId, text);
+//
+//   });
+//
+//
+//   client.initialize();
+//
+// // })
+//
+//
+// app.get("/sendwhmsg", async (req, res) => {
+//
+//
+//
+//
+//       // Number where you want to send the message.
+//    const number = "+919090202808";
+//
+//     // Your message.
+//    const text = "Hey john";
+//
+//     // Getting chatId from the number.
+//     // we have to delete "+" from the beginning and add "@c.us" at the end of the number.
+//    const chatId = number.substring(1) + "@c.us";
+//
+//    // Sending message.
+//    client.sendMessage(chatId, text);
+//
+//    console.log('done')
+//
 // })
-
-
-app.get("/sendwhmsg", async (req, res) => {
-
-
-
-
-      // Number where you want to send the message.
-   const number = "+919090202808";
-
-    // Your message.
-   const text = "Hey john";
-
-    // Getting chatId from the number.
-    // we have to delete "+" from the beginning and add "@c.us" at the end of the number.
-   const chatId = number.substring(1) + "@c.us";
-
-   // Sending message.
-   client.sendMessage(chatId, text);
-
-   console.log('done')
-
-})
 
 
 
