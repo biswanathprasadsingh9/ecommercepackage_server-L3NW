@@ -44,6 +44,7 @@
     "paypal-rest-sdk": "^1.8.1",
     "portscanner": "^2.2.0",
     "pug": "^3.0.2",
+    "qrcode-terminal": "^0.12.0",
     "randomstring": "^1.2.2",
     "redis": "^4.3.1",
     "slugify": "^1.5.3",
@@ -51,6 +52,7 @@
     "twilio": "^3.83.4",
     "uuid": "^8.3.2",
     "uuidv4": "^6.2.8",
-    "velocityjs": "^2.0.3"
+    "velocityjs": "^2.0.3",
+    "whatsapp-web.js": "^1.18.4"
   }
 }

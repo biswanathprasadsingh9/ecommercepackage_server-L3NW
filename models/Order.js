@@ -2,6 +2,22 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
+
+  payment_type:{
+    type:String
+  },
+  payment_status:{
+    type:String
+  },
+  payment_secret_uuid:{
+    type:String
+  },
+  order_status:{
+    type:String
+  },
+  order_id:{
+    type:String
+  },
   user_id:{type:mongoose.Schema.Types.ObjectId,ref:'User'},
   products:{
     type:Object
@@ -33,15 +49,8 @@ const OrderSchema = new Schema({
   shipping_note:{
     type:String
   },
-  payment_type:{
-    type:String
-  },
-  payment_status:{
-    type:String
-  },
-  payment_secret_uuid:{
-    type:String
-  }
+
+
 },{timestamps:true})
 
 const Order = mongoose.model('Order',OrderSchema)

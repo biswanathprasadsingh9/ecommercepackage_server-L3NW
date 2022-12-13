@@ -22,7 +22,24 @@ const payondelivery = (req,res) => {
 
   var payment_secret_uuid=uuid();
 
-  User.findByIdAndUpdate(req.body.user_id,{$set:{psuuid:payment_secret_uuid}})
+  User.findByIdAndUpdate(req.body.user_id,{$set:{psuuid:payment_secret_uuid,pcitems:req.body}}) //update payment secret code under user
+  .then(user_update=>{
+    res.json({
+      response:true,
+      uuid:payment_secret_uuid,
+      datas:req.body
+    })
+  })
+
+}
+
+
+// PAY ON PAYPAL
+const payonpaypal = (req,res) => {
+
+  var payment_secret_uuid=uuid();
+
+  User.findByIdAndUpdate(req.body.user_id,{$set:{psuuid:payment_secret_uuid,pcitems:req.body}}) //update payment secret code under user
   .then(user_update=>{
     res.json({
       response:true,
@@ -32,10 +49,10 @@ const payondelivery = (req,res) => {
   })
 
 
-
-
 }
 
+
+
 module.exports = {
-  index,payondelivery
+  index,payondelivery,payonpaypal
 };

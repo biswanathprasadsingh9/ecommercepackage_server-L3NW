@@ -34,6 +34,9 @@ const UserSchema = new Schema({
   },
   psuuid:{ //payment_secret_uuid
     type:String
+  },
+  pcitems:{ //all cart information
+    type:Object,
   }
 },{timestamps:true})
 
