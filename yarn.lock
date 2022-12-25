@@ -3506,9 +3506,9 @@ optional-require@^1.1.8:
   dependencies:
     require-at "^1.0.6"
 
-order-id@^2.1.1:
+order-id@^2.1.2:
   version "2.1.2"
-  resolved "https://registry.npmjs.org/order-id/-/order-id-2.1.2.tgz"
+  resolved "https://registry.yarnpkg.com/order-id/-/order-id-2.1.2.tgz#7d45539680f248fd43569ce854aadf4993560f03"
   integrity sha512-XCeZ1zjUt0khezGcALhWv0WpY/6ZDcaYAudJeu0TneN9FtxeUOsG+J84UHP5l/Lhx35b4frbKbNExpHEy0DQIA==
   dependencies:
     node-fpe "^2.0.2"

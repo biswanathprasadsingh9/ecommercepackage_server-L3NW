@@ -48,37 +48,69 @@ const getcartitems = (req,res) => {
               Cart.findByIdAndUpdate(item._id,{$set:{ user_id:req.params.user_id}})
               .then(aasas=>{
                     if(resdata.length===i+1){
-                      Cart.find({user_id:req.params.user_id})
-                        .sort({ _id: -1 })
-                        .populate('user_id',['name','email'])
-                        .populate({
-                          path: 'parent_product_id',
-                          select: 'url product_tax',
-                          populate: [
-                          {
-                            path: 'product_tax',
-                            model: 'Tax',
-                          }]
-                       })
-                        .populate('product_id',['name','sku','pricemain','stock','images','url','minimum_order','maximum_order'])
-                        // .sort({ _id: -1 })
-                        .then((response) => {
-                          res.json({
-                            response: true,
-                            datas: response,
-                          });
-                        });
+                      callData123()
+                      // Cart.find({user_id:req.params.user_id})
+                      //   .sort({ _id: -1 })
+                      //   .populate('user_id',['name','email'])
+                      //   .populate({
+                      //     path: 'parent_product_id',
+                      //     select: 'url product_tax',
+                      //     populate: [
+                      //     {
+                      //       path: 'product_tax',
+                      //       model: 'Tax',
+                      //     }]
+                      //  })
+                      //   .populate('product_id',['name','sku','pricemain','stock','images','url','minimum_order','maximum_order'])
+                      //   // .sort({ _id: -1 })
+                      //   .then((response) => {
+                      //     res.json({
+                      //       response: true,
+                      //       datas: response,
+                      //     });
+                      //   });
                     }
               })
 
             }else{
               Cart.findByIdAndRemove(item._id)
               .then(asa=>{
-                console.log('deleted_duplicate')
+                console.log('deleted_duplicate');
+                if(resdata.length===i+1){
+                  callData123()
+                }
+
               })
             }
           })
 
+
+
+
+          function callData123(){
+            // if(resdata.length===i+1){
+              Cart.find({user_id:req.params.user_id})
+                .sort({ _id: -1 })
+                .populate('user_id',['name','email'])
+                .populate({
+                  path: 'parent_product_id',
+                  select: 'url product_tax',
+                  populate: [
+                  {
+                    path: 'product_tax',
+                    model: 'Tax',
+                  }]
+               })
+                .populate('product_id',['name','sku','pricemain','stock','images','url','minimum_order','maximum_order'])
+                // .sort({ _id: -1 })
+                .then((response) => {
+                  res.json({
+                    response: true,
+                    datas: response,
+                  });
+                });
+            // }
+          }
 
           // if(resdata.length===i+1){
           //
