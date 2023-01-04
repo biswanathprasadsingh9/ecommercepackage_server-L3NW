@@ -45,6 +45,8 @@ const Dashboard = require("./routes/dashboard");
 const Cart = require("./routes/cart");
 const Seo = require("./routes/seo");
 const Order = require("./routes/order");
+const Countrystatecity = require("./routes/countrystatecity");
+
 
 
 
@@ -626,3 +628,4 @@ app.use("/api/dashboard", Dashboard);
 app.use("/api/cart", Cart);
 app.use("/api/seo", Seo);
 app.use("/api/order", Order);
+app.use("/api/countrystatecity", Countrystatecity);

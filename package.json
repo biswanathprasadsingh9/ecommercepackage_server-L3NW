@@ -42,6 +42,7 @@
     "nodemon": "^2.0.7",
     "order-id": "^2.1.2",
     "paypal-rest-sdk": "^1.8.1",
+    "pdf-creator-node": "^2.3.5",
     "portscanner": "^2.2.0",
     "pug": "^3.0.2",
     "puppeteer": "^19.4.0",

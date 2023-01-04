@@ -400,8 +400,24 @@ const updateshppingadditionalcomments = (req,res) => {
 
 
 
+const update = (req,res) => {
+  User.findByIdAndUpdate(req.params.id,req.body)
+  .then(response=>{
+
+    User.findById(req.params.id)
+    .then(data=>{
+      res.json({
+        response:true,
+        data
+      })
+    })
+
+
+  })
+}
+
 
 
 module.exports = {
-  index,register,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments
+  index,register,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments
 };

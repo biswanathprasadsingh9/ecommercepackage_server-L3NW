@@ -39,7 +39,7 @@ const OrderSchema = new Schema({
   amount_total:{
     type:Number
   },
-  amount_total_shipping:{
+  amount_total_final:{
     type:Number
   },
   shipping_method:{

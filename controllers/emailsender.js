@@ -3,6 +3,10 @@ exports.emailsendFunction = function(testemail,emailto,locals){
   const nodemailer = require('nodemailer');
   const Email = require('email-templates');
 
+  locals.logo='https://w7.pngwing.com/pngs/361/627/png-transparent-leaf-logo-green-leaves-green-and-teal-leaf-logo-text-maple-leaf-grass.png'
+  locals.year='2023';
+
+
   const transporter = nodemailer.createTransport({
     service: process.env.EMAIL_SERVICE,
     host: process.env.EMAIL_HOST,
