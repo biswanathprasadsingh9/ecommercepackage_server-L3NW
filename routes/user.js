@@ -3,8 +3,17 @@ const router = express.Router();
 
 const UserController = require('../controllers/UserController');
 
+const multer  = require('multer')
+const upload = multer({});
+
 router.get('/',UserController.index);
 router.put('/:id',UserController.update);
+
+
+router.post('/update_password',UserController.update_password);
+router.post('/update_profile_picture',upload.single('image'),UserController.update_profile_picture);
+
+
 
 router.post('/register',UserController.register);
 router.post('/login',UserController.login);

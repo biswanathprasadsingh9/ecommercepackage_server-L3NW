@@ -2,7 +2,7 @@ const response = require("express");
 var bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
 var emailsender = require("./emailsender");
-
+var _ = require('lodash');
 
 var calculateTax = require("./calculateTax");
 
@@ -14,6 +14,14 @@ const Cart = require("../models/Cart");
 const Product = require("../models/Product");
 const UserShippingAdditionalComments = require("../models/UserShippingAdditionalComments");
 
+
+
+const ImageKit = require("imagekit");
+var imagekit = new ImageKit({
+  publicKey: process.env.IMAGEKIT_PUBLICKEY,
+  privateKey: process.env.IMAGEKIT_PRIVATEKEY,
+  urlEndpoint: process.env.IMAGEKIT_URLENDPOINTKEY,
+});
 
 
 // INDEX
@@ -202,9 +210,11 @@ const login = (req,res) => {
         var match = bcrypt.compareSync(bodydata.password, doc.password);
         if(match){
 
+          console.log(_.omit(doc, ['password']))
+
           res.json({
             response:true,
-            data:doc,
+            data:_.omit(doc, ['password']),
             message:'Login Success'
           })
 
@@ -401,10 +411,13 @@ const updateshppingadditionalcomments = (req,res) => {
 
 
 const update = (req,res) => {
+
+  console.log(req.body)
+
   User.findByIdAndUpdate(req.params.id,req.body)
   .then(response=>{
 
-    User.findById(req.params.id)
+    User.findById(req.params.id).select('-password')
     .then(data=>{
       res.json({
         response:true,
@@ -418,6 +431,84 @@ const update = (req,res) => {
 
 
 
+const update_password = (req,res) => {
+
+
+
+  User.findOne({_id:req.body.id},(err,doc)=>{
+    if(doc===null){
+      res.json({
+        response:false,
+        message:'wrong_id'
+      })
+    }else{
+        var match = bcrypt.compareSync(req.body.old_password, doc.password);
+
+
+        if(match){
+          var hash = bcrypt.hashSync(req.body.new_password, salt);
+          User.findByIdAndUpdate(req.body.id,{$set:{password:hash}})
+          .then(respl=>{
+            res.json({
+              response:true
+            })
+          })
+
+
+        }else{
+          res.json({
+            response:false,
+            message:'Old password is not matching'
+          })
+        }
+
+
+    }
+  })
+
+}
+
+
+
+const update_profile_picture = (req,res) => {
+
+    const encoded = req.file.buffer.toString("base64");
+    imagekit
+    .upload({
+      file: encoded,
+      fileName: "user_image",
+      useUniqueFileName: true,
+      folder: "ecom_profile_image",
+    })
+    .then((response) => {
+
+        var stemp={
+          fileId:response.fileId,
+          filePath:response.filePath,
+          url:response.url,
+        }
+
+        User.findByIdAndUpdate(req.body.id,{$set:{image:stemp}})
+        .then(resp22=>{
+          User.findById(req.body.id).select('-password')
+          .then(resp12=>{
+            res.json({
+              response:true,
+              data:resp12
+            })
+          })
+
+        })
+    })
+    .catch((error) => {
+      res.json({
+        response: error,
+      });
+    });
+
+}
+
+
 module.exports = {
-  index,register,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments
+  index,register,update_profile_picture,update_password,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments
 };

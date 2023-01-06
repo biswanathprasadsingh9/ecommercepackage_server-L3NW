@@ -10,6 +10,18 @@ const UserSchema = new Schema({
   email:{
     type:String
   },
+  phone:{
+    type:String
+  },
+  country:{
+    type:String
+  },
+  state:{
+    type:String
+  },
+  city:{
+    type:String
+  },
   type:{
     type:String
   },
