@@ -13,10 +13,19 @@ router.put('/:id',UserController.update);
 router.post('/update_password',UserController.update_password);
 router.post('/update_profile_picture',upload.single('image'),UserController.update_profile_picture);
 
+router.post('/forgotpassword',UserController.forgotpassword);
+
+router.get('/check_reset_password_code/:code',UserController.check_reset_password_code);
+router.post('/update_password_web',UserController.update_password_web);
+
 
 
 router.post('/register',UserController.register);
 router.post('/login',UserController.login);
+
+router.post('/login_with_google',UserController.login_with_google);
+
+
 router.post('/loginadmin',UserController.loginadmin);
 router.post('/emailverification',UserController.emailverification);
 

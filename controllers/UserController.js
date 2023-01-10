@@ -3,8 +3,9 @@ var bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
 var emailsender = require("./emailsender");
 var _ = require('lodash');
-
+const imageToBase64 = require('image-to-base64');
 var calculateTax = require("./calculateTax");
+const { uuid } = require('uuidv4');
 
 
 const User = require("../models/User");
@@ -47,6 +48,91 @@ const index = (req, res) => {
     response:true
   })
 };
+
+
+
+
+
+
+
+
+
+
+const login_with_google = (req,res) => {
+  User.findOne({email:req.body.email},(err,doc)=>{
+    if(doc===null){
+
+      //image to base 64
+      imageToBase64(req.body.picture) // Path to the image
+      .then((bs64) =>{
+
+          //uplaod image
+          imagekit
+          .upload({
+            file: bs64,
+            fileName: "user_image",
+            useUniqueFileName: true,
+            folder: "ecom_profile_image",
+          })
+          .then((response) => {
+              console.log(response)
+              var tmp_data={
+                name:req.body.name,
+                email:req.body.email,
+                password:'google',
+                emailverificationcode:'1111',
+                emailverification:true,
+                image:{
+                  fileId:response.fileId,
+                  filePath:response.filePath,
+                  url:response.url,
+                }
+              }
+              //create user
+              User.create(tmp_data)
+              .then(rdata=>{
+                res.json({
+                  response:true,
+                  data:rdata
+                })
+              })
+          })
+          .catch((error) => {
+            res.json({
+              response:false,
+              message:'imagekit_error'
+            });
+          });
+
+
+
+      })
+      .catch((error) => {
+          res.json({
+            response:false,
+            message:'failed_to_convert_base64'
+          })
+      })
+
+
+
+    }else{
+
+      User.findOne({email:req.body.email})
+      .then(response=>{
+        res.json({
+          response:true,
+          data:response
+        })
+      })
+
+    }
+  })
+
+}
+
+
+
 
 
 
@@ -470,6 +556,9 @@ const update_password = (req,res) => {
 
 
 
+
+
+
 const update_profile_picture = (req,res) => {
 
     const encoded = req.file.buffer.toString("base64");
@@ -509,6 +598,59 @@ const update_profile_picture = (req,res) => {
 }
 
 
+const forgotpassword = (req,res) => {
+  User.findOne({email:req.body.email},(err,doc)=>{
+    if(doc===null){
+      res.json({
+        response:false,
+        message:'This email address is not registrated.'
+      })
+    }else{
+
+      var password_reset_code =uuid()+'-'+uuid()+'-'+uuid();
+
+      User.findByIdAndUpdate(doc._id,{$set:{password_reset_code}})
+      .then(rpd=>{
+        res.json({
+          response:true,
+          password_reset_code,
+          data:doc
+        })
+      })
+
+
+    }
+  })
+}
+
+const check_reset_password_code = (req,res) => {
+  User.findOne({password_reset_code:req.params.code},(err,doc)=>{
+    if(doc===null){
+      res.json({
+        response:false
+      })
+    }else{
+      res.json({
+        response:true,
+        data:doc
+      })
+    }
+  })
+}
+
+
+const update_password_web = (req,res) => {
+  var hash = bcrypt.hashSync(req.body.password, salt);
+  User.findOneAndUpdate({password_reset_code:req.body.code},{$set:{password:hash,password_reset_code:''}})
+  .then(respl=>{
+    res.json({
+      response:true
+    })
+  })
+}
+
+
+
 module.exports = {
-  index,register,update_profile_picture,update_password,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments
+  index,forgotpassword,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments
 };

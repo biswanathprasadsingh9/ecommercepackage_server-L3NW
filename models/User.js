@@ -23,7 +23,8 @@ const UserSchema = new Schema({
     type:String
   },
   type:{
-    type:String
+    type:String,
+    default:'User'
   },
   emailverification:{
     type:Boolean,
@@ -34,6 +35,9 @@ const UserSchema = new Schema({
     default:Math.floor(111111 + Math.random() * 999999),
   },
   password:{
+    type:String
+  },
+  password_reset_code:{
     type:String
   },
   image:{

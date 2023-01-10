@@ -3,7 +3,7 @@ exports.emailsendFunction = function(testemail,emailto,locals){
   const nodemailer = require('nodemailer');
   const Email = require('email-templates');
 
-  locals.logo='https://w7.pngwing.com/pngs/361/627/png-transparent-leaf-logo-green-leaves-green-and-teal-leaf-logo-text-maple-leaf-grass.png'
+  locals.logo='https://i.ibb.co/PNTZ0c2/logo.png'
   locals.year='2023';
 
 
