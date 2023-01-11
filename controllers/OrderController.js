@@ -136,11 +136,34 @@ const order_complete_view = (req,res) => {
       response:true
     })
   })
-
 }
 
 
+const get_web_user_orderslist = (req,res) => {
+  Order.find({user_id:req.params.user_id}).select('order_id products._id payment_type payment_status amount_total_final')
+  .then(response=>{
+    res.json({
+      response:true,
+      datas:response
+    })
+  })
+}
+
+const get_web_user_order_details = (req,res) => {
+  Order.findById(req.params.order_id,(err,doc)=>{
+    if(doc===null){
+      res.json({
+        response:false
+      })
+    }else{
+      res.json({
+        response:true,
+        data:doc
+      })
+    }
+  })
+}
 
 module.exports = {
-  index,payondelivery,payonpaypal,view,order_complete_view
+  index,payondelivery,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details
 };

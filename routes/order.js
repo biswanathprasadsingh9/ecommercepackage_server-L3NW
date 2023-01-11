@@ -17,6 +17,9 @@ router.get('/deletepdf',PDFController.deletepdf);
 
 
 
+router.get('/get_web_user_orderslist/:user_id',OrderController.get_web_user_orderslist);
+router.get('/get_web_user_order_details/:order_id',OrderController.get_web_user_order_details);
+
 
 
 
