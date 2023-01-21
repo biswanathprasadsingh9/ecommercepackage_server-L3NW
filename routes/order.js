@@ -6,6 +6,8 @@ const PDFController = require('../controllers/PDFController');
 
 
 router.get('/',OrderController.index);
+router.get('/:id',OrderController.vieworder);
+
 router.post('/payondelivery',OrderController.payondelivery);
 router.post('/payonpaypal',OrderController.payonpaypal);
 
@@ -21,6 +23,7 @@ router.get('/get_web_user_orderslist/:user_id',OrderController.get_web_user_orde
 router.get('/get_web_user_order_details/:order_id',OrderController.get_web_user_order_details);
 
 
+router.post('/update_order_status',OrderController.update_order_status);
 
 
 module.exports=router;

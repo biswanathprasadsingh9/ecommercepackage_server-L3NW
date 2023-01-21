@@ -9,6 +9,9 @@ router.get('/navitems',WebStaticDataController.navitems);
 
 router.get('/viewproduct/:url',WebStaticDataController.viewproduct);
 
+router.get('/testpdf',WebStaticDataController.testpdf);
+
+
 
 
 

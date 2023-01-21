@@ -15,6 +15,8 @@ router.post('/productsearchfinal',ProductController.productsearchfinal);
 router.post('/searchproduct',ProductController.searchproduct);
 
 
+router.post('/searchproduct_byname',ProductController.searchproduct_byname);
+
 
 router.get('/view_productinfo/:type/:id',ProductController.viewproductinfo);
 

@@ -11,10 +11,26 @@ const orderid = require('order-id')('key');
 
 // INDEX
 const index = (req, res) => {
-  res.json({
-    response: true,
-  });
+  Order.find()
+    .sort({ _id: -1 })
+    .then((response) => {
+      res.json({
+        response: true,
+        datas: response,
+      });
+    });
 };
+
+
+const vieworder = (req,res) => {
+  Order.findById(req.params.id).populate('user_id',{password:0,createdAt:0,updatedAt:0}).populate('courier_id')
+  .then(response=>{
+    res.json({
+      response:true,
+      data:response
+    })
+  })
+}
 
 
 // PAY ON DELIVERY
@@ -164,6 +180,30 @@ const get_web_user_order_details = (req,res) => {
   })
 }
 
+const update_order_status = (req,res) => {
+  // try{
+    Order.findByIdAndUpdate(req.body.id,req.body)
+    .then(response=>{
+      res.json({
+        response:true
+      })
+    })
+    .catch(err=>{
+      res.json({
+        response:false,
+        message:'error_query'
+      })
+    })
+  // }catch(e){
+  //   res.json({
+  //     response:false,
+  //     message:'error'
+  //   })
+  // }
+
+
+}
+
 module.exports = {
-  index,payondelivery,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details
+  index,vieworder,payondelivery,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
 };

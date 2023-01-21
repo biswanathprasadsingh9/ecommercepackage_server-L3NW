@@ -1198,6 +1198,26 @@ const dummyentry = (req,res) => {
 }
 
 
+
+
+const searchproduct_byname = (req,res) => {
+
+
+  // Product.find({name:1,email:'111'})
+
+
+  // Product.find( { name : {$regex : req.body.name, $options : 'i' }, type: { $in: [ 'Configurable', 'Simple' ] } } ).select('name')
+  // .then(response=>{
+  //   res.json({
+  //     response:true,
+  //     datas:response
+  //   })
+  // })
+
+
+}
+
+
 module.exports = {
   index,
   singleproductinformation,
@@ -1222,5 +1242,6 @@ module.exports = {
   searchproduct,
   dummyentry,
   viewurl,
-  viewweb
+  viewweb,
+  searchproduct_byname
 };

@@ -355,13 +355,19 @@ const emailverification = (req,res) => {
 //GET ALL SHIPPING ADDRESS UNDER USER ID
 const getusershippingaddress = (req,res) => {
 
-  UserAddress.find({user_id:req.params.id})
-  .then(datas=>{
-    res.json({
-      response:true,
-      datas
+    UserAddress.find({user_id:req.params.id})
+    .then(datas=>{
+      res.json({
+        response:true,
+        datas
+      })
+    }).catch((ee)=>{
+      res.json({
+        response:false
+      })
     })
-  })
+
+
 
 
 }

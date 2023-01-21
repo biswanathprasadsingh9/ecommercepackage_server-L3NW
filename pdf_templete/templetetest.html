@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Print</title>
+        <style>
+        body {
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .invoice-main-head-left h3 {
+          font-size: 28px;
+          margin-top: 61px;
+          margin-bottom: 6px;
+          font-weight: 500;
+
+        }
+        .invoice-main-head-left p span {
+            font-weight: 700;
+        }
+        .invoice-main-head-left p {
+            margin: 0px;
+        }
+        .invoice-main-head-right p {
+            position: relative;
+            top: 30px;
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 7px
+        }
+        .invoice-main {
+            margin: 0 auto;
+            padding: 20px;
+            /* width: 60%; */
+        }
+        .invoice-main-head-left {
+            float: left;
+        }
+        .invoice-main-head-right {
+            text-align: right;
+        }
+        .invoice-table {
+            margin: 60px auto;
+            padding: 20px;
+            /* width: 60%; */
+        }
+        .invoice-table-head th {
+            /* border-bottom: 1px solid; */
+        }
+        .invoice-table table {
+            width: 100%;
+        }
+        th.qty {
+            width: 5%;
+            text-align: left;
+            color: #000;
+font-size: 18px;
+font-weight: 500;
+        }
+        th.desc {
+            width: 10%;
+            text-align: left;
+            color: #000;
+font-size: 18px;
+font-weight: 500;
+        }
+        th.pckg {
+            width: 10%;
+            text-align: left;
+            color: #000;
+font-size: 18px;
+font-weight: 500;
+        }
+        th.start-date {
+            width: 15%;
+            text-align: left;
+            color: #000;
+font-size: 18px;
+font-weight: 500;
+        }
+        th.end-date {
+            width: 15%;
+            text-align: left;
+            color: #000;
+font-size: 18px;
+font-weight: 500;
+        }
+
+
+        .price {
+            width: 7%;
+            text-align: right;
+            color: #000;
+font-size: 18px;
+font-weight: 500;
+}
+        .sutotl {
+            width: 7%;
+            text-align: right;
+            padding: 5px;
+            font-weight: 500;
+        }
+        .qty-tag {font-weight: 600;padding:10px 0;font-size: 16px;}
+        .desc-tag {font-weight: 600;padding:10px 0;font-size: 16px;}
+        .price-tag {text-align: right; font-weight: 600;padding:10px 0;font-size: 16px;}
+        .sutotl-tag {text-align: right; font-weight: 600; padding:10px 0;font-size: 16px;}
+        .pckg-tag {text-align: left; font-weight: 600;padding:10px 0;font-size: 16px;}
+        .start-date-tag {text-align: left; font-weight: 600;padding:10px 0;font-size: 16px;}
+        .end-date-tag {text-align: left; font-weight: 600;padding:10px 0;font-size: 16px;}
+        .invoice-table-second {
+            margin: -84px auto;
+            padding: 20px;
+            /* width: 96%; */
+        }
+        .invoice-table-second table {
+            width: 100%;
+            border-top: 2px solid #0495fd;
+            padding: 10px 0;
+        }
+        .due {
+            width: 40%;
+            text-align: left;
+            color: #bbb;
+            font-size: 15px;
+        }
+        .payment {
+            width: 30%;
+            text-align: left;
+            color: #bbb;
+            font-size: 15px;
+        }
+        .total {
+            width: 30%;
+            text-align: right;
+            color: rgb(22, 2, 2);
+            font-size: 15px;
+        }
+        .total-tag {
+          text-align: right;
+/* padding: 10px 2px; */
+font-size: 17px;
+font-weight: 500;
+color: #000000;
+line-height: 10px;
+        }
+        .due-tag {
+            padding: 10px 2px;
+            font-size: 30px;
+            font-weight: 600;
+        }
+        .payment-tag {
+            padding: 10px 2px;
+        }
+        td.payment-tag span {
+            font-weight: 700;
+        }
+        .message {
+          /* position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  right: 0; */
+        }
+        .message p {
+          font-size: 14px;
+font-weight: 400;
+        }
+        </style>
+    </head>
+    <body>
+        <section class="invoice-main">
+            <div class="invoice-first">
+                <div class="invoice-main-head-left">
+                    <img src="https://i.ibb.co/fM2sZzH/logo-b.png" width="500px" alt="ss">
+                    <h3>{{username}}</h3>
+                    <p> <b>Email:</b> {{useremail}}</p>
+                    <p> <b>Contact:</b> {{userphone}}</p>
+                    <p> <b>Location:</b> {{usercity}}, {{usercountry}} {{userpin}}</p>
+                    <p> <b>Address:</b> {{useraddress}}</p>
+                </div>
+                <div class="invoice-main-head-right">
+                    <p>Invoice No : <span>{{invoice_number}}</span></p>
+                    <p>Date : <span>{{packagestartdate}}</span></p>
+                    <br><br><br>
+                    <p> <b>emailextractoronline.com</b> </p>
+                    <p> info@emailextractoronline.com </p>
+                    <p> +9658745569 </p>
+                    <p> 2nd street, NY, USA, 758996  </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="invoice-table">
+            <table>
+                <tr class="invoice-table-head">
+                  <th class="qty">Qty</th>
+                  <th class="desc">Name</th>
+                  <th class="pckg">Type</th>
+                  <th class="start-date">Start Date</th>
+                  <th class="end-date">End Date</th>
+                  <th class="price">Price</th>
+                  <th class="sutotl">Subtotal</th>
+                </tr>
+                <tr>
+                  <td class="qty-tag">01</td>
+                  <td class="desc-tag">{{packagename}}</td>
+                  <th class="pckg-tag">{{packagetype}}</th>
+                  <th class="start-date-tag">{{packagestartdate}}</th>
+                  <th class="end-date-tag">{{packageenddate}}</th>
+                  <td class="price-tag">${{packageprice}}</td>
+                  <td class="sutotl-tag">${{packageprice}}</td>
+                </tr>
+            </table>
+        </section>
+
+        <section class="invoice-table-second">
+            <table>
+                <tr>
+                    <th class="payment"></th>
+                    <th class="due"></th>
+                    <th class="total"></th>
+                </tr>
+                <tr>
+                    <td class="payment-tag">
+                        <!-- <a>Account No : <span>12345</span></a> <br />
+                        <a>Account No : <span>12345</span></a> -->
+                    </td>
+                    <td class="due-tag">
+                        <!-- <a>May 30, 2021</a> -->
+                    </td>
+                    <td class="total-tag">
+                        <p> <b>Coupon:</b> ${{packagediscount}} </p>
+                        <p> <b>Tax:</b> $0 </p>
+
+                        <p style="    margin-top: 35px;
+    color: #0495fd;
+    font-weight: 600;
+    font-size: 30px;">  ${{packagetotalpaid}}</p>
+                    </td>
+                </tr>
+            </table>
+
+        </section>
+        <br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br>
+        
+
+        <section class="message">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </section>
+    </body>
+</html>

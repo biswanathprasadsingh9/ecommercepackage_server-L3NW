@@ -20,7 +20,10 @@ const OrderSchema = new Schema({
   payment_status:{
     type:String
   },
-
+  order_status:{
+    type:String,
+    default:'Pending'
+  },
   user_shipping_address:{
     type:Object
   },
@@ -49,6 +52,10 @@ const OrderSchema = new Schema({
     type:Object
   },
   shipping_note:{
+    type:String
+  },
+  courier_id:{type:mongoose.Schema.Types.ObjectId,ref:'Courier'},
+  courier_tracking_id:{
     type:String
   },
   // amount_shipping:{

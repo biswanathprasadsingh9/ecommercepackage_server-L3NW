@@ -164,6 +164,75 @@ const viewproduct =(req,res) => {
   // }
 }
 
+
+
+const testpdf = (req,res) => {
+  var pdf = require("pdf-creator-node");
+    // var pdf = require("../index");
+    var fs = require("fs");
+    var path = require("path");
+    // Read HTML Template
+    var html = fs.readFileSync(path.join(__dirname, "../pdf_templete/templetetest.html"), "utf8");
+
+    var options = {
+      format: "A3",
+      orientation: "portrait",
+      border: "10mm",
+    };
+
+    var users = [
+      {
+        name: "Shyam",
+        age: "26",
+      },
+      {
+        name: "Navjot",
+        age: "26",
+      },
+      {
+        name: "Vitthal",
+        age: "26",
+      },
+    ];
+
+
+    //INVOICE NUMBER
+    var d = new Date();
+    var n = d.valueOf();
+
+    var invoice_number = 'EX'+n;
+
+
+
+
+
+
+    var document = {
+      html: html,
+      data: {
+        invoice_number,
+        users: users,
+        name:'Biswnath Prasad Singh'
+      },
+      path: "./pdf/output.pdf",
+      type: "pdf", // "stream" || "buffer" || "" ("" defaults to pdf)
+    };
+
+    // console.log(document);
+    pdf
+    .create(document, options)
+    .then((as) => {
+      console.log(as);
+      res.json({
+        resonse:true,
+        as
+      })
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
 module.exports = {
-  navitems,flushCache,viewproduct
+  navitems,flushCache,viewproduct,testpdf
 };
