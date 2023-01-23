@@ -21,7 +21,6 @@ const index = (req, res) => {
     });
 };
 
-
 const vieworder = (req,res) => {
   Order.findById(req.params.id).populate('user_id',{password:0,createdAt:0,updatedAt:0}).populate('courier_id')
   .then(response=>{

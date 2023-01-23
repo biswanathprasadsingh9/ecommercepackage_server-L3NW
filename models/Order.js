@@ -54,9 +54,10 @@ const OrderSchema = new Schema({
   shipping_note:{
     type:String
   },
-  courier_id:{type:mongoose.Schema.Types.ObjectId,ref:'Courier'},
+  courier_id:{type:mongoose.Schema.Types.ObjectId,ref:'Courier',default:{}},
   courier_tracking_id:{
-    type:String
+    type:String,
+    default:''
   },
   // amount_shipping:{
   //   type:Number
