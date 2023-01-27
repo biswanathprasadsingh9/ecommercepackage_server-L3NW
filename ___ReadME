@@ -14,3 +14,15 @@ HTML Email templete
 https://github.com/leemunroe/responsive-html-email-template
 https://github.com/mailgun/transactional-email-templates
 https://github.com/ActiveCampaign/postmark-templates
+
+
+
+====URL to pdf
+https://www.npmjs.com/package/pdf-to-base64
+
+
+====Mongoose base64 store
+const albumSchema = new Schema({
+  name: String,
+  image: Buffer
+});

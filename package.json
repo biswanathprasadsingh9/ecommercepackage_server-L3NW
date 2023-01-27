@@ -48,6 +48,7 @@
     "path": "^0.12.7",
     "paypal-rest-sdk": "^1.8.1",
     "pdf-creator-node": "^2.3.5",
+    "pdf-to-base64": "^1.0.3",
     "portscanner": "^2.2.0",
     "pug": "^3.0.2",
     "puppeteer": "^19.4.0",

@@ -3457,6 +3457,13 @@ node-fetch@2.6.7, node-fetch@^2.6.0, node-fetch@^2.6.5, node-fetch@^2.6.7:
   dependencies:
     whatwg-url "^5.0.0"
 
+node-fetch@^2.2.0:
+  version "2.6.8"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.8.tgz#a68d30b162bc1d8fd71a367e81b997e1f4d4937e"
+  integrity sha512-RZ6dBYuj8dRSfxpUSu+NsdF1dpPpluJxwOp+6IoDp/sH2QNDSvurYsAa+F1WxY2RjA1iP93xhcsUoYbF2XBqVg==
+  dependencies:
+    whatwg-url "^5.0.0"
+
 node-fetch@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-3.3.0.tgz#37e71db4ecc257057af828d523a7243d651d91e4"
@@ -3831,6 +3838,13 @@ pdf-creator-node@^2.3.5:
   dependencies:
     handlebars "^4.7.7"
     html-pdf "^3.0.1"
+
+pdf-to-base64@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/pdf-to-base64/-/pdf-to-base64-1.0.3.tgz#58075407f5d8b0700c6bfc2143890262704e3ccb"
+  integrity sha512-hReb9RzE8/kZE9Sjq913XXg3t8tyNn4VyDFs3VfXtMEIr/IQlKih+Te8EakJTkps8HxjUlULM5007xkp/DXs/Q==
+  dependencies:
+    node-fetch "^2.2.0"
 
 pend@~1.2.0:
   version "1.2.0"

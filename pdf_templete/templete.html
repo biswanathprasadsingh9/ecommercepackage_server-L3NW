@@ -24,7 +24,7 @@
             position: relative;
             top: 30px;
             font-size: 17px;
-            font-weight: 600;
+            /* font-weight: 600; */
             line-height: 7px
         }
         .invoice-main {
@@ -39,7 +39,7 @@
             text-align: right;
         }
         .invoice-table {
-            margin: 60px auto;
+            margin: 100px 0px 0px 0px;
             padding: 20px;
             /* width: 60%; */
         }
@@ -48,6 +48,12 @@
         }
         .invoice-table table {
             width: 100%;
+        }
+        tr{
+          background-color: lightgray;
+        }
+        th{
+          padding: 10px
         }
         th.qty {
             width: 5%;
@@ -113,7 +119,7 @@ font-weight: 500;
         }
         .invoice-table-second table {
             width: 100%;
-            border-top: 2px solid #0495fd;
+            /* border-top: 2px solid #0495fd; */
             padding: 10px 0;
         }
         .due {
@@ -170,45 +176,46 @@ font-weight: 400;
         <section class="invoice-main">
             <div class="invoice-first">
                 <div class="invoice-main-head-left">
-                    <img src="https://i.ibb.co/fM2sZzH/logo-b.png" width="500px" alt="ss">
-                    <h3>{{username}}</h3>
-                    <p> <b>Email:</b> {{useremail}}</p>
-                    <p> <b>Contact:</b> {{userphone}}</p>
-                    <p> <b>Location:</b> {{usercity}}, {{usercountry}} {{userpin}}</p>
-                    <p> <b>Address:</b> {{useraddress}}</p>
+                    <img src="https://www.reactnodeecommerce.cloud/myimages/logo.png" width="267px" alt="ss" style="margin-bottom:64px">
+                    <p>John Doe</p>
+                    <p>650 Heavens way</p>
+                    <p>Ottawa, FL, 392892</p>
+                    <p>United States</p>
+                    <p>john@gmail.com</p>
+
+
                 </div>
                 <div class="invoice-main-head-right">
                     <p>Invoice No : <span>{{invoice_number}}</span></p>
                     <p>Date : <span>{{packagestartdate}}</span></p>
                     <br><br><br>
-                    <p> <b>emailextractoronline.com</b> </p>
-                    <p> info@emailextractoronline.com </p>
-                    <p> +9658745569 </p>
-                    <p> 2nd street, NY, USA, 758996  </p>
+                    <p>reactnodeecommerce.cloud</p>
+                    <p>info@reactnodeecommerce.cloud</p>
+                    <p>+123456789</p>
+                    <p>2nd street, NY, USA, 758996</p>
                 </div>
             </div>
         </section>
 
         <section class="invoice-table">
             <table>
-                <tr class="invoice-table-head">
-                  <th class="qty">Qty</th>
-                  <th class="desc">Name</th>
-                  <th class="pckg">Type</th>
-                  <th class="start-date">Start Date</th>
-                  <th class="end-date">End Date</th>
-                  <th class="price">Price</th>
-                  <th class="sutotl">Subtotal</th>
-                </tr>
-                <tr>
-                  <td class="qty-tag">01</td>
-                  <td class="desc-tag">{{packagename}}</td>
-                  <th class="pckg-tag">{{packagetype}}</th>
-                  <th class="start-date-tag">{{packagestartdate}}</th>
-                  <th class="end-date-tag">{{packageenddate}}</th>
-                  <td class="price-tag">${{packageprice}}</td>
-                  <td class="sutotl-tag">${{packageprice}}</td>
-                </tr>
+                <thead>
+                  <tr class="invoice-table-head">
+                    <th class="desc">Name</th>
+                    <th class="pckg">Price</th>
+                    <th class="start-date">Quantity</th>
+                    <th class="end-date">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="desc-tag">PetzLifeworld Planted Aquarium Colour Stainless Steel Diffuser with Free 2M Transparent Co2 Tube and Sucker and Check Valve (Steel</td>
+                    <td class="pckg-tag">₹1,200.00</td>
+                    <td class="start-date-tag">x 2</td>
+                    <td class="end-date-tag">₹100.00</td>
+                  </tr>
+                </tbody>
+
             </table>
         </section>
 

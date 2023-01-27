@@ -5,6 +5,8 @@ const { uuid } = require('uuidv4');
 const Order = require("../models/Order");
 const User = require("../models/User");
 const Cart = require("../models/Cart");
+const OrderTimeline = require("../models/OrderTimeline");
+
 
 const orderid = require('order-id')('key');
 
@@ -24,10 +26,17 @@ const index = (req, res) => {
 const vieworder = (req,res) => {
   Order.findById(req.params.id).populate('user_id',{password:0,createdAt:0,updatedAt:0}).populate('courier_id')
   .then(response=>{
-    res.json({
-      response:true,
-      data:response
+
+    OrderTimeline.find({order_id:response._id})
+    .then(timelines=>{
+      res.json({
+        response:true,
+        data:response,
+        timelines
+      })
     })
+
+
   })
 }
 
@@ -77,9 +86,17 @@ const payondelivery = (req,res) => {
 
           Order.create(tmp_data)
           .then(response=>{
-            res.json({
-              response:true,
-              order_id:tmp_data.order_id
+
+            var timeline_data={
+              order_id:response._id,
+              name:'1',
+            }
+            OrderTimeline.create(timeline_data)
+            .then(addq=>{
+              res.json({
+                response:true,
+                order_id:tmp_data.order_id
+              })
             })
           })
 
@@ -179,13 +196,43 @@ const get_web_user_order_details = (req,res) => {
   })
 }
 
+
+
+
+const generate_invoice = (req,res) => {
+  res.json({
+    response:true,
+    data:req.body
+  })
+}
+
+
+
+
+
 const update_order_status = (req,res) => {
   // try{
+
+   if(req.body.order_status===1){
+     console.log('generate invoice');
+   }
+
+
     Order.findByIdAndUpdate(req.body.id,req.body)
     .then(response=>{
-      res.json({
-        response:true
+
+
+      var timeline_data={
+        order_id:response._id,
+        name:req.body.order_status,
+      }
+      OrderTimeline.create(timeline_data)
+      .then(addq=>{
+        res.json({
+          response:true,
+        })
       })
+
     })
     .catch(err=>{
       res.json({
@@ -203,6 +250,28 @@ const update_order_status = (req,res) => {
 
 }
 
+const pdf_store_test = (req,res)=> {
+
+  const pdf2base64 = require('pdf-to-base64');
+pdf2base64("https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf")
+    .then(
+        (response) => {
+          res.json({
+            response:response
+          })
+            console.log(response); //cGF0aC90by9maWxlLmpwZw==
+        }
+    )
+    .catch(
+        (error) => {
+            console.log(error); //Exepection error....
+        }
+    )
+
+
+
+}
+
 module.exports = {
-  index,vieworder,payondelivery,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
+  index,vieworder,generate_invoice,pdf_store_test,payondelivery,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
 };

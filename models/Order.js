@@ -22,7 +22,7 @@ const OrderSchema = new Schema({
   },
   order_status:{
     type:String,
-    default:'Pending'
+    default:1
   },
   user_shipping_address:{
     type:Object
@@ -54,10 +54,13 @@ const OrderSchema = new Schema({
   shipping_note:{
     type:String
   },
-  courier_id:{type:mongoose.Schema.Types.ObjectId,ref:'Courier',default:{}},
+  courier_id:{type:mongoose.Schema.Types.ObjectId,ref:'Courier'},
   courier_tracking_id:{
     type:String,
     default:''
+  },
+  invoice_pdf:{
+    type:Buffer
   },
   // amount_shipping:{
   //   type:Number

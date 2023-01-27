@@ -6,7 +6,6 @@ const PDFController = require('../controllers/PDFController');
 
 
 router.get('/',OrderController.index);
-router.get('/:id',OrderController.vieworder);
 
 router.post('/payondelivery',OrderController.payondelivery);
 router.post('/payonpaypal',OrderController.payonpaypal);
@@ -17,6 +16,7 @@ router.get('/order_complete_view/:id',OrderController.order_complete_view);
 router.get('/generatepdftest',PDFController.index);
 router.get('/deletepdf',PDFController.deletepdf);
 
+router.get('/pdf_store_test',OrderController.pdf_store_test);
 
 
 router.get('/get_web_user_orderslist/:user_id',OrderController.get_web_user_orderslist);
@@ -25,5 +25,10 @@ router.get('/get_web_user_order_details/:order_id',OrderController.get_web_user_
 
 router.post('/update_order_status',OrderController.update_order_status);
 
+
+router.post('/generate_invoice',OrderController.generate_invoice);
+
+
+router.get('/:id',OrderController.vieworder);
 
 module.exports=router;
