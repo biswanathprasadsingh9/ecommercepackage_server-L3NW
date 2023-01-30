@@ -24,11 +24,17 @@ router.get('/get_web_user_order_details/:order_id',OrderController.get_web_user_
 
 
 router.post('/update_order_status',OrderController.update_order_status);
+router.post('/update_order_address',OrderController.update_order_address);
+
 
 
 router.post('/generate_invoice',OrderController.generate_invoice);
 
 
 router.get('/:id',OrderController.vieworder);
+
+
+router.get('/delete_single_timeline_item/:id',OrderController.delete_single_timeline_item);
+
 
 module.exports=router;

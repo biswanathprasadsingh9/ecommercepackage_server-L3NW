@@ -24,7 +24,7 @@ const index = (req, res) => {
 };
 
 const vieworder = (req,res) => {
-  Order.findById(req.params.id).populate('user_id',{password:0,createdAt:0,updatedAt:0}).populate('courier_id')
+  Order.findById(req.params.id).populate('user_id').populate('courier_id')
   .then(response=>{
 
     OrderTimeline.find({order_id:response._id})
@@ -38,6 +38,10 @@ const vieworder = (req,res) => {
 
 
   })
+
+
+
+
 }
 
 
@@ -250,6 +254,36 @@ const update_order_status = (req,res) => {
 
 }
 
+
+
+const update_order_address = (req,res) => {
+
+  console.log(req.body)
+
+  Order.findByIdAndUpdate(req.body._id,req.body)
+  .then(response=>{
+    var timeline_data={
+      order_id:response._id,
+      name:'address_updatedby_admin',
+    }
+    OrderTimeline.create(timeline_data)
+    .then(addq=>{
+      res.json({
+        response:true,
+      })
+    })
+
+  })
+  .catch(err=>{
+    res.json({
+      response:false,
+      message:'error_query'
+    })
+  })
+
+
+}
+
 const pdf_store_test = (req,res)=> {
 
   const pdf2base64 = require('pdf-to-base64');
@@ -272,6 +306,16 @@ pdf2base64("https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.
 
 }
 
+
+const delete_single_timeline_item = (req,res) => {
+  OrderTimeline.findByIdAndRemove(req.params.id)
+  .then(response=>{
+    res.json({
+      response:true
+    })
+  })
+}
+
 module.exports = {
-  index,vieworder,generate_invoice,pdf_store_test,payondelivery,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
+  index,delete_single_timeline_item,update_order_address,vieworder,generate_invoice,pdf_store_test,payondelivery,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
 };
