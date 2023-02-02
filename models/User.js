@@ -26,6 +26,13 @@ const UserSchema = new Schema({
     type:String,
     default:'User'
   },
+  status:{
+    type:Boolean,
+    default:true
+  },
+  created_by:{
+    type:String
+  },
   emailverification:{
     type:Boolean,
     default:false
@@ -52,6 +59,9 @@ const UserSchema = new Schema({
     type:String
   },
   pcitems:{ //all cart information
+    type:Object,
+  },
+  ipinfo:{
     type:Object,
   }
 },{timestamps:true})

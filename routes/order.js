@@ -35,6 +35,8 @@ router.get('/:id',OrderController.vieworder);
 
 
 router.get('/delete_single_timeline_item/:id',OrderController.delete_single_timeline_item);
+router.get('/delete_order/:id',OrderController.delete_order);
+
 
 
 module.exports=router;

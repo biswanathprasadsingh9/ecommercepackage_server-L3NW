@@ -27,26 +27,24 @@ var imagekit = new ImageKit({
 
 // INDEX
 const index = (req, res) => {
-  // var data={
-  //   name:'test',
-  //   email:'test@gmail.com'
-  // }
-  // User.create(data)
-  // .then(response=>{
-  //   console.log('111')
+
+  // var ss=emailsender.emailsendFunction('testemail','biswanathprasadsingh9@gmail.com',{name:'John Doe'});
+  // console.log(ss)
+
+  // User.updateMany({}, { status: true })
+  // .then(dqwdqwd=>{
+  //   console.log('success')
   // })
 
+  User.find()
+    .sort({ _id: -1 })
+    .then((response) => {
+      res.json({
+        response: true,
+        datas: response,
+      });
+    });
 
-  var ss=emailsender.emailsendFunction('testemail','biswanathprasadsingh9@gmail.com',{name:'John Doe'});
-  console.log(ss)
-
-  // .then(response=>{
-  //   console.log(response)
-  // })
-
-  res.json({
-    response:true
-  })
 };
 
 
@@ -80,8 +78,10 @@ const login_with_google = (req,res) => {
                 name:req.body.name,
                 email:req.body.email,
                 password:'google',
-                emailverificationcode:'1111',
+                emailverificationcode:'9856636',
                 emailverification:true,
+                created_by:'Google',
+                ipinfo:req.body.ipinfo,
                 image:{
                   fileId:response.fileId,
                   filePath:response.filePath,
@@ -144,6 +144,35 @@ const register = (req,res) => {
 
   var bodydata=req.body;
   bodydata.password=hash;
+  bodydata.created_by='user';
+
+  User.findOne({email:req.body.email},(err,doc)=>{
+    if(doc===null){
+      User.create(bodydata)
+      .then(response=>{
+        res.json({
+          response:true,
+          data:response,
+          message:'user_created'
+        })
+      })
+    }else{
+      res.json({
+        response:false,
+        message:'Email exist',
+      })
+    }
+  })
+}
+
+
+
+const register_fromadmin = (req,res) => {
+  var hash = bcrypt.hashSync(req.body.password, salt);
+
+  var bodydata=req.body;
+  bodydata.password=hash;
+  bodydata.emailverification=true;
 
   User.findOne({email:req.body.email},(err,doc)=>{
     if(doc===null){
@@ -655,8 +684,34 @@ const update_password_web = (req,res) => {
   })
 }
 
+const admin_view_user_details = (req,res) => {
+  User.findById(req.params.id,(err,doc)=>{
+    if(doc===undefined){
+      res.json({
+        response:false,
+      })
+    }else{
+      res.json({
+        response:true,
+        data:doc
+      })
+    }
+    console.log(doc)
+
+  })
+
+}
+
+const admin_delete_user_details = (req,res) => {
+  User.findByIdAndRemove(req.params.id)
+  .then(response=>{
+    res.json({
+      response:true
+    })
+  })
+}
 
 
 module.exports = {
-  index,forgotpassword,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments
+  index,admin_view_user_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments
 };

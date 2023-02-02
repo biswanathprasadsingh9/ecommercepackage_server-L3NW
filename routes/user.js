@@ -9,6 +9,11 @@ const upload = multer({});
 router.get('/',UserController.index);
 router.put('/:id',UserController.update);
 
+router.get('/admin_view_user_details/:id',UserController.admin_view_user_details);
+router.get('/admin_delete_user_details/:id',UserController.admin_delete_user_details);
+
+
+
 
 router.post('/update_password',UserController.update_password);
 router.post('/update_profile_picture',upload.single('image'),UserController.update_profile_picture);
@@ -21,6 +26,10 @@ router.post('/update_password_web',UserController.update_password_web);
 
 
 router.post('/register',UserController.register);
+
+router.post('/register_fromadmin',UserController.register_fromadmin);
+
+
 router.post('/login',UserController.login);
 
 router.post('/login_with_google',UserController.login_with_google);

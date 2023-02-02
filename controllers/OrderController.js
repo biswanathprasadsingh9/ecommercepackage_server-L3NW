@@ -204,10 +204,95 @@ const get_web_user_order_details = (req,res) => {
 
 
 const generate_invoice = (req,res) => {
-  res.json({
-    response:true,
-    data:req.body
+  // res.json({
+  //   response:true,
+  //   data:req.body
+  // })
+
+
+
+  //PDF GENERATE
+  var pdf = require("pdf-creator-node");
+  var fs = require("fs");
+  var path = require("path");
+  var html = fs.readFileSync(path.join(__dirname, "../pdf_templete/templete.html"), "utf8");
+
+  var options = {
+    format: "A4",
+    orientation: "portrait",
+    border: "10mm",
+    footer: {
+          height: "28mm",
+          contents: {
+              default: '<span style="float: right;font-size:11px">Page {{page}} of {{pages}}</span>',
+          }
+      }
+  };
+
+  var users = [
+    {
+      name: "Shyam",
+      age: "26",
+    },
+    {
+      name: "Navjot",
+      age: "26",
+    },
+    {
+      name: "Vitthal",
+      age: "26",
+    },
+  ];
+
+
+  //INVOICE NUMBER
+  var d = new Date();
+  var n = d.valueOf();
+
+  var invoice_number = 'EX'+n;
+
+
+  var document = {
+    html: html,
+    data: {
+      invoice_number,
+      users: users,
+      name:'Biswnath Prasad Singh'
+    },
+    path: "./pdf/output.pdf",
+    type: "pdf", // "stream" || "buffer" || "" ("" defaults to pdf)
+  };
+
+  console.log(document);
+  pdf
+  .create(document, options)
+  .then((resp) => {
+    console.log(resp);
+
+    // res.json({
+    //   response:true,
+    //   data:resp
+    // })
+    res.json({
+      response:true,
+      data:req.body
+    })
+
+
   })
+  .catch((error) => {
+    console.error(error);
+  });
+  //PDF GENERATE
+
+
+
+
+
+
+
+
+
 }
 
 
@@ -316,6 +401,16 @@ const delete_single_timeline_item = (req,res) => {
   })
 }
 
+const delete_order = (req,res) => {
+  Order.findByIdAndRemove(req.params.id)
+  .then(response=>{
+    res.json({
+      response:true
+    })
+  })
+}
+
+
 module.exports = {
-  index,delete_single_timeline_item,update_order_address,vieworder,generate_invoice,pdf_store_test,payondelivery,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
+  index,delete_single_timeline_item,delete_order,update_order_address,vieworder,generate_invoice,pdf_store_test,payondelivery,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
 };
