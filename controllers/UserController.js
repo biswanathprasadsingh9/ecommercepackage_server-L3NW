@@ -6,14 +6,16 @@ var _ = require('lodash');
 const imageToBase64 = require('image-to-base64');
 var calculateTax = require("./calculateTax");
 const { uuid } = require('uuidv4');
-
+var mongoose = require('mongoose');
 
 const User = require("../models/User");
 const UserAddress = require("../models/UserAddress");
 const UserShippingMethod = require("../models/UserShippingMethod");
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
+const LoginRecord = require("../models/LoginRecord");
 const UserShippingAdditionalComments = require("../models/UserShippingAdditionalComments");
+const Order = require("../models/Order");
 
 
 
@@ -120,10 +122,16 @@ const login_with_google = (req,res) => {
 
       User.findOne({email:req.body.email})
       .then(response=>{
-        res.json({
-          response:true,
-          data:response
+
+        LoginRecord.create({user_id:response._id,ipinfo:req.body.ipinfo})
+        .then(resa=>{
+          res.json({
+            response:true,
+            data:response
+          })
         })
+
+
       })
 
     }
@@ -280,11 +288,19 @@ const loginadmin = (req,res) => {
         if(match){
 
           if(doc.type==='Admin'){
-            res.json({
-              response:true,
-              data:doc,
-              message:'Login Success'
+
+
+            LoginRecord.create({user_id:doc._id,ipinfo:req.body.ipinfo})
+            .then(resa=>{
+              res.json({
+                response:true,
+                data:doc,
+                message:'Login Success'
+              })
             })
+
+
+
           }else{
             res.json({
               response:false,
@@ -327,11 +343,15 @@ const login = (req,res) => {
 
           console.log(_.omit(doc, ['password']))
 
-          res.json({
-            response:true,
-            data:_.omit(doc, ['password']),
-            message:'Login Success'
+          LoginRecord.create({user_id:doc._id,ipinfo:req.body.ipinfo})
+          .then(resa=>{
+            res.json({
+              response:true,
+              data:_.omit(doc, ['password']),
+              message:'Login Success'
+            })
           })
+
 
         }else{
           res.json({
@@ -711,7 +731,104 @@ const admin_delete_user_details = (req,res) => {
   })
 }
 
+const admin_view_user_login_details =(req,res)=> {
+  LoginRecord.find({user_id:req.params.user_id})
+  .sort({ _id: -1 })
+  .then(datas=>{
+    res.json({
+      response:true,
+      datas
+    })
+  })
+}
+
+const admin_view_user_cart_details =(req,res)=> {
+  Cart.find({user_id:req.params.user_id})
+  .sort({ _id: -1 })
+  .then(datas=>{
+    res.json({
+      response:true,
+      datas
+    })
+  })
+}
+
+const admin_view_user_order_details =(req,res)=> {
+  Order.find({user_id:req.params.user_id})
+  .sort({ _id: -1 })
+  .then(datas=>{
+    res.json({
+      response:true,
+      datas
+    })
+  })
+}
+
+const admin_view_user_payment_history = async (req,res)=> {
+    res.json({
+      response:true,
+
+    })
+}
+
+const admin_view_user_dashboard_details = async (req,res) => {
+
+  res.json({
+    response:true,
+    data:{
+      total_logins:await LoginRecord.countDocuments({user_id:req.params.user_id}),
+      total_cart:await Cart.countDocuments({user_id:req.params.user_id}),
+      total_order:await Order.countDocuments({user_id:req.params.user_id}),
+      total_buy_amount: await Order.aggregate([ { $match: {user_id:new mongoose.Types.ObjectId(req.params.user_id)} }, { $group: { _id: "$user_id", TotalSum: { $sum: "$amount_total_final" } } } ])
+    }
+
+  })
+
+}
+
+const login_as_user_step1 = (req,res) => {
+
+  var uuids=uuid();
+
+  // User.findById(req.params.user_id)
+  // .then(response=>{
+  //
+  // })
+  User.findByIdAndUpdate(req.params.user_id,{$set:{uniq_login_id_admin:uuids}})
+  .then(response=>{
+    res.json({
+      response:true,
+      uuid:uuids
+    })
+  })
+}
+
+const login_as_user_step2 =(req,res) => {
+  User.findOne({uniq_login_id_admin:req.params.uniqid})
+  .then(data=>{
+    if(data===null){
+      res.json({
+        response:false
+      })
+    }else{
+      User.findByIdAndUpdate(data._id,{$set:{uniq_login_id_admin:''}})
+      .then(response=>{
+
+         User.findById(data._id)
+         .then(userdata=>{
+           res.json({
+             response:true,
+             data:userdata
+           })
+         })
+
+      })
+    }
+  })
+}
+
+
 
 module.exports = {
-  index,admin_view_user_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments
+  index,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,login_as_user_step1,login_as_user_step2
 };

@@ -346,7 +346,15 @@ address{
 
 
 b{
-  font-weight: 500;
+  font-weight: bolder;
+}
+
+.sspou{
+  font-size: 6px;
+    position: absolute;
+    top: 70px;
+    right: 9px;
+    font-weight: 700;
 }
 
         </style>
@@ -359,7 +367,9 @@ b{
               <img src="https://www.reactnodeecommerce.cloud/myimages/logo.png" width="180px" alt="ss" >
             </div>
             <div class="col-md-6 mb-30m text_invoice">
-              <h1>Invoice</h1>
+              <h1>Invoice
+              </h1>
+              <span class="sspou">Tax Invoice/Bill of Supply/Cash Memo (Original for Recipent)</span>
             </div>
             <br />
             <br />
@@ -372,10 +382,10 @@ b{
             </div>
             <div class="col-md-5 info_4585">
               <div class="col-md-6">
-                <p class="invoice-number float-right"><b>Invoice No: </b>#935648</p>
+                <p class="invoice-number float-right"><b>Invoice No: </b>#{{invoicedata.invoice_number}}</p>
               </div>
               <div class="col-md-6 ">
-                <p class="invoice-number float-right"><b>Date: </b>24/07/2022</p>
+                <p class="invoice-number float-right"><b>Date: </b>{{invoicedata.order_date}}</p>
               </div>
 
             </div>
@@ -389,13 +399,19 @@ b{
       <div  class="invoice-main">
           <div class="invoice-left col-md-6"><b>Invoiced To:</b>
             <address>
-              Alex Farnandes<br>
-              alex@gmail.com<br>
-              9658668475,9658669652<br>
-              Odisha, India<br>
-              Bhubaneswar, 754225<br>
-              A/E-1171, Kapilprasad1, Bhimatangi1
+              {{invoicedata.invoice_user_info.name}}<br>
+              {{invoicedata.invoice_user_info.email}}<br>
+              {{invoicedata.invoice_user_info.phone}}<br>
+              {{invoicedata.invoice_user_info.addr1}}<br>
+              {{invoicedata.invoice_user_info.addr2}}<br>
+              {{invoicedata.invoice_user_info.addr3}}<br>
             </address>
+
+            <address>
+              <b>Order Number:</b> {{invoicedata.order_id}}<br>
+              <b>Order Date:</b> {{invoicedata.order_date}}<br>
+            </address>
+
           </div>
           <div class="invoice-right col-md-6"><b>Pay To:</b><address>Invce Inc<br>4510 E 96th St, Indianapolis,<br>IN 46240, United States<br>info@invce.com</address></div>
       </div>
@@ -413,366 +429,14 @@ b{
           </tr>
         </thead>
         <tbody>
+          {{#each invoicedata.products}}
           <tr>
-            <td>Automotive Tap</td>
+            <td>{{this.name}}</td>
             <td>$60.00</td>
             <td>1</td>
             <td>$60.00</td>
           </tr>
-          <!-- <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr>
-          <tr>
-            <td>Automotive Tap</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
-          </tr>
-          <tr>
-            <td>Wheal Jack</td>
-            <td>$45.00</td>
-            <td>1</td>
-            <td>$45.00</td>
-          </tr>
-          <tr>
-            <td>White Gum Teap</td>
-            <td>$10.00</td>
-            <td>5</td>
-            <td>$50.00</td>
-          </tr> -->
+          {{/each}}
         </tbody>
       </table>
     </div>

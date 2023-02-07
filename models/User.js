@@ -63,6 +63,9 @@ const UserSchema = new Schema({
   },
   ipinfo:{
     type:Object,
+  },
+  uniq_login_id_admin:{
+    type:String,
   }
 },{timestamps:true})
 

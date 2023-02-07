@@ -1,13 +1,13 @@
 const response = require("express");
 const { uuid } = require('uuidv4');
-
+const pdf2base64 = require('pdf-to-base64');
 
 const Order = require("../models/Order");
 const User = require("../models/User");
 const Cart = require("../models/Cart");
 const OrderTimeline = require("../models/OrderTimeline");
 
-
+const fs = require('fs');
 const orderid = require('order-id')('key');
 
 
@@ -204,12 +204,7 @@ const get_web_user_order_details = (req,res) => {
 
 
 const generate_invoice = (req,res) => {
-  // res.json({
-  //   response:true,
-  //   data:req.body
-  // })
-
-
+  console.log(req.body)
 
   //PDF GENERATE
   var pdf = require("pdf-creator-node");
@@ -228,38 +223,19 @@ const generate_invoice = (req,res) => {
           }
       }
   };
-
-  var users = [
-    {
-      name: "Shyam",
-      age: "26",
-    },
-    {
-      name: "Navjot",
-      age: "26",
-    },
-    {
-      name: "Vitthal",
-      age: "26",
-    },
-  ];
-
-
   //INVOICE NUMBER
-  var d = new Date();
-  var n = d.valueOf();
-
-  var invoice_number = 'EX'+n;
+  // var d = new Date();
+  // var n = d.valueOf();
+  //
+  // var invoice_number = 'EX'+n;
 
 
   var document = {
     html: html,
     data: {
-      invoice_number,
-      users: users,
-      name:'Biswnath Prasad Singh'
+      invoicedata:req.body,
     },
-    path: "./pdf/output.pdf",
+    path: `./pdf/invoice_${req.body.order_id}.pdf`,
     type: "pdf", // "stream" || "buffer" || "" ("" defaults to pdf)
   };
 
@@ -269,14 +245,42 @@ const generate_invoice = (req,res) => {
   .then((resp) => {
     console.log(resp);
 
-    // res.json({
-    //   response:true,
-    //   data:resp
-    // })
-    res.json({
-      response:true,
-      data:req.body
+    //convert pdf to base64
+    pdf2base64(`./pdf/invoice_${req.body.order_id}.pdf`)
+    .then((file64) => {
+
+
+        //update base64 pdf to database
+        Order.findByIdAndUpdate(req.body.id,{$set:{invoice_pdf:file64}})
+        .then(resupd=>{
+
+
+          //delete pdf file from server
+          fs.unlink(`./pdf/invoice_${req.body.order_id}.pdf`, function (err1) {
+               if (err1) {
+                   res.json({
+                     response:false,
+                   })
+               }else{
+                 res.json({
+                   response:true,
+                   data:req.body
+                 })
+               }
+           });
+
+        })
     })
+    .catch((errofile64r) => {
+      res.json({
+        response:false,
+      })
+    })
+
+
+
+
+
 
 
   })

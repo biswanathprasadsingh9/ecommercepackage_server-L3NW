@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const autoIncrement = require("mongoose-auto-increment");
 
-const OrderSchema = new Schema({
+const orderSchema = new Schema({
   is_ordersuccess_page_viewed:{
     type:Boolean,
     default:false,
@@ -60,7 +61,10 @@ const OrderSchema = new Schema({
     default:''
   },
   invoice_pdf:{
-    type:Buffer
+    type:String
+  },
+  invoice_number:{
+    type:Number
   },
   // amount_shipping:{
   //   type:Number
@@ -84,5 +88,43 @@ const OrderSchema = new Schema({
 
 },{timestamps:true})
 
-const Order = mongoose.model('Order',OrderSchema)
+
+
+// orderSchema.pre("save",function(next){
+//     if(this.isNew){
+//         this.constructor.find({}).then((result) => {
+//             console.log(result)
+//             this.id = result.length + 1;
+//             next();
+//           });
+//     }
+// })
+
+
+autoIncrement.initialize(mongoose.connection);
+orderSchema.plugin(autoIncrement.plugin, {
+  model: "Order", // collection or table name in which you want to apply auto increment
+  field: "invoice_number", // field of model which you want to auto increment
+  startAt: 215001, // start your auto increment value from 1
+  incrementBy: 1, // incremented by 1
+});
+
+
+
+
+
+const Order = mongoose.model('Order',orderSchema)
 module.exports = Order;
+
+
+
+
+
+// //for reset value
+// forreset = new Order();
+// forreset.save(function (err) {
+// forreset.nextCount(function(err, count) {
+//     forreset.resetCount(function(err, nextCount) {
+//     });
+// });
+// });
