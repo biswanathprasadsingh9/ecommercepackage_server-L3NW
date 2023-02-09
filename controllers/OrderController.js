@@ -136,11 +136,6 @@ const payonpaypal = (req,res) => {
 
 //VIEW ORDER DETAILS
 const view = (req,res) => {
-  // res.json({
-  //   response:true,
-  //   id:req.params.id
-  // })
-
   Order.findOne({order_id:req.params.order_id})
   .then(response=>{
       if(response===null){
@@ -154,15 +149,39 @@ const view = (req,res) => {
         })
       }
   })
-
-  // Order.findOne({_id:req.params.id})
-  // .then(response=>{
-  //   res.json({
-  //     response:true,
-  //     datas:response
-  //   })
-  // })
 }
+
+const vieworder_byorderid = (req,res) => {
+  // Order.findOne({order_id:req.params.order_id})
+  // .then(response=>{
+  //     if(response===null){
+  //       res.json({
+  //         response:false,
+  //       })
+  //     }else{
+  //       res.json({
+  //         response:true,
+  //         data:response
+  //       })
+  //     }
+  // })
+  Order.findOne({order_id:req.params.order_id}).populate('user_id').populate('courier_id')
+  .then(response=>{
+
+    OrderTimeline.find({order_id:response._id})
+    .then(timelines=>{
+      res.json({
+        response:true,
+        data:response,
+        timelines
+      })
+    })
+
+
+  })
+}
+
+
 
 
 const order_complete_view = (req,res) => {
@@ -306,6 +325,9 @@ const generate_invoice = (req,res) => {
 const update_order_status = (req,res) => {
   // try{
 
+
+  console.log(req.body)
+
    if(req.body.order_status===1){
      console.log('generate invoice');
    }
@@ -416,5 +438,5 @@ const delete_order = (req,res) => {
 
 
 module.exports = {
-  index,delete_single_timeline_item,delete_order,update_order_address,vieworder,generate_invoice,pdf_store_test,payondelivery,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
+  index,vieworder_byorderid,delete_single_timeline_item,delete_order,update_order_address,vieworder,generate_invoice,pdf_store_test,payondelivery,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
 };

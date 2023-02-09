@@ -33,6 +33,9 @@ router.post('/generate_invoice',OrderController.generate_invoice);
 
 router.get('/:id',OrderController.vieworder);
 
+router.get('/vieworder_byorderid/:order_id',OrderController.vieworder_byorderid);
+
+
 
 router.get('/delete_single_timeline_item/:id',OrderController.delete_single_timeline_item);
 router.get('/delete_order/:id',OrderController.delete_order);
