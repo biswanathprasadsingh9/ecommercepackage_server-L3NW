@@ -11,6 +11,11 @@ const fs = require('fs');
 const orderid = require('order-id')('key');
 
 
+// const stripe = require("stripe")(
+//   "pk_test_51MD8AXSIiOlaW5i1BefPtJmzjrHGK0Cr6r3XD96QDU3UKq2uSAv1HLGsvPEuEUP7GkGXROt825dPusxN8EE99Mab009ACcVmWX"
+// );
+const stripe = require('stripe')('sk_test_51MD8AXSIiOlaW5i1h6xvi2zT2cBrTXd29jAjtnRMzYjvdGfFx7O22pkkCiUgEWNcEHIIZX1SvFPzEdiqaPApXcyK007GtLW2ar')
+
 // INDEX
 const index = (req, res) => {
   Order.find()
@@ -131,6 +136,50 @@ const payonpaypal = (req,res) => {
 
 
 }
+
+// PAY ON STRIPE
+const payonstripe = async (req,res) => {
+
+  // var payment_secret_uuid=uuid();
+  //
+  //
+  // const session = await stripe.checkout.sessions.create({
+  //     payment_method_types: ["card"],
+  //     customer_email: req.body.email,
+  //     line_items: [
+  //       {
+  //         price_data: {
+  //           currency: "usd",
+  //           product_data: {
+  //             name: req.body.product,
+  //           },
+  //           unit_amount: req.body.totalamount * 100,
+  //         },
+  //         quantity: 1,
+  //         // description: 'My description ...',
+  //       },
+  //     ],
+  //     mode: "payment",
+  //     success_url: `http://localhost:3002/ea638decb4661519ea638decb46c8473a8061519ea638decb46c84/61519ea638decb46c8473/638decb46c8473a8061519ea638decb/${req.body.uuid}/38decb46c8473/638decb46c8473a8061519ea6`,
+  //     cancel_url: `http://localhost:3002/paymentfailed`,
+  //   });
+  //
+  //   res.redirect(303, session.url);
+
+
+  User.findByIdAndUpdate(req.body.user_id,{$set:{psuuid:payment_secret_uuid,pcitems:req.body}}) //update payment secret code under user
+  .then(user_update=>{
+    res.json({
+      response:true,
+      uuid:payment_secret_uuid,
+      datas:req.body
+    })
+  })
+
+
+}
+
+
 
 
 
@@ -438,5 +487,5 @@ const delete_order = (req,res) => {
 
 
 module.exports = {
-  index,vieworder_byorderid,delete_single_timeline_item,delete_order,update_order_address,vieworder,generate_invoice,pdf_store_test,payondelivery,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
+  index,vieworder_byorderid,delete_single_timeline_item,delete_order,update_order_address,vieworder,generate_invoice,pdf_store_test,payondelivery,payonstripe,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
 };

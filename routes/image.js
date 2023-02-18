@@ -8,6 +8,13 @@ const upload = multer({});
 
 router.get('/',ImageController.index);
 router.post('/',upload.single('image'),ImageController.store);
-router.patch('/:fileId/:id',ImageController.remove);
+router.post('/uploadwithoutsave',upload.single('image'),ImageController.uploadwithoutsave);
+
+
+router.get('/:fileId/:id',ImageController.remove);
+
+router.get('/deletenow/deleteFile/:id',ImageController.deleteFile);
+
+
 
 module.exports=router;

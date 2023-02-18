@@ -1,42 +1,182 @@
-exports.emailsendFunction = function(testemail,emailto,locals){
-  // console.log(args)
-  const nodemailer = require('nodemailer');
-  const Email = require('email-templates');
+const response = require("express");
+var mongoose = require('mongoose');
 
-  locals.logo='https://i.ibb.co/PNTZ0c2/logo.png'
-  locals.year='2023';
+const EmailSendList = require("../models/EmailSendList");
 
 
-  const transporter = nodemailer.createTransport({
-    service: process.env.EMAIL_SERVICE,
-    host: process.env.EMAIL_HOST,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-      }
-    });
-    const email = new Email({
-    transport: transporter,
-    send: true,
-    preview: false,
+function emailsendFunction(email_templete,email_to,locals,email_name,want_to_store,user_id) {
+  return new Promise((Resolve, reject) => {
+
+
+
+      var json={}
+      // console.log(args)
+      const nodemailer = require('nodemailer');
+      const Email = require('email-templates');
+
+      // locals.year='2023';
+      locals.mainfooter='www.reactnodeecommerce.cloud | 2023';
+      locals.mainfooter_link='https://www.reactnodeecommerce.cloud';
+      locals.footer_address1='Company Inc, 3 Abbey Road, San Francisco CA 94102';
+      locals.footer_address2='2023';
+      locals.footer_unsubscribe=`Don't like these emails`;
+
+
+
+
+      const transporter = nodemailer.createTransport({
+        service: process.env.EMAIL_SERVICE,
+        host: process.env.EMAIL_HOST,
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+          }
+        });
+        const email = new Email({
+        transport: transporter,
+        send: true,
+        preview: false,
+      });
+
+       email.send({
+            template: email_templete,
+            message: {
+              from:process.env.EMAIL_FROM+' '+process.env.EMAIL_USER,
+              to:email_to,
+            },
+            locals: locals
+        }).then(response=>{
+          // console.log(response);
+
+          var email_data={
+            email_to:email_to,
+            email_from:process.env.EMAIL_USER,
+            email_subject:response.originalMessage.subject,
+            email_body:response.originalMessage.html,
+            status:true,
+            email_name:email_name
+          }
+          if(user_id){
+            email_data.user_id=user_id
+          }
+
+          if(want_to_store){
+            EmailSendList.create(email_data)
+            .then(dqwd=>{
+              console.log('saved_in_db');
+            })
+          }
+
+
+          json={
+            response:true,
+            data:response.originalMessage
+          }
+          Resolve(json);
+
+        }).catch(err=>{
+
+          var email_data={
+            email_to:email_to,
+            email_from:process.env.EMAIL_USER,
+            email_subject:'-',
+            email_body:'-',
+            status:false,
+            email_name:email_name
+          }
+          if(user_id){
+            email_data.user_id=user_id
+          }
+
+          if(want_to_store){
+            EmailSendList.create(email_data)
+            .then(dqwd=>{
+              console.log('saved_in_db');
+            })
+          }
+
+
+          json={
+            response:false
+          }
+          Resolve(json);
+
+        })
+        return json;
+
+
+
   });
+}
 
-   email.send({
-        template: testemail,
-        message: {
-          from:process.env.EMAIL_FROM+' '+process.env.EMAIL_USER,
-          to:emailto,
-        },
-        locals: locals
-    }).then(response=>{
-      console.log('email_send');
-      // res.json({
-      //   response:true,
-      //   message:'send',
-      //   res:response
-      // })
-    });
-
-
-  return 'success';
+module.exports = {
+  emailsendFunction: emailsendFunction,
 };
+
+
+
+
+
+
+
+
+
+// exports.emailsendFunction = function(email_templete,email_to,locals){
+//
+//   var json={}
+//   // console.log(args)
+//   const nodemailer = require('nodemailer');
+//   const Email = require('email-templates');
+//
+//   // locals.year='2023';
+//   locals.mainfooter='www.reactnodeecommerce.cloud | 2023';
+//   locals.mainfooter_link='https://www.reactnodeecommerce.cloud';
+//   locals.footer_address1='Company Inc, 3 Abbey Road, San Francisco CA 94102';
+//   locals.footer_address2='2023';
+//   locals.footer_unsubscribe=`Don't like these emails`;
+//
+//
+//
+//
+//   const transporter = nodemailer.createTransport({
+//     service: process.env.EMAIL_SERVICE,
+//     host: process.env.EMAIL_HOST,
+//     auth: {
+//       user: process.env.EMAIL_USER,
+//       pass: process.env.EMAIL_PASS
+//       }
+//     });
+//     const email = new Email({
+//     transport: transporter,
+//     send: true,
+//     preview: false,
+//   });
+//
+//    email.send({
+//         template: email_templete,
+//         message: {
+//           from:process.env.EMAIL_FROM+' '+process.env.EMAIL_USER,
+//           to:email_to,
+//         },
+//         locals: locals
+//     }).then(response=>{
+//       // console.log(response);
+//       json={
+//         response:true,
+//         data:response
+//       }
+//       // return json;
+//       // res.json({
+//       //   response:true,
+//       //   message:'send',
+//       //   res:response
+//       // })
+//     }).catch(err=>{
+//       json={
+//         response:false
+//       }
+//     })
+//     return json;
+//
+//   // return 'success';
+// };

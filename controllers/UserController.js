@@ -16,7 +16,7 @@ const Product = require("../models/Product");
 const LoginRecord = require("../models/LoginRecord");
 const UserShippingAdditionalComments = require("../models/UserShippingAdditionalComments");
 const Order = require("../models/Order");
-
+const EmailSendList = require("../models/Order");
 
 
 const ImageKit = require("imagekit");
@@ -30,8 +30,11 @@ var imagekit = new ImageKit({
 // INDEX
 const index = (req, res) => {
 
-  // var ss=emailsender.emailsendFunction('testemail','biswanathprasadsingh9@gmail.com',{name:'John Doe'});
-  // console.log(ss)
+  emailsender.emailsendFunction('testemail','biswanathprasadsingh9@gmail.com',{name:'John Doe'},'email_user_register',true,false)
+  .then(response=>{
+    console.log(response)
+  })
+
 
   // User.updateMany({}, { status: true })
   // .then(dqwdqwd=>{
@@ -50,7 +53,16 @@ const index = (req, res) => {
 };
 
 
-
+const admin_view_all_emails = (req,res) => {
+  EmailSendList.find()
+    .sort({ _id: -1 })
+    .then((response) => {
+      res.json({
+        response: true,
+        datas: response,
+      });
+    });
+}
 
 
 
@@ -93,10 +105,15 @@ const login_with_google = (req,res) => {
               //create user
               User.create(tmp_data)
               .then(rdata=>{
-                res.json({
-                  response:true,
-                  data:rdata
+
+                LoginRecord.create({user_id:rdata._id,ipinfo:req.body.ipinfo})
+                .then(resa=>{
+                  res.json({
+                    response:true,
+                    data:rdata
+                  })
                 })
+
               })
           })
           .catch((error) => {
@@ -158,11 +175,17 @@ const register = (req,res) => {
     if(doc===null){
       User.create(bodydata)
       .then(response=>{
-        res.json({
-          response:true,
-          data:response,
-          message:'user_created'
+
+        LoginRecord.create({user_id:response._id,ipinfo:req.body.ipinfo})
+        .then(resa=>{
+          res.json({
+            response:true,
+            data:response,
+            message:'user_created'
+          })
         })
+
+
       })
     }else{
       res.json({
@@ -828,7 +851,19 @@ const login_as_user_step2 =(req,res) => {
 }
 
 
+const admin_view_all_loginrecords = (req,res) => {
+  LoginRecord.find().populate('user_id',['name'])
+    // .select({'user_id.name': 1})
+    .sort({ _id: -1 })
+    .then((response) => {
+      res.json({
+        response: true,
+        datas: response,
+      });
+    });
+}
+
 
 module.exports = {
-  index,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,login_as_user_step1,login_as_user_step2
+  index,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,login_as_user_step1,login_as_user_step2
 };

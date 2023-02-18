@@ -16,7 +16,7 @@ const index = (req, res) => {
     .then((response) => {
       res.json({
         response: true,
-        data: response,
+        datas: response,
       });
     })
     .catch({});
@@ -26,12 +26,14 @@ const index = (req, res) => {
 const store = (req, res) => {
   const encoded = req.file.buffer.toString("base64");
 
+  console.log(req.body)
   imagekit
     .upload({
       file: encoded,
-      fileName: "products.jpg",
+      // fileName: "file.xlsx",
+      fileName:req.body.filename,
       useUniqueFileName: true,
-      folder: "product_images",
+      folder: "files",
     })
     .then((response) => {
       Image.create(response);
@@ -46,6 +48,35 @@ const store = (req, res) => {
       });
     });
 };
+
+
+//***STORE***
+const uploadwithoutsave = (req, res) => {
+  const encoded = req.file.buffer.toString("base64");
+
+  imagekit
+    .upload({
+      file: encoded,
+      // fileName: "file.xlsx",
+      fileName:req.body.filename,
+      useUniqueFileName: true,
+      folder: req.body.server_path,
+    })
+    .then((response) => {
+      res.json({
+        response: true,
+        data: response,
+      });
+    })
+    .catch((error) => {
+      res.json({
+        response: error,
+      });
+    });
+};
+
+
+
 
 //***DELETE***
 const remove = (req, res) => {
@@ -63,4 +94,21 @@ const remove = (req, res) => {
     });
 };
 
-module.exports = { index, store, remove };
+
+const deleteFile = (req,res) => {
+
+  console.log(req.params.id)
+
+  imagekit
+    .deleteFile(req.params.id)
+    .then((response) => {
+      res.json({
+        response: true,
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+module.exports = { index,uploadwithoutsave, store, remove,deleteFile };

@@ -12,6 +12,10 @@ router.put('/:id',UserController.update);
 router.get('/admin_view_user_details/:id',UserController.admin_view_user_details);
 router.get('/admin_delete_user_details/:id',UserController.admin_delete_user_details);
 
+
+router.get('/admin_view_all_emails',UserController.admin_view_all_emails);
+
+
 router.get('/admin_view_user_login_details/:user_id',UserController.admin_view_user_login_details);
 router.get('/admin_view_user_cart_details/:user_id',UserController.admin_view_user_cart_details);
 router.get('/admin_view_user_order_details/:user_id',UserController.admin_view_user_order_details);
@@ -20,6 +24,10 @@ router.get('/admin_view_user_payment_history/:user_id',UserController.admin_view
 
 router.get('/login_as_user_step1/:user_id',UserController.login_as_user_step1);
 router.get('/login_as_user_step2/:uniqid',UserController.login_as_user_step2);
+
+
+router.get('/admin_view_all_loginrecords',UserController.admin_view_all_loginrecords);
+
 
 
 

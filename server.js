@@ -47,6 +47,12 @@ const Seo = require("./routes/seo");
 const Order = require("./routes/order");
 const Countrystatecity = require("./routes/countrystatecity");
 const Courier = require("./routes/courier");
+const Contact = require("./routes/contact");
+const Image = require("./routes/image");
+const Blog = require("./routes/blog");
+
+
+
 
 
 
@@ -277,7 +283,7 @@ app.get("/", async (req, res) => {
 
 
 
-app.get("/emaileeee", (req, res) => {
+app.get("/sendemail", (req, res) => {
   const nodemailer = require('nodemailer');
   const Email = require('email-templates');
 
@@ -311,9 +317,6 @@ app.get("/emaileeee", (req, res) => {
         res:response
       })
     });
-
-
-
 });
 
 
@@ -630,90 +633,6 @@ app.get("/api/test-elementmatch", async (req, res) => {
 
 });
 
-// var subjects = require("subject-extractor")
-// console.log(subjects.extractAll("aquariumfishstore"));
-
-
-
-
-
-
-
-//whatsapp
-// const qrcode = require('qrcode-terminal');
-// const { Client } = require('whatsapp-web.js');
-// const client = new Client();
-//
-//
-// // app.get("/getwhatsappqr", async (req, res) => {
-//
-//
-//   client.on('qr', qr => {
-//       // qrcode.generate(qr, {small: true});
-//   });
-//
-//   client.on('ready', () => {
-//       console.log('Client is ready!');
-//
-//
-//    //    // Number where you want to send the message.
-//    // const number = "+919090202808";
-//    //
-//    //  // Your message.
-//    // const text = "Hey john";
-//    //
-//    //  // Getting chatId from the number.
-//    //  // we have to delete "+" from the beginning and add "@c.us" at the end of the number.
-//    // const chatId = number.substring(1) + "@c.us";
-//    //
-//    // // Sending message.
-//    // client.sendMessage(chatId, text);
-//
-//   });
-//
-//
-//   client.initialize();
-//
-// // })
-//
-//
-// app.get("/sendwhmsg", async (req, res) => {
-//
-//
-//
-//
-//       // Number where you want to send the message.
-//    const number = "+919090202808";
-//
-//     // Your message.
-//    const text = "Hey john";
-//
-//     // Getting chatId from the number.
-//     // we have to delete "+" from the beginning and add "@c.us" at the end of the number.
-//    const chatId = number.substring(1) + "@c.us";
-//
-//    // Sending message.
-//    client.sendMessage(chatId, text);
-//
-//    console.log('done')
-//
-// })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 app.listen(process.env.PORT || 5000, function () {
   console.log(
@@ -740,3 +659,6 @@ app.use("/api/seo", Seo);
 app.use("/api/order", Order);
 app.use("/api/countrystatecity", Countrystatecity);
 app.use("/api/courier", Courier);
+app.use("/api/contact", Contact);
+app.use("/api/image", Image);
+app.use("/api/blog", Blog);
