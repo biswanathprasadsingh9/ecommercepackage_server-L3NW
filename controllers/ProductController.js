@@ -1,6 +1,9 @@
 const response = require("express");
 var randomstring = require("randomstring");
 const _ = require("lodash");
+var SpellCorrector = require('spelling-corrector');
+var spellCorrector = new SpellCorrector();
+spellCorrector.loadDictionary();
 
 const Product = require("../models/Product");
 const Attribute = require("../models/Attribute");
@@ -282,16 +285,16 @@ const allproducts = async (req,res) => {
     })
 
 
-    Product.find(findQuery).distinct('myattributes.Size').count().exec(function (err, count) {
-        console.log('The number of unique users is: %d', count);
-    });
-
-    Product.find(findQuery)
-      .distinct('myattributes.Size')
-      .count(function (err, count) {
-          //The number of unique users is 'count'
-          // console.log(count)
-      })
+    // Product.find(findQuery).distinct('myattributes.Size').count().exec(function (err, count) {
+    //     console.log('The number of unique users is: %d', count);
+    // });
+    //
+    // Product.find(findQuery)
+    //   .distinct('myattributes.Size')
+    //   .count(function (err, count) {
+    //       //The number of unique users is 'count'
+    //       // console.log(count)
+    //   })
 
     // console.log(123)
 
@@ -320,6 +323,19 @@ const productsearch = async (req,res) => {
   // console.log(req.body.search_price_max);
 
 
+
+
+
+  // Product.find( {  name: { $all: str2 } , status:'Active',  type: { $in: [ 'Configurable', 'Simple','ConfigurableChildXX' ] } } )
+  //
+  // .then(response=>{
+  //   res.json({
+  //     response:true,
+  //     datas:response
+  //   })
+  // })
+
+
   ////PAGINATION////
   var page= req.body.pagination_page_number;
 
@@ -329,10 +345,12 @@ const productsearch = async (req,res) => {
 
 
   var searchQuery = {
+    // "name": { $all: [new RegExp('betta','i')] },
+
+
     "status":'Active',
     "type": { "$in": [ 'Configurable', 'Simple' ] },
     // "pricemain":{"$gte": 4000.11,"$lte": 99999},
-
     "pricemain":{"$gte": req.body.search_price_min,"$lte": req.body.search_price_max},
 
 
@@ -346,6 +364,26 @@ const productsearch = async (req,res) => {
     // "subcategory": ['Boys']
     // category: { "$in": ['Home and Living'] },
   };
+
+  // "name": ,
+
+  // SEARCH BY PRODUCT NAME
+  console.log(req.body.search_product_name)
+  if(!req.body.search_product_name){
+    var search_key = '';
+  }else{
+    var search_key = req.body.search_product_name;
+    // var search_key = 'betta red';
+
+    var search_key1=_.words(search_key, /[^, ]+/g);
+    var final_search_key=[];
+    search_key1.forEach((item, i) => {
+      final_search_key.push(new RegExp(item,'i'))
+    });
+    searchQuery.name={ $all: final_search_key };
+  }
+
+
 
   var search_main_attributes = req.body.search_main_attributes;
   var objectkeys=Object.keys(search_main_attributes);
@@ -384,6 +422,7 @@ const productsearch = async (req,res) => {
 
         res.json({
           response: true,
+          search_product_name:search_key,
           page_number: page+1,
           total_pages: Math.ceil(all_datas.length/ perPage),
           total_datas:all_datas.length,
@@ -1203,17 +1242,20 @@ const dummyentry = (req,res) => {
 const searchproduct_byname = (req,res) => {
 
 
-  // Product.find({name:1,email:'111'})
-
-
-  // Product.find( { name : {$regex : req.body.name, $options : 'i' }, type: { $in: [ 'Configurable', 'Simple' ] } } ).select('name')
+  // var str = req.body.search_keyword;
+  // var str1=_.words(str, /[^, ]+/g);
+  // var str2=[];
+  // str1.forEach((item, i) => {
+  //   str2.push(new RegExp(item,'i'))
+  // });
+  // Product.find( {  name: { $all: str2 } , status:'Active',  type: { $in: [ 'Configurable', 'Simple','ConfigurableChildXX' ] } } )
+  //
   // .then(response=>{
   //   res.json({
   //     response:true,
   //     datas:response
   //   })
   // })
-
 
 }
 
