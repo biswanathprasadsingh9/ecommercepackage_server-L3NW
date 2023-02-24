@@ -13,7 +13,6 @@ router.get('/admin_view_user_details/:id',UserController.admin_view_user_details
 router.get('/admin_delete_user_details/:id',UserController.admin_delete_user_details);
 
 
-router.get('/admin_view_all_emails',UserController.admin_view_all_emails);
 
 
 router.get('/admin_view_user_login_details/:user_id',UserController.admin_view_user_login_details);
@@ -27,6 +26,12 @@ router.get('/login_as_user_step2/:uniqid',UserController.login_as_user_step2);
 
 
 router.get('/admin_view_all_loginrecords',UserController.admin_view_all_loginrecords);
+router.get('/admin_delete_loginrecord/:id',UserController.admin_delete_loginrecord);
+
+
+router.get('/admin_view_all_emailrecords',UserController.admin_view_all_emailrecords);
+router.get('/admin_view_emailrecord/:id',UserController.admin_view_emailrecord);
+router.get('/admin_delete_emailrecord/:id',UserController.admin_delete_emailrecord);
 
 
 

@@ -16,7 +16,7 @@ const Product = require("../models/Product");
 const LoginRecord = require("../models/LoginRecord");
 const UserShippingAdditionalComments = require("../models/UserShippingAdditionalComments");
 const Order = require("../models/Order");
-const EmailSendList = require("../models/Order");
+const EmailSendList = require("../models/EmailSendList");
 
 
 const ImageKit = require("imagekit");
@@ -54,14 +54,14 @@ const index = (req, res) => {
 
 
 const admin_view_all_emails = (req,res) => {
-  EmailSendList.find()
-    .sort({ _id: -1 })
-    .then((response) => {
+  // EmailSendList.find()
+  //   .sort({ _id: -1 })
+  //   .then((response) => {
       res.json({
         response: true,
-        datas: response,
+        // datas: response,
       });
-    });
+    // });
 }
 
 
@@ -92,7 +92,7 @@ const login_with_google = (req,res) => {
                 name:req.body.name,
                 email:req.body.email,
                 password:'google',
-                emailverificationcode:'9856636',
+                emailverificationcode:Math.floor(100000 + Math.random() * 900000),
                 emailverification:true,
                 created_by:'Google',
                 ipinfo:req.body.ipinfo,
@@ -170,6 +170,10 @@ const register = (req,res) => {
   var bodydata=req.body;
   bodydata.password=hash;
   bodydata.created_by='user';
+  bodydata.emailverificationcode=Math.floor(100000 + Math.random() * 900000),
+  // bodydata.emailverification:true,
+
+  // Math.floor(100000 + Math.random() * 900000)
 
   User.findOne({email:req.body.email},(err,doc)=>{
     if(doc===null){
@@ -185,7 +189,7 @@ const register = (req,res) => {
           })
         })
 
-
+        
       })
     }else{
       res.json({
@@ -852,7 +856,7 @@ const login_as_user_step2 =(req,res) => {
 
 
 const admin_view_all_loginrecords = (req,res) => {
-  LoginRecord.find().populate('user_id',['name'])
+  LoginRecord.find().populate('user_id',['name','email'])
     // .select({'user_id.name': 1})
     .sort({ _id: -1 })
     .then((response) => {
@@ -864,6 +868,65 @@ const admin_view_all_loginrecords = (req,res) => {
 }
 
 
+const admin_delete_loginrecord = (req,res) => {
+  LoginRecord.findByIdAndRemove(req.params.id)
+  .then(rsponse=>{
+    res.json({
+      response:true
+    })
+  })
+  .catch(err=>{
+    res.json({
+      response:false
+    })
+  })
+}
+
+
+const admin_view_all_emailrecords = (req,res) => {
+  EmailSendList.find()
+    .populate('user_id',['_id','name','email'])
+    .select({email_to: 1, status:1, email_name:1, email_from:1, email_subject:1, createdAt:1, user_id:1})
+    .sort({ _id: -1 })
+    .then((response) => {
+      res.json({
+        response: true,
+        datas: response,
+      });
+    });
+}
+
+const admin_view_emailrecord = (req,res) => {
+  EmailSendList.findById(req.params.id)
+  .then(response=>{
+    res.json({
+      response:true,
+      data:response
+    })
+  }).catch(error=>{
+    res.json({
+      response:false,
+      error
+    })
+  })
+}
+
+const admin_delete_emailrecord = (req,res) => {
+  EmailSendList.findByIdAndRemove(req.params.id)
+  .then(response=>{
+    res.json({
+      response:true,
+    })
+  }).catch(error=>{
+    res.json({
+      response:false,
+      error
+    })
+  })
+}
+
+
+
 module.exports = {
-  index,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,login_as_user_step1,login_as_user_step2
+  index,admin_delete_emailrecord,admin_view_all_emailrecords,admin_view_emailrecord,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,login_as_user_step1,login_as_user_step2,admin_delete_loginrecord
 };

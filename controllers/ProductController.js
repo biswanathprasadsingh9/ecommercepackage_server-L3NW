@@ -7,6 +7,8 @@ spellCorrector.loadDictionary();
 
 const Product = require("../models/Product");
 const Attribute = require("../models/Attribute");
+const Cart = require("../models/Cart");
+
 
 
 const ImageKit = require("imagekit");
@@ -443,6 +445,10 @@ const productsearch = async (req,res) => {
             '6385f975f49b0800283f5d54': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$6385f975f49b0800283f5d54" },{ $sortByCount: "$6385f975f49b0800283f5d54" }]),
             '6386b78c6febbf3040fa71da': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$6386b78c6febbf3040fa71da" },{ $sortByCount: "$6386b78c6febbf3040fa71da" }]),
 
+            '63f7726843f7c73f60eaea10': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63f7726843f7c73f60eaea10" },{ $sortByCount: "$63f7726843f7c73f60eaea10" }]),
+            '63f7721243f7c73f60eaea0c': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63f7721243f7c73f60eaea0c" },{ $sortByCount: "$63f7721243f7c73f60eaea0c" }]),
+            '63f771c543f7c73f60eaea08': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63f771c543f7c73f60eaea08" },{ $sortByCount: "$63f771c543f7c73f60eaea08" }]),
+            
 
           },
           main_attributes:{ //---normal attribute
@@ -457,6 +463,13 @@ const productsearch = async (req,res) => {
             '63651e33838601459cb06b8b': _.compact(await query2.distinct("63651e33838601459cb06b8b")),
             '6385f975f49b0800283f5d54': _.compact(await query2.distinct("6385f975f49b0800283f5d54")),
             '6386b78c6febbf3040fa71da': _.compact(await query2.distinct("6386b78c6febbf3040fa71da")),
+
+            '63f7726843f7c73f60eaea10': _.compact(await query2.distinct("63f7726843f7c73f60eaea10")),
+            '63f7721243f7c73f60eaea0c': _.compact(await query2.distinct("63f7721243f7c73f60eaea0c")),
+            '63f771c543f7c73f60eaea08': _.compact(await query2.distinct("63f771c543f7c73f60eaea08")),
+
+
+
 
 
           }
@@ -976,6 +989,13 @@ const deleteproduct = async (req,res) => {
             message:'Failed'
           })
         }
+
+        Cart.deleteMany({ product_id: req.params.id })
+        .then(response=>{
+          console.log('removed from cart success')
+        })
+
+
         //delete images
         if(doc.images.length>0){
           doc.images.forEach((item, i) => {
