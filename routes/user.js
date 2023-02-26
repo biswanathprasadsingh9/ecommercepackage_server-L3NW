@@ -41,6 +41,7 @@ router.get('/admin_view_user_dashboard_details/:user_id',UserController.admin_vi
 
 
 
+router.post('/user_page_view',UserController.user_page_visit_tracking_store);
 
 
 

@@ -17,6 +17,8 @@ const LoginRecord = require("../models/LoginRecord");
 const UserShippingAdditionalComments = require("../models/UserShippingAdditionalComments");
 const Order = require("../models/Order");
 const EmailSendList = require("../models/EmailSendList");
+const PageVisitRecord = require("../models/PageVisitRecord");
+
 
 
 const ImageKit = require("imagekit");
@@ -189,7 +191,7 @@ const register = (req,res) => {
           })
         })
 
-        
+
       })
     }else{
       res.json({
@@ -926,7 +928,49 @@ const admin_delete_emailrecord = (req,res) => {
 }
 
 
+const user_page_visit_tracking_store = (req,res) => {
+
+  console.log(req.body)
+
+  if(req.body.user){
+    User.findById(req.body.user_id)
+    .then(response=>{
+
+      if(response.status){
+        PageVisitRecord.create(req.body)
+        .then(response=>{
+          res.json({
+            response:true,
+          })
+        })
+      }else{
+        res.json({
+          response:false,
+          message:'user_account_blocked'
+        })
+      }
+
+    }).catch(err=>{
+      res.json({
+        response:false,
+        message:'user_not_found'
+      })
+    })
+  }else{
+    PageVisitRecord.create(req.body)
+    .then(response=>{
+      res.json({
+        response:true,
+      })
+    })
+  }
+
+
+
+}
+
+
 
 module.exports = {
-  index,admin_delete_emailrecord,admin_view_all_emailrecords,admin_view_emailrecord,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,login_as_user_step1,login_as_user_step2,admin_delete_loginrecord
+  index,admin_delete_emailrecord,admin_view_all_emailrecords,admin_view_emailrecord,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,user_page_visit_tracking_store,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,login_as_user_step1,login_as_user_step2,admin_delete_loginrecord
 };

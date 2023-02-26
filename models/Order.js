@@ -7,11 +7,13 @@ const orderSchema = new Schema({
     type:Boolean,
     default:false,
   },
+  ipinfo:{
+    type:Object
+  },
   order_id:{
     type:String
   },
   user_id:{type:mongoose.Schema.Types.ObjectId,ref:'User'},
-
   paypal_payment_token:{
     type:String
   },
