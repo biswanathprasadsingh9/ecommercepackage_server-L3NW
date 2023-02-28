@@ -23,7 +23,7 @@ const dynamicdatas = async (req,res) => {
     category: await Category.find().select('_id name url status'),
     subcategory: await SubCategory.find().select('_id category name url status'),
     childcategory: await ChildCategory.find().select('_id category subcategory name url status'),
-    product_brand: await Brand.find().select('_id bran_dname'),
+    product_brand: await Brand.find().select('_id name'),
   })
 }
 

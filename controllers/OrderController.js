@@ -1,11 +1,13 @@
 const response = require("express");
 const { uuid } = require('uuidv4');
 const pdf2base64 = require('pdf-to-base64');
+var notificationList = require("./notificationList");
 
 const Order = require("../models/Order");
 const User = require("../models/User");
 const Cart = require("../models/Cart");
 const OrderTimeline = require("../models/OrderTimeline");
+const Notification = require("../models/Notification");
 
 const fs = require('fs');
 const orderid = require('order-id')('key');
@@ -100,6 +102,12 @@ const payondelivery = (req,res) => {
               order_id:response._id,
               name:'1',
             }
+
+            Notification.create({user_id:req.body.user_id,message:notificationList.notification('notification_new_order'),info_id:response._id,info_url:`/orders/${response._id}`})
+            .then(resasac=>{
+              console.log('created_notification');
+            })
+
             OrderTimeline.create(timeline_data)
             .then(addq=>{
               res.json({

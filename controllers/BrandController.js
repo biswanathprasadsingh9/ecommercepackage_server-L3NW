@@ -32,11 +32,11 @@ const store = (req, res) => {
     })
     .then((response) => {
       var tempData = {
-        brand_name: req.body.brand_name,
-        brand_url: req.body.brand_url,
-        brand_status: req.body.brand_status,
-        brand_image: response.filePath,
-        brand_image_id: response.fileId,
+        name: req.body.name,
+        url: req.body.url,
+        status: req.body.status,
+        image: response.filePath,
+        image_id: response.fileId,
       };
       Brand.create(tempData).then((reask) => {
         res.json({
@@ -60,9 +60,9 @@ const update = (req,res) => {
 
 
     var tempData={
-      brand_name: req.body.brand_name,
-      brand_url: req.body.brand_url,
-      brand_status: req.body.brand_status,
+      name: req.body.name,
+      url: req.body.url,
+      status: req.body.status,
     }
 
     Brand.findByIdAndUpdate(req.body._id,tempData)
@@ -75,7 +75,7 @@ const update = (req,res) => {
 
   }else{
     //DELETE IMAGE FIRST
-    imagekit.deleteFile(req.body.brand_image_id).then((response) => {
+    imagekit.deleteFile(req.body.image_id).then((response) => {
 
       //UPLAOD IN IMAGE KIT
       const encoded = req.file.buffer.toString("base64");
@@ -88,11 +88,11 @@ const update = (req,res) => {
         })
         .then((response) => {
           var tempData = {
-            brand_name: req.body.brand_name,
-            brand_url: req.body.brand_url,
-            brand_status: req.body.brand_status,
-            brand_image: response.filePath,
-            brand_image_id: response.fileId,
+            name: req.body.name,
+            url: req.body.url,
+            status: req.body.status,
+            image: response.filePath,
+            image_id: response.fileId,
           };
           //UPDATE IN DATABASE
           Brand.findByIdAndUpdate(req.body._id,tempData)
@@ -136,7 +136,7 @@ const deletefile = (req, res) => {
 
 const updatestatus = (req,res) => {
   var tempData={
-    brand_status:req.params.status==='Active'?'Active':'InActive'
+    status:req.params.status==='Active'?'Active':'InActive'
   }
   Brand.findByIdAndUpdate(req.params.id,tempData)
   .then(response=>{

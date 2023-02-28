@@ -11,6 +11,10 @@ const notificationSchema = new Schema({
   },
   info_url:{
     type:String
+  },
+  is_viewed:{
+    type:Boolean,
+    default:false
   }
 
   // ipinfo:{

@@ -1,7 +1,10 @@
 const response = require("express");
 
+var notificationList = require("./notificationList");
+
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
+const Notification = require("../models/Notification");
 
 const addcheckcart = (req,res) => {
   res.json({
@@ -48,28 +51,14 @@ const getcartitems = (req,res) => {
               Cart.findByIdAndUpdate(item._id,{$set:{ user_id:req.params.user_id}})
               .then(aasas=>{
                     if(resdata.length===i+1){
-                      callData123()
-                      // Cart.find({user_id:req.params.user_id})
-                      //   .sort({ _id: -1 })
-                      //   .populate('user_id',['name','email'])
-                      //   .populate({
-                      //     path: 'parent_product_id',
-                      //     select: 'url product_tax',
-                      //     populate: [
-                      //     {
-                      //       path: 'product_tax',
-                      //       model: 'Tax',
-                      //     }]
-                      //  })
-                      //   .populate('product_id',['name','sku','pricemain','stock','images','url','minimum_order','maximum_order'])
-                      //   // .sort({ _id: -1 })
-                      //   .then((response) => {
-                      //     res.json({
-                      //       response: true,
-                      //       datas: response,
-                      //     });
-                      //   });
+                      callData123();
                     }
+
+                    Notification.create({user_id:req.params.user_id,message:notificationList.notification('notification_new_cart_item'),info_id:aasas._id,info_url:`/carts/${aasas._id}`})
+                    .then(resasac=>{
+                      console.log('created_notification');
+                    })
+
               })
 
             }else{
@@ -77,7 +66,7 @@ const getcartitems = (req,res) => {
               .then(asa=>{
                 console.log('deleted_duplicate');
                 if(resdata.length===i+1){
-                  callData123()
+                  callData123();
                 }
 
               })
@@ -275,8 +264,15 @@ const store = (req,res) => {
         })
       }else{
         if(doc===null){
+
           Cart.create(req.body)
           .then(response=>{
+
+            Notification.create({user_id:req.body.user_id,message:notificationList.notification('notification_new_cart_item'),info_id:response._id,info_url:`/carts/${response._id}`})
+            .then(resasac=>{
+              console.log('created_notification');
+            })
+
             res.json({
               response:true
             })

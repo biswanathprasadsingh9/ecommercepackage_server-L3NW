@@ -9,6 +9,14 @@ const upload = multer({});
 router.get('/',UserController.index);
 router.put('/:id',UserController.update);
 
+router.get('/admin_all_notifications',UserController.admin_all_notifications);
+
+router.get('/admin_all_pagevisit_records',UserController.admin_all_pagevisit_records);
+router.get('/admin_clearall_pagevisit_records',UserController.admin_clearall_pagevisit_records);
+
+
+
+
 router.get('/admin_view_user_details/:id',UserController.admin_view_user_details);
 router.get('/admin_delete_user_details/:id',UserController.admin_delete_user_details);
 
@@ -26,6 +34,7 @@ router.get('/login_as_user_step2/:uniqid',UserController.login_as_user_step2);
 
 
 router.get('/admin_view_all_loginrecords',UserController.admin_view_all_loginrecords);
+router.get('/admin_clearall_loginrecords',UserController.admin_clearall_loginrecords);
 router.get('/admin_delete_loginrecord/:id',UserController.admin_delete_loginrecord);
 
 

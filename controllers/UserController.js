@@ -5,6 +5,7 @@ var emailsender = require("./emailsender");
 var _ = require('lodash');
 const imageToBase64 = require('image-to-base64');
 var calculateTax = require("./calculateTax");
+var notificationList = require("./notificationList");
 const { uuid } = require('uuidv4');
 var mongoose = require('mongoose');
 
@@ -18,6 +19,8 @@ const UserShippingAdditionalComments = require("../models/UserShippingAdditional
 const Order = require("../models/Order");
 const EmailSendList = require("../models/EmailSendList");
 const PageVisitRecord = require("../models/PageVisitRecord");
+const Notification = require("../models/Notification");
+
 
 
 
@@ -32,10 +35,10 @@ var imagekit = new ImageKit({
 // INDEX
 const index = (req, res) => {
 
-  emailsender.emailsendFunction('testemail','biswanathprasadsingh9@gmail.com',{name:'John Doe'},'email_user_register',true,false)
-  .then(response=>{
-    console.log(response)
-  })
+  // emailsender.emailsendFunction('testemail','biswanathprasadsingh9@gmail.com',{name:'John Doe'},'email_user_register',true,false)
+  // .then(response=>{
+  //   console.log(response)
+  // })
 
 
   // User.updateMany({}, { status: true })
@@ -107,6 +110,12 @@ const login_with_google = (req,res) => {
               //create user
               User.create(tmp_data)
               .then(rdata=>{
+
+
+                Notification.create({user_id:rdata._id,message:notificationList.notification('notification_new_user_register'),info_id:rdata._id,info_url:`/users/${rdata._id}`})
+                .then(resasac=>{
+                  console.log('created_notification');
+                })
 
                 LoginRecord.create({user_id:rdata._id,ipinfo:req.body.ipinfo})
                 .then(resa=>{
@@ -181,6 +190,11 @@ const register = (req,res) => {
     if(doc===null){
       User.create(bodydata)
       .then(response=>{
+
+        Notification.create({user_id:response._id,message:notificationList.notification('notification_new_user_register'),info_id:response._id,info_url:`/users/${response._id}`})
+        .then(resasac=>{
+          console.log('created_notification');
+        })
 
         LoginRecord.create({user_id:response._id,ipinfo:req.body.ipinfo})
         .then(resa=>{
@@ -964,13 +978,55 @@ const user_page_visit_tracking_store = (req,res) => {
       })
     })
   }
+}
+
+const admin_all_notifications = (req,res) => {
+  Notification.find()
+    .sort({ _id: -1 })
+    .populate('user_id','name email image.filePath')
+    .then((response) => {
+      res.json({
+        response: true,
+        datas: response,
+      });
+    });
+};
 
 
+const admin_all_pagevisit_records = (req,res) => {
+  PageVisitRecord.find()
+    .sort({ _id: -1 })
+    .populate('user_id','name email image.filePath')
+    .then((response) => {
+      res.json({
+        response: true,
+        datas: response,
+      });
+    });
+}
 
+const admin_clearall_pagevisit_records = (req,res) => {
+  PageVisitRecord.deleteMany({})
+  .then((response) => {
+    res.json({
+      response: true,
+      datas: response,
+    });
+  });
+}
+
+const admin_clearall_loginrecords = (req,res) => {
+  LoginRecord.deleteMany({})
+  .then((response) => {
+    res.json({
+      response: true,
+      datas: response,
+    });
+  });
 }
 
 
 
 module.exports = {
-  index,admin_delete_emailrecord,admin_view_all_emailrecords,admin_view_emailrecord,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,user_page_visit_tracking_store,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,login_as_user_step1,login_as_user_step2,admin_delete_loginrecord
+  index,admin_clearall_loginrecords,admin_clearall_pagevisit_records,admin_all_pagevisit_records,admin_delete_emailrecord,admin_all_notifications,admin_view_all_emailrecords,admin_view_emailrecord,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,user_page_visit_tracking_store,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,login_as_user_step1,login_as_user_step2,admin_delete_loginrecord
 };

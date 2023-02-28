@@ -435,6 +435,9 @@ const productsearch = async (req,res) => {
             min:all_datas.length>0?_.minBy(all_datas, function(o) { return o.price_lowest }).price_lowest:0,
           },
           count_attributes:{
+
+            product_brand: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$product_brand" },{ $sortByCount: "$product_brand" }]),
+
             category: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$category" },{ $sortByCount: "$category" }]),
             subcategory: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$subcategory" },{ $sortByCount: "$subcategory" }]),
             childcategory: await Product.aggregate([{ $match: searchQuery },{ $unwind: "$childcategory" },{ $sortByCount: "$childcategory" }]),
@@ -448,10 +451,10 @@ const productsearch = async (req,res) => {
             '63f7726843f7c73f60eaea10': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63f7726843f7c73f60eaea10" },{ $sortByCount: "$63f7726843f7c73f60eaea10" }]),
             '63f7721243f7c73f60eaea0c': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63f7721243f7c73f60eaea0c" },{ $sortByCount: "$63f7721243f7c73f60eaea0c" }]),
             '63f771c543f7c73f60eaea08': await Product.aggregate([{ $match: searchQuery },{ $unwind: "$63f771c543f7c73f60eaea08" },{ $sortByCount: "$63f771c543f7c73f60eaea08" }]),
-            
 
           },
           main_attributes:{ //---normal attribute
+            product_brand: _.compact(await query2.distinct("product_brand")),
             category: _.compact(await query2.distinct("category")),
             subcategory: _.compact(await query2.distinct("subcategory")),
             childcategory: _.compact(await query2.distinct("childcategory")),
