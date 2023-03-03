@@ -10,9 +10,15 @@ router.get('/',UserController.index);
 router.put('/:id',UserController.update);
 
 router.get('/admin_all_notifications',UserController.admin_all_notifications);
+router.get('/admin_setseen_notifications/:id',UserController.admin_setseen_notifications);
+
 
 router.get('/admin_all_pagevisit_records',UserController.admin_all_pagevisit_records);
 router.get('/admin_clearall_pagevisit_records',UserController.admin_clearall_pagevisit_records);
+
+
+router.get('/admin_all_cart_items',UserController.admin_all_cart_items);
+router.get('/admin_delete_items_from_cart/:id',UserController.admin_delete_items_from_cart);
 
 
 
