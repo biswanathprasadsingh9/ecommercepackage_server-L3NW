@@ -22,6 +22,7 @@ const index = (req, res) => {
 };
 
 const store = (req, res) => {
+
   const encoded = req.file.buffer.toString("base64");
   imagekit
     .upload({

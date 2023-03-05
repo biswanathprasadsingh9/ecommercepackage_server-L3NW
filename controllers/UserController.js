@@ -40,6 +40,12 @@ const index = (req, res) => {
   //   console.log(response)
   // })
 
+  // emailsender.emailsendFunction('user_send_email_verification_code','biswanathprasadsingh9@gmail.com',{emailverificationcode:'256314'},'email_user_email_verification_code',true,false)
+  // .then(response=>{
+  //   console.log(response)
+  // })
+
+
 
   // User.updateMany({}, { status: true })
   // .then(dqwdqwd=>{
@@ -111,12 +117,6 @@ const login_with_google = (req,res) => {
               User.create(tmp_data)
               .then(rdata=>{
 
-
-                Notification.create({user_id:rdata._id,message:notificationList.notification('notification_new_user_register'),info_id:rdata._id,info_url:`/users/${rdata._id}`})
-                .then(resasac=>{
-                  console.log('created_notification');
-                })
-
                 LoginRecord.create({user_id:rdata._id,ipinfo:req.body.ipinfo})
                 .then(resa=>{
                   res.json({
@@ -124,6 +124,13 @@ const login_with_google = (req,res) => {
                     data:rdata
                   })
                 })
+
+                Notification.create({user_id:rdata._id,message:notificationList.notification('notification_new_user_register'),info_id:rdata._id,info_url:`/users/${rdata._id}`})
+                .then(resasac=>{
+                  console.log('created_notification');
+                })
+
+
 
               })
           })
@@ -191,10 +198,6 @@ const register = (req,res) => {
       User.create(bodydata)
       .then(response=>{
 
-        Notification.create({user_id:response._id,message:notificationList.notification('notification_new_user_register'),info_id:response._id,info_url:`/users/${response._id}`})
-        .then(resasac=>{
-          console.log('created_notification');
-        })
 
         LoginRecord.create({user_id:response._id,ipinfo:req.body.ipinfo})
         .then(resa=>{
@@ -203,6 +206,19 @@ const register = (req,res) => {
             data:response,
             message:'user_created'
           })
+        })
+
+
+        Notification.create({user_id:response._id,message:notificationList.notification('notification_new_user_register'),info_id:response._id,info_url:`/users/${response._id}`})
+        .then(resasac=>{
+          console.log('created_notification');
+        })
+
+
+        //send email verification code email to users
+        emailsender.emailsendFunction('user_send_email_verification_code',response.email,{emailverificationcode:response.emailverificationcode},'email_user_email_verification_code',true,response._id)
+        .then(response=>{
+          console.log(response)
         })
 
 
@@ -216,6 +232,28 @@ const register = (req,res) => {
   })
 }
 
+
+const send_email_verification_code = (req,res) => {
+  User.findById(req.params.user_id)
+  .then(response=>{
+
+    emailsender.emailsendFunction('user_send_email_verification_code',response.email,{emailverificationcode:response.emailverificationcode},'email_user_email_verification_code',true,response._id)
+    .then(response=>{
+      res.json({
+        response:true
+      })
+    }).catch(err=>{
+      res.json({
+        response:false
+      })
+    })
+
+  }).catch(err=>{
+    res.json({
+      response:false
+    })
+  })
+}
 
 
 const register_fromadmin = (req,res) => {
@@ -913,7 +951,7 @@ const admin_view_all_emailrecords = (req,res) => {
 }
 
 const admin_view_emailrecord = (req,res) => {
-  EmailSendList.findById(req.params.id)
+  EmailSendList.findById(req.params.id).populate('user_id','name')
   .then(response=>{
     res.json({
       response:true,
@@ -1057,5 +1095,5 @@ const admin_delete_items_from_cart = (req,res) => {
 }
 
 module.exports = {
-  index,admin_delete_items_from_cart,admin_all_cart_items,admin_clearall_loginrecords,admin_clearall_pagevisit_records,admin_all_pagevisit_records,admin_delete_emailrecord,admin_all_notifications,admin_view_all_emailrecords,admin_view_emailrecord,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,admin_setseen_notifications,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,user_page_visit_tracking_store,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,login_as_user_step1,login_as_user_step2,admin_delete_loginrecord
+  index,send_email_verification_code,admin_delete_items_from_cart,admin_all_cart_items,admin_clearall_loginrecords,admin_clearall_pagevisit_records,admin_all_pagevisit_records,admin_delete_emailrecord,admin_all_notifications,admin_view_all_emailrecords,admin_view_emailrecord,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,admin_setseen_notifications,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,user_page_visit_tracking_store,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,login_as_user_step1,login_as_user_step2,admin_delete_loginrecord
 };

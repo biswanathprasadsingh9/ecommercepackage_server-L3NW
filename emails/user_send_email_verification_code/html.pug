@@ -322,19 +322,15 @@ table.body(role='presentation' border='0' cellpadding='0' cellspacing='0')
                       center Verify Its you
                     h2.names2 Hi there,
                     p
-                      | Sometimes you just want to send a simple HTML email with a simple design and clear call to action. This is it.
-                    table.btn.btn-primary(role='presentation' border='0' cellpadding='0' cellspacing='0')
-                      tbody
-                        tr
-                          td(align='left')
-                            table(role='presentation' border='0' cellpadding='0' cellspacing='0')
-                              tbody
-                                tr
-                                  td
-                                    a(href='http://htmlemail.io' target='_blank') Call To Action
+                      | Thank you for signing up for !{locals.websitename}, to get started, we need to verify your email address.
                     p
-                      | This is a really simple email template. Its sole purpose is to get the recipient to click the button with no distractions.
-                    p Good luck! Hope it works.
+                      | Please activate your account use this code below.
+                    h2
+                      b
+                        center 67689
+
+                    p If you have any questions about your account or any other matter, please feel free to contact us at
+                    a(href=`mailto:`+locals.helpemail) !{locals.helpemail}
           // END MAIN CONTENT AREA
         // END CENTERED WHITE CONTAINER
         // START FOOTER

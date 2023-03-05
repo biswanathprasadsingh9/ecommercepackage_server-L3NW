@@ -2,19 +2,19 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const BrandSchema = new Schema({
-  brand_name:{
+  name:{
     type:String
   },
-  brand_url:{
+  url:{
     type:String
   },
-  brand_status:{
+  status:{
     type:String
   },
-  brand_image:{
+  image:{
     type:String
   },
-  brand_image_id:{
+  image_id:{
     type:String
   },
 },{timestamps:true})

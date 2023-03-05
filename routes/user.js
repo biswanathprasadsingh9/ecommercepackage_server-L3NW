@@ -72,6 +72,10 @@ router.post('/update_password_web',UserController.update_password_web);
 
 router.post('/register',UserController.register);
 
+
+router.get('/send_email_verification_code/:user_id',UserController.send_email_verification_code);
+
+
 router.post('/register_fromadmin',UserController.register_fromadmin);
 
 
