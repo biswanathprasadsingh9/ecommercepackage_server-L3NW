@@ -11,6 +11,10 @@ head
     .names2{
      margin-bottom: 14px;
     }
+    .div56565{
+    background-color: antiquewhite;
+    padding: 17px;
+    }
     .myheading22 {
     margin-bottom: 9px;
     font-weight: 600;
@@ -330,24 +334,25 @@ table.body(role='presentation' border='0' cellpadding='0' cellspacing='0')
                     p
                       | We noticed your password for your account was recently changed.
                     br
-                    h3.myheading22 IP information
-                    p.mylineheight IP: !{locals.ipinfo.ipAddress}
-                    p.mylineheight Country: !{locals.ipinfo.countryName}
-                    p.mylineheight Region: !{locals.ipinfo.regionName}
-                    p.mylineheight City: !{locals.ipinfo.cityName}
-                    p.mylineheight ZIP: !{locals.ipinfo.zipCode}
-                    p.mylineheight Latitude: !{locals.ipinfo.latitude}
-                    p.mylineheight Longitude: !{locals.ipinfo.longitude}
+                    div.div56565
+                      h3.myheading22 IP information
+                      p.mylineheight IP: !{locals.ipinfo.ipAddress}
+                      p.mylineheight Country: !{locals.ipinfo.countryName}
+                      p.mylineheight Region: !{locals.ipinfo.regionName}
+                      p.mylineheight City: !{locals.ipinfo.cityName}
+                      p.mylineheight ZIP: !{locals.ipinfo.zipCode}
+                      p.mylineheight Latitude: !{locals.ipinfo.latitude}
+                      p.mylineheight Longitude: !{locals.ipinfo.longitude}
 
                     br
-
-                    h3.myheading22 Device information
-                    p.mylineheight Browser: !{locals.deviceinfo.browserName}
-                    p.mylineheight Device Type: !{locals.deviceinfo.deviceType}
-                    p.mylineheight Mobile Model: !{locals.deviceinfo.mobileModel}
-                    p.mylineheight Mobile Vendor: !{locals.deviceinfo.mobileVendor}
-                    p.mylineheight OS Name: !{locals.deviceinfo.osName}
-                    p.mylineheight OS Version: !{locals.deviceinfo.osVersion}
+                    div.div56565
+                      h3.myheading22 Device information
+                      p.mylineheight Browser: !{locals.deviceinfo.browserName}
+                      p.mylineheight Device Type: !{locals.deviceinfo.deviceType}
+                      p.mylineheight Mobile Model: !{locals.deviceinfo.mobileModel}
+                      p.mylineheight Mobile Vendor: !{locals.deviceinfo.mobileVendor}
+                      p.mylineheight OS Name: !{locals.deviceinfo.osName}
+                      p.mylineheight OS Version: !{locals.deviceinfo.osVersion}
 
 
 
