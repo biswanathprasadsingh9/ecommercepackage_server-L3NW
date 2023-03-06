@@ -4,6 +4,10 @@ const { uuid } = require('uuidv4');
 const moment = require('moment');
 
 const UserSchema = new Schema({
+  isAdminSeen:{
+    type:Boolean,
+    default:false
+  },
   name:{
     type:String
   },

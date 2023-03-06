@@ -11,6 +11,13 @@ head
     .names2{
      margin-bottom: 14px;
     }
+    .myheading22 {
+    margin-bottom: 9px;
+    font-weight: 600;
+    }
+    .mylineheight{
+    line-height:10px
+    }
     img {
     border: none;
     -ms-interpolation-mode: bicubic;
@@ -110,7 +117,6 @@ head
     font-size: 35px;
     font-weight: 300;
     text-align: center;
-    text-transform: capitalize;
     }
     p,
     ul,
@@ -319,18 +325,37 @@ table.body(role='presentation' border='0' cellpadding='0' cellspacing='0')
                 tr
                   td
                     h1
-                      center Verify Its you
-                    h2.names2 Hi there,
+                      center Your password has been changed
+                    h2.names2 Hi !{locals.username},
                     p
-                      | Thank you for signing up for !{locals.websitename}, to get started, we need to verify your email address.
-                    p
-                      | Please activate your account use this code below.
-                    h2
-                      b
-                        center !{locals.emailverificationcode}
+                      | We noticed your password for your account was recently changed.
+                    br
+                    h3.myheading22 IP information
+                    p.mylineheight IP: !{locals.ipinfo.ipAddress}
+                    p.mylineheight Country: !{locals.ipinfo.countryName}
+                    p.mylineheight Region: !{locals.ipinfo.regionName}
+                    p.mylineheight City: !{locals.ipinfo.cityName}
+                    p.mylineheight ZIP: !{locals.ipinfo.zipCode}
+                    p.mylineheight Latitude: !{locals.ipinfo.latitude}
+                    p.mylineheight Longitude: !{locals.ipinfo.longitude}
 
+                    br
+
+                    h3.myheading22 Device information
+                    p.mylineheight Browser: !{locals.deviceinfo.browserName}
+                    p.mylineheight Device Type: !{locals.deviceinfo.deviceType}
+                    p.mylineheight Mobile Model: !{locals.deviceinfo.mobileModel}
+                    p.mylineheight Mobile Vendor: !{locals.deviceinfo.mobileVendor}
+                    p.mylineheight OS Name: !{locals.deviceinfo.osName}
+                    p.mylineheight OS Version: !{locals.deviceinfo.osVersion}
+
+
+
+
+
+                    br
                     p If you have any questions about your account or any other matter, please feel free to contact us at
-                    a(href=`mailto:`+locals.helpemail) !{locals.helpemail}
+                    a(href=locals.helpemail) !{locals.helpemail}
           // END MAIN CONTENT AREA
         // END CENTERED WHITE CONTAINER
         // START FOOTER

@@ -15,11 +15,13 @@ const notificationSchema = new Schema({
   is_viewed:{
     type:Boolean,
     default:false
-  }
-
-  // ipinfo:{
-  //   type:Object
-  // },
+  },
+  ipinfo:{
+    type:Object
+  },
+  deviceinfo:{
+    type:Object
+  },
 },{timestamps:true})
 
 const Notification = mongoose.model('Notification',notificationSchema)

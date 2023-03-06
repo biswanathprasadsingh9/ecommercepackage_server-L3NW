@@ -125,6 +125,13 @@ const login_with_google = (req,res) => {
                   })
                 })
 
+                //send email thank you register email to users
+                emailsender.emailsendFunction('user_send_thanks_for_registration',rdata.email,{username:rdata.name.split(' ')[0]},'email_user_thanks_for_register',true,rdata._id)
+                .then(response=>{
+                  console.log('send email_user_thanks_for_register');
+                })
+
+
                 Notification.create({user_id:rdata._id,message:notificationList.notification('notification_new_user_register'),info_id:rdata._id,info_url:`/users/${rdata._id}`})
                 .then(resasac=>{
                   console.log('created_notification');
@@ -214,11 +221,16 @@ const register = (req,res) => {
           console.log('created_notification');
         })
 
+        //send email thank you register email to users
+        emailsender.emailsendFunction('user_send_thanks_for_registration',response.email,{username:response.name.split(' ')[0]},'email_user_thanks_for_register',true,response._id)
+        .then(response=>{
+          console.log('send email_user_thanks_for_register');
+        })
 
         //send email verification code email to users
         emailsender.emailsendFunction('user_send_email_verification_code',response.email,{emailverificationcode:response.emailverificationcode},'email_user_email_verification_code',true,response._id)
         .then(response=>{
-          console.log(response)
+          console.log('send email_user_email_verification_code');
         })
 
 
@@ -745,6 +757,15 @@ const forgotpassword = (req,res) => {
 
       var password_reset_code =uuid()+'-'+uuid()+'-'+uuid();
 
+      var resetlink=process.env.WEBSITE_URL+'/resetpassword?code='+password_reset_code;
+      //send email verification code email to users
+      emailsender.emailsendFunction('user_send_password_reset_link',doc.email,{username:doc.name.split(' ')[0],resetlink:resetlink},'email_user_password_reset_link',true,response._id)
+      .then(response=>{
+        console.log('send email_user_email_verification_code');
+      })
+
+
+
       User.findByIdAndUpdate(doc._id,{$set:{password_reset_code}})
       .then(rpd=>{
         res.json({
@@ -777,12 +798,43 @@ const check_reset_password_code = (req,res) => {
 
 const update_password_web = (req,res) => {
   var hash = bcrypt.hashSync(req.body.password, salt);
-  User.findOneAndUpdate({password_reset_code:req.body.code},{$set:{password:hash,password_reset_code:''}})
-  .then(respl=>{
-    res.json({
-      response:true
+
+
+  User.findById(req.body.user_id)
+  .then(response=>{
+
+
+    User.findByIdAndUpdate(response._id,{$set:{password:hash,password_reset_code:''}})
+    .then(responsqwqwe=>{
+
+      res.json({
+        response:true
+      })
+
+      Notification.create({user_id:response._id,message:notificationList.notification('notification_user_password_changed'),info_id:response._id,info_url:`/users/${response._id}`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
+      .then(resasac=>{
+        console.log('created_notification');
+      })
+
+      //send email thank you register email to users
+      emailsender.emailsendFunction('user_send_password_successfully_changed',response.email,{username:response.name.split(' ')[0],ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_user_password_changed',true,response._id)
+      .then(responseqwd=>{
+        console.log('send user_send_password_successfully_changed');
+      })
+
     })
+
+
+
+
+
   })
+
+
+
+
+
+
 }
 
 const admin_view_user_details = (req,res) => {
@@ -982,7 +1034,7 @@ const admin_delete_emailrecord = (req,res) => {
 
 const user_page_visit_tracking_store = (req,res) => {
 
-  console.log(req.body)
+  // console.log(req.body)
 
   if(req.body.user){
     User.findById(req.body.user_id)
