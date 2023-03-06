@@ -117,7 +117,7 @@ const login_with_google = (req,res) => {
               User.create(tmp_data)
               .then(rdata=>{
 
-                LoginRecord.create({user_id:rdata._id,ipinfo:req.body.ipinfo})
+                LoginRecord.create({user_id:rdata._id,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
                 .then(resa=>{
                   res.json({
                     response:true,
@@ -132,7 +132,7 @@ const login_with_google = (req,res) => {
                 })
 
 
-                Notification.create({user_id:rdata._id,message:notificationList.notification('notification_new_user_register'),info_id:rdata._id,info_url:`/users/${rdata._id}`})
+                Notification.create({user_id:rdata._id,message:notificationList.notification('notification_new_user_register'),info_id:rdata._id,info_url:`/users/${rdata._id}`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
                 .then(resasac=>{
                   console.log('created_notification');
                 })
@@ -165,12 +165,21 @@ const login_with_google = (req,res) => {
       User.findOne({email:req.body.email})
       .then(response=>{
 
-        LoginRecord.create({user_id:response._id,ipinfo:req.body.ipinfo})
+        res.json({
+          response:true,
+          data:response
+        })
+
+        LoginRecord.create({user_id:response._id,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
         .then(resa=>{
-          res.json({
-            response:true,
-            data:response
-          })
+          console.log(111111111)
+        })
+
+        //send email new user login detected
+        emailsender.emailsendFunction('user_send_new_login_detected',response.email,{username:response.name.split(' ')[0],ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_user_newlogin_detected',true,response._id)
+        .then(response=>{
+          console.log('send user_send_new_login_detected');
+          console.log(response)
         })
 
 
@@ -434,15 +443,23 @@ const login = (req,res) => {
         var match = bcrypt.compareSync(bodydata.password, doc.password);
         if(match){
 
-          console.log(_.omit(doc, ['password']))
+          res.json({
+            response:true,
+            data:_.omit(doc, ['password']),
+            message:'Login Success'
+          })
 
           LoginRecord.create({user_id:doc._id,ipinfo:req.body.ipinfo})
           .then(resa=>{
-            res.json({
-              response:true,
-              data:_.omit(doc, ['password']),
-              message:'Login Success'
-            })
+
+          })
+
+
+          //send email new user login detected
+          emailsender.emailsendFunction('user_send_new_login_detected',doc.email,{username:doc.name.split(' ')[0],ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_user_newlogin_detected',true,doc._id)
+          .then(response=>{
+            console.log('send user_send_new_login_detected');
+            console.log(response)
           })
 
 
