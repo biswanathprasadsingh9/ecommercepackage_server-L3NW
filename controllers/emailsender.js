@@ -15,6 +15,7 @@ function emailsendFunction(email_templete,email_to,locals,email_name,want_to_sto
       const Email = require('email-templates');
 
       // locals.year='2023';
+      locals.website_url='https://www.reactnodeecommerce.cloud';
       locals.mainfooter='www.reactnodeecommerce.cloud | 2023';
       locals.mainfooter_link='https://www.reactnodeecommerce.cloud';
       locals.footer_address1='Company Inc, 3 Abbey Road, San Francisco CA 94102';

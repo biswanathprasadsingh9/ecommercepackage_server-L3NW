@@ -74,6 +74,8 @@ router.post('/register',UserController.register);
 
 
 router.get('/send_email_verification_code/:user_id',UserController.send_email_verification_code);
+router.get('/logout_from_alldevice/:code',UserController.logout_from_alldevice);
+
 
 
 router.post('/register_fromadmin',UserController.register_fromadmin);

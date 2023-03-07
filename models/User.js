@@ -70,7 +70,11 @@ const UserSchema = new Schema({
   },
   uniq_login_id_admin:{
     type:String,
-  }
+  },
+  instant_logout_from_all_device:{
+    type:Boolean,
+    default:false
+  },
 },{timestamps:true})
 
 const User = mongoose.model('User',UserSchema);

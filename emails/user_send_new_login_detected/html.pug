@@ -332,8 +332,19 @@ table.body(role='presentation' border='0' cellpadding='0' cellspacing='0')
                       center New Login Detected
                     h2.names2 Hi !{locals.username},
                     p
-                      | We're writing to inform you that we detected a login to your account from a new device.
+                      | We're writing to inform you that we detected a login to your account from a new device. If this was you carry on.
+
+                    p
+                      b If you don't recognize this activity
+                    p
+                      a(href=locals.website_url+'/logoutfromalldevice?code='+locals.secureuserid) Click here
+                      |  to logout from all devices
+                    p
+                      a(href=locals.website_url+'/forgotpassword') Click here
+                      |  to change your password
+
                     br
+
                     div.div56565
                         h3.myheading22 IP information
                         p.mylineheight IP: !{locals.ipinfo.ipAddress}

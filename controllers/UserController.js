@@ -176,10 +176,10 @@ const login_with_google = (req,res) => {
         })
 
         //send email new user login detected
-        emailsender.emailsendFunction('user_send_new_login_detected',response.email,{username:response.name.split(' ')[0],ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_user_newlogin_detected',true,response._id)
+        emailsender.emailsendFunction('user_send_new_login_detected',response.email,{secureuserid:response._id+'9e6cfeexf5d8ccecgt6e6cce7dvc2de8dcece7',username:response.name.split(' ')[0],ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_user_newlogin_detected',true,response._id)
         .then(response=>{
           console.log('send user_send_new_login_detected');
-          console.log(response)
+          // console.log(response)
         })
 
 
@@ -391,7 +391,6 @@ const loginadmin = (req,res) => {
 
           if(doc.type==='Admin'){
 
-
             LoginRecord.create({user_id:doc._id,ipinfo:req.body.ipinfo})
             .then(resa=>{
               res.json({
@@ -401,8 +400,6 @@ const loginadmin = (req,res) => {
               })
             })
 
-
-
           }else{
             res.json({
               response:false,
@@ -411,14 +408,12 @@ const loginadmin = (req,res) => {
           }
 
 
-
         }else{
           res.json({
             response:false,
             message:'Wrong password'
           })
         }
-
 
     }
   })
@@ -456,7 +451,7 @@ const login = (req,res) => {
 
 
           //send email new user login detected
-          emailsender.emailsendFunction('user_send_new_login_detected',doc.email,{username:doc.name.split(' ')[0],ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_user_newlogin_detected',true,doc._id)
+          emailsender.emailsendFunction('user_send_new_login_detected',doc.email,{secureuserid:doc._id+'9e6cfeexf5d8ccecgt6e6cce7dvc2de8dcece7',username:doc.name.split(' ')[0],ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_user_newlogin_detected',true,doc._id)
           .then(response=>{
             console.log('send user_send_new_login_detected');
             console.log(response)
@@ -821,7 +816,7 @@ const update_password_web = (req,res) => {
   .then(response=>{
 
 
-    User.findByIdAndUpdate(response._id,{$set:{password:hash,password_reset_code:''}})
+    User.findByIdAndUpdate(response._id,{$set:{password:hash,password_reset_code:'',instant_logout_from_all_device:false}})
     .then(responsqwqwe=>{
 
       res.json({
@@ -1057,26 +1052,83 @@ const user_page_visit_tracking_store = (req,res) => {
     User.findById(req.body.user_id)
     .then(response=>{
 
-      if(response.status){
-        PageVisitRecord.create(req.body)
-        .then(response=>{
-          res.json({
-            response:true,
-          })
+      if(response.status && response.instant_logout_from_all_device===false){
+        res.json({
+          response:true,
+          data:response
+        })
+      }else if (response.status===false) {
+        res.json({
+          response:false,
+          data:response,
+          message:'user_account_blocked'
+        })
+      }else if (response.instant_logout_from_all_device) {
+        res.json({
+          response:false,
+          data:response,
+          message:'logout_now'
         })
       }else{
         res.json({
           response:false,
-          message:'user_account_blocked'
+          data:response,
+          message:'logout_now'
         })
       }
 
+
+      // switch (response) {
+      // case response.status && response.instant_logout_from_all_device===false:
+      //   status = "login";
+      //   break;
+      // case response.status===false:
+      //   status = "user_account_blocked";
+      //   break;
+      // case response.instant_logout_from_all_device:
+      //   status = "logout_now";
+      //   break;
+      // }
+      //
+      // res.json({
+      //   response:status==='login'?true:false,
+      //   message:status
+      // })
+
+
+      // if(response.status && response.instant_logout_from_all_device===false){
+      //   PageVisitRecord.create(req.body)
+      //   .then(response=>{
+      //     res.json({
+      //       response:true,
+      //     })
+      //   })
+      //
+      // }else if (response.status===false) {
+      //   res.json({
+      //     response:false,
+      //     message:'user_account_blocked'
+      //   })
+      // }else if (response.instant_logout_from_all_device) {
+      //   res.json({
+      //     response:false,
+      //     message:'logout_now'
+      // })
+      // }else{
+      //   res.json({
+      //     response:false,
+      //     message:'logout_now'
+      //   })
+      // }
+      console.log('goooooooooooooooooooooooooo')
     }).catch(err=>{
+      console.log('errorrrrrrrrrrrrrrrrrrrrr')
       res.json({
         response:false,
-        message:'user_not_found'
+        message:'logout_now'
       })
     })
+
   }else{
     PageVisitRecord.create(req.body)
     .then(response=>{
@@ -1163,6 +1215,30 @@ const admin_delete_items_from_cart = (req,res) => {
   })
 }
 
+const logout_from_alldevice = (req,res) => {
+  var user_id=req.params.code.replace("9e6cfeexf5d8ccecgt6e6cce7dvc2de8dcece7", "");
+  User.findById(user_id)
+  .then(response=>{
+
+    var password_reset_code =uuid()+'-'+uuid()+'-'+uuid();
+    var resetlink=process.env.WEBSITE_URL+'/resetpassword?code='+password_reset_code;
+
+    User.findByIdAndUpdate(user_id,{$set:{password_reset_code,instant_logout_from_all_device:true,password:'fnMJk6ZYLCMe91qcdTUZo3lFkaxldk'}})
+    .then(rpd=>{
+      res.json({
+        response:true,
+        password_reset_url:'/resetpassword?code='+password_reset_code,
+      })
+    })
+
+
+  }).catch(err=>{
+    res.json({
+      response:false
+    })
+  })
+}
+
 module.exports = {
-  index,send_email_verification_code,admin_delete_items_from_cart,admin_all_cart_items,admin_clearall_loginrecords,admin_clearall_pagevisit_records,admin_all_pagevisit_records,admin_delete_emailrecord,admin_all_notifications,admin_view_all_emailrecords,admin_view_emailrecord,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,admin_setseen_notifications,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,user_page_visit_tracking_store,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,login_as_user_step1,login_as_user_step2,admin_delete_loginrecord
+  index,send_email_verification_code,admin_delete_items_from_cart,admin_all_cart_items,admin_clearall_loginrecords,admin_clearall_pagevisit_records,admin_all_pagevisit_records,admin_delete_emailrecord,admin_all_notifications,admin_view_all_emailrecords,admin_view_emailrecord,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,admin_setseen_notifications,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,user_page_visit_tracking_store,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,logout_from_alldevice,login_as_user_step1,login_as_user_step2,admin_delete_loginrecord
 };
