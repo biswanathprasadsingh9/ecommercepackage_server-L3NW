@@ -3,11 +3,18 @@ const Schema = mongoose.Schema;
 const autoIncrement = require("mongoose-auto-increment");
 
 const orderSchema = new Schema({
+  isAdminSeen:{
+    type:Boolean,
+    default:false
+  },
   is_ordersuccess_page_viewed:{
     type:Boolean,
     default:false,
   },
   ipinfo:{
+    type:Object
+  },
+  deviceinfo:{
     type:Object
   },
   order_id:{

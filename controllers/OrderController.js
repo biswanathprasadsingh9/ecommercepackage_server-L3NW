@@ -2,6 +2,10 @@ const response = require("express");
 const { uuid } = require('uuidv4');
 const pdf2base64 = require('pdf-to-base64');
 var notificationList = require("./notificationList");
+var emailsender = require("./emailsender");
+
+var numeral = require("./numeral");
+
 
 const Order = require("../models/Order");
 const User = require("../models/User");
@@ -82,6 +86,25 @@ const payondelivery = (req,res) => {
 
   console.log(req.body)
 
+  var emaildatas={products:[]};
+  emaildatas.shippingaddress=req.body.user_shipping_address;
+  emaildatas.amount_subtotal=numeral.toCurrency(req.body.amount_subtotal);
+  emaildatas.amount_taxes=numeral.toCurrency(req.body.amount_taxes);
+  emaildatas.amount_shipping=numeral.toCurrency(req.body.amount_shipping);
+  emaildatas.amount_total=numeral.toCurrency(req.body.amount_total);
+  emaildatas.amount_total_final= numeral.toCurrency(req.body.amount_total_final);
+  emaildatas.shipping_method=req.body.shipping_method;
+  emaildatas.coupon=req.body.coupon?req.body.coupon.name:'-';
+
+  emaildatas.payment_type=req.body.payment_type;
+  emaildatas.payment_status=req.body.payment_status;
+
+  req.body.products.forEach((item, i) => {
+    emaildatas.products.push({name:item. product_name,quantity:item.quantity,amount:numeral.toCurrency(item.product_price)})
+  });
+
+
+
   Cart.find({user_id:req.body.user_id}).distinct('_id', function(error, ids) {
       if(ids!==undefined){
         console.log(ids)
@@ -98,6 +121,12 @@ const payondelivery = (req,res) => {
           Order.create(tmp_data)
           .then(response=>{
 
+
+            res.json({
+              response:true,
+              order_id:tmp_data.order_id
+            })
+
             var timeline_data={
               order_id:response._id,
               name:'1',
@@ -110,11 +139,18 @@ const payondelivery = (req,res) => {
 
             OrderTimeline.create(timeline_data)
             .then(addq=>{
-              res.json({
-                response:true,
-                order_id:tmp_data.order_id
+              console.log('tiline_created');
+            })
+
+            User.findById(req.body.user_id)
+            .then(user=>{
+              emaildatas.username=user.name.split(' ')[0];
+              emailsender.emailsendFunction('user_send_thankyou_for_order',user.email,emaildatas,'email_user_thanks_for_order',true,user._id)
+              .then(response=>{
+                console.log('send user_send_thankyou_for_order');
               })
             })
+
           })
 
 

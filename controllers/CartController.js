@@ -54,7 +54,7 @@ const getcartitems = (req,res) => {
                       callData123();
                     }
 
-                    Notification.create({user_id:req.params.user_id,message:notificationList.notification('notification_new_cart_item'),info_id:aasas._id,info_url:`/carts/${aasas._id}`})
+                    Notification.create({user_id:req.params.user_id,message:'notification_new_cart_item',info_id:aasas._id,info_url:`/carts/${aasas._id}`})
                     .then(resasac=>{
                       console.log('created_notification');
                     })
@@ -268,7 +268,7 @@ const store = (req,res) => {
           Cart.create(req.body)
           .then(response=>{
 
-            Notification.create({user_id:req.body.user_id,message:notificationList.notification('notification_new_cart_item'),info_id:response._id,info_url:`/carts/${response._id}`})
+            Notification.create({user_id:req.body.user_id,message:'notification_new_cart_item',info_id:response._id,info_url:`/carts/${response._id}`})
             .then(resasac=>{
               console.log('created_notification');
             })

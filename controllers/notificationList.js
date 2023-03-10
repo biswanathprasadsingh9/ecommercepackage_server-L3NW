@@ -10,8 +10,11 @@ exports.notification = function(name){
   case 'notification_new_order':
     result="New order booked";
     break;
-  case 'C':
-    result="C Grade";
+  case 'notification_user_account_information_changed':
+    result="Account information update";
+    break;
+  case 'notification_user_password_changed':
+    result="Account Passoword update";
     break;
   default:
     result="Blank Notification";

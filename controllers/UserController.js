@@ -132,7 +132,7 @@ const login_with_google = (req,res) => {
                 })
 
 
-                Notification.create({user_id:rdata._id,message:notificationList.notification('notification_new_user_register'),info_id:rdata._id,info_url:`/users/${rdata._id}`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
+                Notification.create({user_id:rdata._id,message:'notification_new_user_register',info_id:rdata._id,info_url:`/users/${rdata._id}`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
                 .then(resasac=>{
                   console.log('created_notification');
                 })
@@ -225,7 +225,7 @@ const register = (req,res) => {
         })
 
 
-        Notification.create({user_id:response._id,message:notificationList.notification('notification_new_user_register'),info_id:response._id,info_url:`/users/${response._id}`})
+        Notification.create({user_id:response._id,message:'notification_new_user_register',info_id:response._id,info_url:`/users/${response._id}`})
         .then(resasac=>{
           console.log('created_notification');
         })
@@ -658,17 +658,31 @@ const updateshppingadditionalcomments = (req,res) => {
 
 const update = (req,res) => {
 
-  console.log(req.body)
+  console.log('req.body.ipinfo',req.body.ipinfo)
 
   User.findByIdAndUpdate(req.params.id,req.body)
   .then(response=>{
 
     User.findById(req.params.id).select('-password')
-    .then(data=>{
+    .then(rdata=>{
       res.json({
         response:true,
-        data
+        data:rdata
       })
+
+      if(req.body.ipinfo && req.body.deviceinfo){
+        emailsender.emailsendFunction('user_send_accountinformation_successfully_changed',rdata.email,{username:rdata.name.split(' ')[0],ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_user_thanks_for_register',true,rdata._id)
+        .then(response=>{
+          console.log('send user_send_accountinformation_successfully_changed');
+        })
+
+        Notification.create({user_id:rdata._id,message:'notification_user_account_information_changed',info_id:rdata._id,info_url:`/users/${rdata._id}`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
+        .then(resasac=>{
+          console.log('notification_user_account_information_changed');
+        })
+      }
+
+
     })
 
 
@@ -698,6 +712,19 @@ const update_password = (req,res) => {
             res.json({
               response:true
             })
+
+
+            Notification.create({user_id:doc._id,message:'notification_user_password_changed',info_id:doc._id,info_url:`/users/${doc._id}`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
+            .then(resasac=>{
+              console.log('created_notification');
+            })
+
+            //send email thank you register email to users
+            emailsender.emailsendFunction('user_send_password_successfully_changed',doc.email,{username:doc.name.split(' ')[0],ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_user_password_changed',true,doc._id)
+            .then(responseqwd=>{
+              console.log('send user_send_password_successfully_changed');
+            })
+
           })
 
 
@@ -823,7 +850,7 @@ const update_password_web = (req,res) => {
         response:true
       })
 
-      Notification.create({user_id:response._id,message:notificationList.notification('notification_user_password_changed'),info_id:response._id,info_url:`/users/${response._id}`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
+      Notification.create({user_id:response._id,message:'notification_user_password_changed',info_id:response._id,info_url:`/users/${response._id}`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
       .then(resasac=>{
         console.log('created_notification');
       })
@@ -1078,51 +1105,7 @@ const user_page_visit_tracking_store = (req,res) => {
       }
 
 
-      // switch (response) {
-      // case response.status && response.instant_logout_from_all_device===false:
-      //   status = "login";
-      //   break;
-      // case response.status===false:
-      //   status = "user_account_blocked";
-      //   break;
-      // case response.instant_logout_from_all_device:
-      //   status = "logout_now";
-      //   break;
-      // }
-      //
-      // res.json({
-      //   response:status==='login'?true:false,
-      //   message:status
-      // })
-
-
-      // if(response.status && response.instant_logout_from_all_device===false){
-      //   PageVisitRecord.create(req.body)
-      //   .then(response=>{
-      //     res.json({
-      //       response:true,
-      //     })
-      //   })
-      //
-      // }else if (response.status===false) {
-      //   res.json({
-      //     response:false,
-      //     message:'user_account_blocked'
-      //   })
-      // }else if (response.instant_logout_from_all_device) {
-      //   res.json({
-      //     response:false,
-      //     message:'logout_now'
-      // })
-      // }else{
-      //   res.json({
-      //     response:false,
-      //     message:'logout_now'
-      //   })
-      // }
-      console.log('goooooooooooooooooooooooooo')
     }).catch(err=>{
-      console.log('errorrrrrrrrrrrrrrrrrrrrr')
       res.json({
         response:false,
         message:'logout_now'
