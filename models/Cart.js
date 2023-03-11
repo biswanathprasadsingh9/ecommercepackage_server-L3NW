@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const CartSchema = new Schema({
+  isAdminSeen:{
+    type:Boolean,
+    default:false
+  },
   system_id:{
     type:String
   },

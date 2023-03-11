@@ -9,8 +9,22 @@ const upload = multer({});
 router.get('/',UserController.index);
 router.put('/:id',UserController.update);
 
+
+
+router.get('/mark_all_seen',UserController.mark_all_seen);
+router.get('/mark_all_seen_cart',UserController.mark_all_seen_cart);
+
+
+
+
 router.get('/admin_all_notifications',UserController.admin_all_notifications);
 router.get('/admin_setseen_notifications/:id',UserController.admin_setseen_notifications);
+router.get('/admin_setseen_notifications_byurl/:url',UserController.admin_setseen_notifications_byurl); //not_used code:9658
+router.get('/admin_setseen_notifications_bymessage/:message',UserController.admin_setseen_notifications_bymessage);
+router.get('/admin_delete_notification/:id',UserController.admin_delete_notification);
+router.get('/admin_clearall_notifications',UserController.admin_clearall_notifications);
+router.get('/admin_readall_notifications',UserController.admin_readall_notifications);
+
 
 
 router.get('/admin_all_pagevisit_records',UserController.admin_all_pagevisit_records);

@@ -428,8 +428,6 @@ const update_order_status = (req,res) => {
 
     Order.findByIdAndUpdate(req.body.id,req.body)
     .then(response=>{
-
-
       var timeline_data={
         order_id:response._id,
         name:req.body.order_status,

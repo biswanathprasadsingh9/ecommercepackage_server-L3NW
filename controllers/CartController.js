@@ -54,7 +54,7 @@ const getcartitems = (req,res) => {
                       callData123();
                     }
 
-                    Notification.create({user_id:req.params.user_id,message:'notification_new_cart_item',info_id:aasas._id,info_url:`/carts/${aasas._id}`})
+                    Notification.create({user_id:req.params.user_id,message:'notification_new_cart_item',info_id:aasas._id,info_url:`/carts/${aasas._id}?tab=cartitems`})
                     .then(resasac=>{
                       console.log('created_notification');
                     })
@@ -248,8 +248,6 @@ const gencartitemlocal = (req,res) => {
       })
     }
   })
-
-
 }
 
 //<<<=== store cart items ===>>>
@@ -268,7 +266,7 @@ const store = (req,res) => {
           Cart.create(req.body)
           .then(response=>{
 
-            Notification.create({user_id:req.body.user_id,message:'notification_new_cart_item',info_id:response._id,info_url:`/carts/${response._id}`})
+            Notification.create({user_id:req.body.user_id,message:'notification_new_cart_item',info_id:response._id,info_url:`/carts/${response._id}?tab=cartitems`})
             .then(resasac=>{
               console.log('created_notification');
             })
@@ -337,7 +335,23 @@ const store = (req,res) => {
 
 }
 
+const admin_setseen_cart = (req,res) => {
+  Cart.findByIdAndUpdate(req.params.id,{$set:{isAdminSeen:true}})
+  .then(response=>{
+    res.json({
+      response:true
+    })
+  })
+}
+
+const admin_setseen_all_userscart = (req,res) => {
+  Cart.update({user_id:req.params.user_id,isAdminSeen:false}, {$set: { isAdminSeen: true }}, {multi: true}, (err,doc)=>{
+    res.json({
+      response:true
+    })
+  })
+}
 
 module.exports = {
-  store,addcheckcart,gencartitemlocal,getcartitems,getcartitemsnologin,remove,addtocart2
+  store,addcheckcart,gencartitemlocal,getcartitems,getcartitemsnologin,remove,addtocart2,admin_setseen_cart,admin_setseen_all_userscart
 };
