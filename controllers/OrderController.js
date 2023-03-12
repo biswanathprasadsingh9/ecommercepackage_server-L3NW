@@ -38,16 +38,38 @@ const vieworder = (req,res) => {
   Order.findById(req.params.id).populate('user_id').populate('courier_id')
   .then(response=>{
 
-    OrderTimeline.find({order_id:response._id})
-    .then(timelines=>{
-      res.json({
-        response:true,
-        data:response,
-        timelines
+    if(response){
+      OrderTimeline.find({order_id:response._id})
+      .then(timelines=>{
+
+        Order.findByIdAndUpdate(req.params.id,{$set:{isAdminSeen:true}})
+        .then(d=>{
+          res.json({
+            response:true,
+            data:response,
+            timelines
+          })
+        })
+
+      }).catch(err=>{
+        res.json({
+          response:false,
+          message:'order_not_found_in_timeline'
+        })
       })
+
+    }else{
+      res.json({
+        response:false,
+        message:'order_not_found'
+      })
+    }
+
+  }).catch(err=>{
+    res.json({
+      response:false,
+      message:'order_not_found'
     })
-
-
   })
 
 
@@ -132,7 +154,7 @@ const payondelivery = (req,res) => {
               name:'1',
             }
 
-            Notification.create({user_id:req.body.user_id,message:notificationList.notification('notification_new_order'),info_id:response._id,info_url:`/orders/${response._id}`})
+            Notification.create({user_id:req.body.user_id,message:'notification_new_order',info_id:response._id,info_url:`/orders/${response._id}`})
             .then(resasac=>{
               console.log('created_notification');
             })
