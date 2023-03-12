@@ -878,7 +878,7 @@ const update_password_web = (req,res) => {
 
 const admin_view_user_details = (req,res) => {
   User.findById(req.params.id,(err,doc)=>{
-    if(doc===undefined){
+    if(doc===null){
       res.json({
         response:false,
       })
@@ -1202,6 +1202,23 @@ const admin_setseen_notifications_bymessage = (req,res) => {
   })
 }
 
+const admin_setseen_notifications_bymessage_of_user = (req,res) => {
+  console.log(req.params.message)
+  Notification.update({message:req.params.message,user_id:req.params.user_id,is_viewed:false}, {$set: { is_viewed: true }}, {multi: true}, (err,doc)=>{
+    res.json({
+      response:true
+    })
+  })
+}
+
+const admin_setseen_notifications_byuserid = (req,res) => {
+  Notification.update({user_id:req.params.user_id,is_viewed:false}, {$set: { is_viewed: true }}, {multi: true}, (err,doc)=>{
+    res.json({
+      response:true
+    })
+  })
+}
+
 const admin_clearall_notifications = (req,res) => {
   Notification.remove({},(err,doc)=>{
     res.json({
@@ -1296,5 +1313,5 @@ const logout_from_alldevice = (req,res) => {
 }
 
 module.exports = {
-  index,send_email_verification_code,admin_clearall_notifications,admin_readall_notifications,admin_delete_notification,admin_delete_items_from_cart,admin_all_cart_items,admin_clearall_loginrecords,admin_clearall_pagevisit_records,admin_all_pagevisit_records,admin_delete_emailrecord,admin_all_notifications,admin_view_all_emailrecords,admin_view_emailrecord,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,admin_setseen_notifications,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,user_page_visit_tracking_store,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,mark_all_seen_cart,mark_all_seen,admin_setseen_notifications_bymessage,admin_setseen_notifications_byurl,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,logout_from_alldevice,login_as_user_step1,login_as_user_step2,admin_delete_loginrecord
+  index,send_email_verification_code,admin_clearall_notifications,admin_readall_notifications,admin_delete_notification,admin_delete_items_from_cart,admin_all_cart_items,admin_clearall_loginrecords,admin_clearall_pagevisit_records,admin_all_pagevisit_records,admin_delete_emailrecord,admin_all_notifications,admin_view_all_emailrecords,admin_view_emailrecord,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,admin_setseen_notifications,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,user_page_visit_tracking_store,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,mark_all_seen_cart,admin_setseen_notifications_byuserid,mark_all_seen,admin_setseen_notifications_bymessage_of_user,admin_setseen_notifications_bymessage,admin_setseen_notifications_byurl,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,logout_from_alldevice,login_as_user_step1,login_as_user_step2,admin_delete_loginrecord
 };

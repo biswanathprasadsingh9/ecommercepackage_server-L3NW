@@ -21,6 +21,8 @@ router.get('/admin_all_notifications',UserController.admin_all_notifications);
 router.get('/admin_setseen_notifications/:id',UserController.admin_setseen_notifications);
 router.get('/admin_setseen_notifications_byurl/:url',UserController.admin_setseen_notifications_byurl); //not_used code:9658
 router.get('/admin_setseen_notifications_bymessage/:message',UserController.admin_setseen_notifications_bymessage);
+router.get('/admin_setseen_notifications_byuserid/:user_id',UserController.admin_setseen_notifications_byuserid);
+router.get('/admin_setseen_notifications_bymessage_of_user/:message/:user_id',UserController.admin_setseen_notifications_bymessage_of_user);
 router.get('/admin_delete_notification/:id',UserController.admin_delete_notification);
 router.get('/admin_clearall_notifications',UserController.admin_clearall_notifications);
 router.get('/admin_readall_notifications',UserController.admin_readall_notifications);

@@ -6,6 +6,9 @@ const loginRecordchema = new Schema({
   ipinfo:{
     type:Object
   },
+  deviceinfo:{
+    type:Object
+  },
 },{timestamps:true})
 
 const LoginRecord = mongoose.model('LoginRecord',loginRecordchema);
