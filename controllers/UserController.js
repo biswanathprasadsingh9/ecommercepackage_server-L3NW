@@ -2,6 +2,7 @@ const response = require("express");
 var bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
 var emailsender = require("./emailsender");
+var emailsenderAdmin = require("./emailsenderAdmin");
 var _ = require('lodash');
 const imageToBase64 = require('image-to-base64');
 var calculateTax = require("./calculateTax");
@@ -125,17 +126,25 @@ const login_with_google = (req,res) => {
                   })
                 })
 
+                Notification.create({user_id:rdata._id,message:'notification_new_user_register',info_id:rdata._id,info_url:`/users/${rdata._id}`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
+                .then(resasac=>{
+                  console.log('created_notification');
+                })
+
                 //send email thank you register email to users
                 emailsender.emailsendFunction('user_send_thanks_for_registration',rdata.email,{username:rdata.name.split(' ')[0]},'email_user_thanks_for_register',true,rdata._id)
                 .then(response=>{
                   console.log('send email_user_thanks_for_register');
                 })
 
-
-                Notification.create({user_id:rdata._id,message:'notification_new_user_register',info_id:rdata._id,info_url:`/users/${rdata._id}`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
-                .then(resasac=>{
-                  console.log('created_notification');
+                //send new user register to admin
+                emailsenderAdmin.emailsendFunction('admin_new_user_registration',{datalink:`/users/${rdata._id}`,user:rdata,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_to_admin_new_user_registration')
+                .then(response=>{
+                  console.log('send admin_new_user_registration');
                 })
+
+
+
 
 
 
@@ -391,7 +400,7 @@ const loginadmin = (req,res) => {
 
           if(doc.type==='Admin'){
 
-            LoginRecord.create({user_id:doc._id,ipinfo:req.body.ipinfo})
+            LoginRecord.create({user_id:doc._id,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
             .then(resa=>{
               res.json({
                 response:true,
@@ -654,6 +663,54 @@ const updateshppingadditionalcomments = (req,res) => {
   })
 }
 
+
+
+const admin_account_information_update = (req,res) => {
+  User.findByIdAndUpdate(req.body._id,req.body)
+  .then(response=>{
+    User.findById(req.body._id).select('-password')
+    .then(rdata=>{
+      res.json({
+        response:true,
+        data:rdata
+      })
+      // Notification.create({user_id:response._id,message:'notification_new_user_register',info_id:response._id,info_url:`/users/${response._id}`})
+
+      Notification.create({user_id:rdata._id,message:'notification_admin_account_information_changed',info_id:rdata._id,info_url:`/settings`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
+      .then(resasac=>{
+        console.log('notification_admin_account_information_changed');
+      })
+    })
+  }).catch(err=>{
+    res.json({
+      response:false
+    })
+  })
+}
+
+
+const admin_theme_update = (req,res) => {
+  User.findByIdAndUpdate(req.body._id,req.body)
+  .then(response=>{
+    User.findById(req.body._id).select('-password')
+    .then(rdata=>{
+      res.json({
+        response:true,
+        data:rdata
+      })
+      // Notification.create({user_id:response._id,message:'notification_new_user_register',info_id:response._id,info_url:`/users/${response._id}`})
+
+      Notification.create({user_id:rdata._id,message:'notification_admin_account_theme_changed',info_id:rdata._id,info_url:`/settings`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
+      .then(resasac=>{
+        console.log('notification_admin_account_theme_changed');
+      })
+    })
+  }).catch(err=>{
+    res.json({
+      response:false
+    })
+  })
+}
 
 
 const update = (req,res) => {
@@ -1313,5 +1370,5 @@ const logout_from_alldevice = (req,res) => {
 }
 
 module.exports = {
-  index,send_email_verification_code,admin_clearall_notifications,admin_readall_notifications,admin_delete_notification,admin_delete_items_from_cart,admin_all_cart_items,admin_clearall_loginrecords,admin_clearall_pagevisit_records,admin_all_pagevisit_records,admin_delete_emailrecord,admin_all_notifications,admin_view_all_emailrecords,admin_view_emailrecord,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,admin_setseen_notifications,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,user_page_visit_tracking_store,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,mark_all_seen_cart,admin_setseen_notifications_byuserid,mark_all_seen,admin_setseen_notifications_bymessage_of_user,admin_setseen_notifications_bymessage,admin_setseen_notifications_byurl,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,logout_from_alldevice,login_as_user_step1,login_as_user_step2,admin_delete_loginrecord
+  index,admin_theme_update,admin_account_information_update,send_email_verification_code,admin_clearall_notifications,admin_readall_notifications,admin_delete_notification,admin_delete_items_from_cart,admin_all_cart_items,admin_clearall_loginrecords,admin_clearall_pagevisit_records,admin_all_pagevisit_records,admin_delete_emailrecord,admin_all_notifications,admin_view_all_emailrecords,admin_view_emailrecord,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,admin_setseen_notifications,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,user_page_visit_tracking_store,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,updateshppingadditionalcomments,mark_all_seen_cart,admin_setseen_notifications_byuserid,mark_all_seen,admin_setseen_notifications_bymessage_of_user,admin_setseen_notifications_bymessage,admin_setseen_notifications_byurl,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,logout_from_alldevice,login_as_user_step1,login_as_user_step2,admin_delete_loginrecord
 };

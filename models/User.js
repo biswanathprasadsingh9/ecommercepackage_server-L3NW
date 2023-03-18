@@ -8,6 +8,11 @@ const UserSchema = new Schema({
     type:Boolean,
     default:false
   },
+
+  isAdminSeen:{
+    type:Boolean,
+    default:false
+  },
   name:{
     type:String
   },
@@ -74,6 +79,18 @@ const UserSchema = new Schema({
   instant_logout_from_all_device:{
     type:Boolean,
     default:false
+  },
+  enable2stepAuth:{
+    type:Boolean,
+    default:false
+  },
+  enablePasswordChange6Month:{
+    type:Boolean,
+    default:false
+  },
+  admin_theme:{
+    type:String,
+    default:'default'
   },
 },{timestamps:true})
 

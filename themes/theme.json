@@ -1,0 +1,15 @@
+{
+  "response": true,
+  "datas": [
+    {
+      "id": "default",
+      "name": "Default",
+      "image":"https://i.ibb.co/7pb6nY1/image-2023-03-18-112048801.png"
+    },
+    {
+      "id": "stone1",
+      "name": "Stone 1",
+      "image": "https://i.ibb.co/JzH4QVR/theme-stone-1.png"
+    }
+  ]
+}

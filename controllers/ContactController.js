@@ -3,6 +3,10 @@ const response = require("express");
 const Contact = require("../models/Contact");
 
 var emailsender = require("./emailsender");
+var emailsenderAdmin = require("./emailsenderAdmin");
+
+
+
 const Notification = require("../models/Notification");
 
 
@@ -36,6 +40,13 @@ const store = (req, res) => {
     emailsender.emailsendFunction('user_send_thankyou_for_contactus',reask.email,{nodata:false},'email_thanks_for_contactingus',true,reask._id)
     .then(response=>{
       console.log('send user_send_thankyou_for_contactus');
+    })
+
+
+    //send new contact to admin
+    emailsenderAdmin.emailsendFunction('admin_new_user_contactus',{datalink:`/contactrequest`,user:req.body,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_to_admin_new_contact_request')
+    .then(response=>{
+      console.log('send admin_new_user_contactus');
     })
 
 

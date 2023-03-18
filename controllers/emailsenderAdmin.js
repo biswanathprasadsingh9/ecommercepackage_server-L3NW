@@ -4,9 +4,14 @@ var mongoose = require('mongoose');
 const EmailSendList = require("../models/EmailSendList");
 
 
-function emailsendFunction(email_templete,email_to,locals,email_name,want_to_store,user_id) {
+function emailsendFunction(email_templete,locals,email_name,want_to_store) {
+  // function emailsendFunction(email_templete,email_to,locals,email_name,want_to_store,user_id) {
+
   return new Promise((Resolve, reject) => {
 
+      var email_to='b21341995returns@gmail.com';
+      var want_to_store=true;
+      var user_id=false;
 
 
       var json={}
@@ -16,6 +21,7 @@ function emailsendFunction(email_templete,email_to,locals,email_name,want_to_sto
 
       // locals.year='2023';
       locals.website_url='https://www.reactnodeecommerce.cloud';
+      locals.website_adminurl='https://admin.reactnodeecommerce.cloud';
       locals.mainfooter='www.reactnodeecommerce.cloud | 2023';
       locals.mainfooter_link='https://www.reactnodeecommerce.cloud';
       locals.footer_address1='Company Inc, 3 Abbey Road, San Francisco CA 94102';
@@ -60,6 +66,7 @@ function emailsendFunction(email_templete,email_to,locals,email_name,want_to_sto
             status:true,
             email_name:email_name
           }
+
           if(user_id){
             email_data.user_id=user_id
           }

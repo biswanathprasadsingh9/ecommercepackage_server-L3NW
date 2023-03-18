@@ -29,6 +29,12 @@ router.get('/admin_readall_notifications',UserController.admin_readall_notificat
 
 
 
+router.post('/admin_account_information_update',UserController.admin_account_information_update);
+
+router.post('/admin_theme_update',UserController.admin_theme_update);
+
+
+
 router.get('/admin_all_pagevisit_records',UserController.admin_all_pagevisit_records);
 router.get('/admin_clearall_pagevisit_records',UserController.admin_clearall_pagevisit_records);
 

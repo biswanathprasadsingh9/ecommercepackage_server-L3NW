@@ -662,3 +662,7 @@ app.use("/api/courier", Courier);
 app.use("/api/contact", Contact);
 app.use("/api/image", Image);
 app.use("/api/blog", Blog);
+
+
+
+app.use('/themes', express.static('themes'));
