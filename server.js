@@ -50,6 +50,8 @@ const Courier = require("./routes/courier");
 const Contact = require("./routes/contact");
 const Image = require("./routes/image");
 const Blog = require("./routes/blog");
+const SettingsAdmin = require("./routes/settingsadmin");
+
 
 
 
@@ -662,7 +664,8 @@ app.use("/api/courier", Courier);
 app.use("/api/contact", Contact);
 app.use("/api/image", Image);
 app.use("/api/blog", Blog);
+app.use("/api/settingsadmin", SettingsAdmin);
 
 
-
+//STATIC FILE
 app.use('/themes', express.static('themes'));
