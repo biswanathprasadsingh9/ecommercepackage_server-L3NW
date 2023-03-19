@@ -1,346 +1,136 @@
-//////////////////////
-///
-///
 
+/* FIX FOR ALL */
 .ant-tabs-tab {
-    padding: 12px 14px;
-    font-size: 18px;
+    padding: 12px 14px !important;
+    font-size: 18px !important;
 }
 
 .ant-menu {
-  font-size: 14px;
+  font-size: 14px !important;
   }
 
   .ant-btn {
-    height: 38px;
-    font-size: 14px;
-    border-radius: 32px;
+    height: 38px !important;
+    font-size: 14px !important;
+    border-radius: 32px !important;
   }
   .site-layout .site-layout-background {
-    border-radius: 8px;
-    // -webkit-box-shadow: 0px 17px 39px -23px rgb(0 0 0 / 55%);
-    // -moz-box-shadow: 0px 17px 39px -23px rgba(0,0,0,0.55);
-    box-shadow: 0px 17px 39px -23px rgb(0 0 0 / 55%);
+    border-radius: 8px !important;
+    box-shadow: 0px 17px 39px -23px rgb(0 0 0 / 55%) !important;
   }
 
   .ant-page-header-heading-title {
-    font-weight: 700;
-    font-size: 39px;
-    // font-family: 'Tilt Warp', cursive;
-    // font-family: 'Poppins', sans-serif;
-    font-family: 'Outfit', sans-serif;
-    padding: 6px 0px;
+    font-weight: 700 !important;
+    font-size: 39px !important;
+    /* font-family: 'Outfit', sans-serif !important; */
+    padding: 6px 0px !important;
   }
 
 
-////////////////////////FORM////////////////////////
+/* FORM */
 
 .ui.form .field .ui.input input, .ui.form .fields .field .ui.input input select {
-    // padding: 13px 10px;
-    font-weight: 500;
-      min-height: 49px;
-      border-radius: 7px;
-    // border: 1px solid #e2e8f0;
-    // box-shadow: 0 1px 2px 0 rgb(0 0 0 / 6%) !important
+    font-weight: 500 !important;
+      min-height: 49px !important;
+      border-radius: 7px !important;
   }
 
   .ui.form .field>label {
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 15px !important;
+    font-weight: 500 !important;
   }
 
 
   .ui.form select{
-    // padding: 13px 10px;
-    font-weight: 500;
-    min-height: 49px;
-    border-radius: 7px;
-    // border: 1px solid #e2e8f0;
-    // box-shadow: 0 1px 2px 0 rgb(0 0 0 / 6%) !important;
+    font-weight: 500 !important;
+    min-height: 49px !important;
+    border-radius: 7px !important;
   }
 
 
   .ui.form textarea {
-// padding: 13px 10px;
-font-weight: 500;
-min-height: 49px;
-border-radius: 7px;
-// border: 1px solid #e2e8f0;
-// box-shadow: 0 1px 2px 0 rgb(0 0 0 / 6%) !important;
+font-weight: 500 !important;
+min-height: 49px !important;
+border-radius: 7px !important;
 
 
   }
 
   .ui.fluid.dropdown {
-    font-weight: 500;
-      min-height: 49px;
-      border-radius: 7px;
-    // border: 1px solid #e2e8f0;
-    // box-shadow: 0 1px 2px 0 rgb(0 0 0 / 6%) !important;
+    font-weight: 500 !important;
+      min-height: 49px !important;
+      border-radius: 7px !important;
   }
-  ////////////////////////FORM//////////////////////
+  /* FORM */
 
-/////////////////////
-
-
-
-//THEME NATURE//
-// .ant-layout-header {
-//     background-image: linear-gradient(rgb(0,0,0,0.1), rgb(0,0,0,0.5)), url(http://m.gettywallpapers.com/wp-content/uploads/2021/08/Nature-PC-Background.jpg);
-//     background-repeat: no-repeat;
-//     background-position: 1% 20%;
-//     background-size: cover;
-// }
-// .ant-layout-sider {
-//     background: #096dd9;
-// }
-// .ant-menu.ant-menu-dark { //menu
-//     background-image: linear-gradient(rgb(0,0,0,0.5), rgb(0,0,0,0.5)), url(http://m.gettywallpapers.com/wp-content/uploads/2021/08/Nature-PC-Background.jpg);
-//     background-repeat: no-repeat;
-//     background-position: 1% 0%;
-//     background-size: cover;
-// }
-// .ant-menu-dark .ant-menu-inline.ant-menu-sub { //submenu
-//     background: #000c172e;
-// }
-
-// .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
-//     background-color: #ffffff30;
-// }
-
-// .ant-layout {
-//     width: 100%;
-//     background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url(http://m.gettywallpapers.com/wp-content/uploads/2021/08/Nature-PC-Background.jpg);
-//     background-repeat: no-repeat;
-//     background-position: 50% 0;
-//     background-size: cover;
-// }
-
-// .site-layout .site-layout-background {
-//     background: #ffffff94;
-// }
-
-// .ant-layout-sider-trigger {
-//     background: #000000ad;
-// }
-// .ant-layout-sider {
-//     background: #000000;
-// }
+  /* FIX FOR ALL */
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-// // THEME FLOWER//
-// .ant-layout-header {
-//     background-image: linear-gradient(rgb(0,0,0,0.1), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/765/406/516/landscape-4k-bliss-windows-xp-wallpaper-9866fd2850207c2810ac117e5862c4aa.jpg);
-//     background-repeat: no-repeat;
-//     background-position: 1% 51%;
-//     background-size: cover;
-// }
-// // .ant-layout-sider {
-// //     background: #096dd9;
-// // }
-// .ant-menu.ant-menu-dark { //menu
-//     background-image: linear-gradient(rgb(0,0,0,0.5), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/765/406/516/landscape-4k-bliss-windows-xp-wallpaper-9866fd2850207c2810ac117e5862c4aa.jpg);
-//     background-repeat: no-repeat;
-//     background-position: 1% 0%;
-//     background-size: cover;
-// }
-// .ant-menu-dark .ant-menu-inline.ant-menu-sub { //submenu
-//     background: #000c172e;
-// }
-
-// .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
-//     background-color: #ffffff30;
-// }
-
-// .ant-layout {
-//     width: 100%;
-//     background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url(https://r4.wallpaperflare.com/wallpaper/765/406/516/landscape-4k-bliss-windows-xp-wallpaper-9866fd2850207c2810ac117e5862c4aa.jpg);
-//     background-repeat: no-repeat;
-//     background-position: 50% 0;
-//     background-size: cover;
-// }
-
-// .site-layout .site-layout-background {
-//     background: #ffffff94;
-// }
-
-// .ant-layout-sider-trigger {
-//     background: #000000ad;
-// }
-// .ant-layout-sider {
-//     background: #000000;
-// }
-
-
-// // THEME 2//
-// .ant-layout-header {
-//     background-image: linear-gradient(rgb(0,0,0,0.1), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/515/543/652/autumn-colors-in-nature-herbst-park-new-york-city-usa-4k-ultra-hd-wallpaper-for-desktop-laptop-tablet-mobile-phones-and-tv-3840×2400-wallpaper-c040e5e97fa64e43380fd7d6cb463438.jpg);
-//     background-repeat: no-repeat;
-//     background-position: 1% 51%;
-//     background-size: cover;
-// }
-// // .ant-layout-sider {
-// //     background: #096dd9;
-// // }
-// .ant-menu.ant-menu-dark { //menu
-//     background-image: linear-gradient(rgb(0,0,0,0.5), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/515/543/652/autumn-colors-in-nature-herbst-park-new-york-city-usa-4k-ultra-hd-wallpaper-for-desktop-laptop-tablet-mobile-phones-and-tv-3840×2400-wallpaper-c040e5e97fa64e43380fd7d6cb463438.jpg);
-//     background-repeat: no-repeat;
-//     background-position: 1% 0%;
-//     background-size: cover;
-// }
-// .ant-menu-dark .ant-menu-inline.ant-menu-sub { //submenu
-//     background: #000c172e;
-// }
-
-// .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
-//     background-color: #ffffff30;
-// }
-
-// .ant-layout {
-//     width: 100%;
-//     background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url(https://r4.wallpaperflare.com/wallpaper/515/543/652/autumn-colors-in-nature-herbst-park-new-york-city-usa-4k-ultra-hd-wallpaper-for-desktop-laptop-tablet-mobile-phones-and-tv-3840×2400-wallpaper-c040e5e97fa64e43380fd7d6cb463438.jpg);
-//     background-repeat: no-repeat;
-//     background-position: 50% 0;
-//     background-size: cover;
-// }
-
-// .site-layout .site-layout-background {
-//     background: #ffffff94;
-// }
-
-// .ant-layout-sider-trigger {
-//     background: #000000ad;
-// }
-// .ant-layout-sider {
-//     background: #000000;
-// }
-
-
-
-// // THEME 3//
-// .ant-layout-header {
-//     background-image: linear-gradient(rgb(0,0,0,0.1), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/303/539/685/usa-4k-new-york-ny-wallpaper-f0b005599fa6def3680ff7a62b46d4e8.jpg);
-//     background-repeat: no-repeat;
-//     background-position: 1% 35%;
-//     background-size: cover;
-// }
-// // .ant-layout-sider {
-// //     background: #096dd9;
-// // }
-// .ant-menu.ant-menu-dark { //menu
-//     background-image: linear-gradient(rgb(0,0,0,0.5), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/303/539/685/usa-4k-new-york-ny-wallpaper-f0b005599fa6def3680ff7a62b46d4e8.jpg);
-//     background-repeat: no-repeat;
-//     background-position: 49% 0%;
-//     background-size: cover;
-// }
-// .ant-menu-dark .ant-menu-inline.ant-menu-sub { //submenu
-//     background: #000c172e;
-// }
-
-// .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
-//     background-color: #ffffff30;
-// }
-
-// .ant-layout {
-//     width: 100%;
-//     background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url(https://r4.wallpaperflare.com/wallpaper/303/539/685/usa-4k-new-york-ny-wallpaper-f0b005599fa6def3680ff7a62b46d4e8.jpg);
-//     background-repeat: no-repeat;
-//     background-position: 50% 0;
-//     background-size: cover;
-// }
-
-// .site-layout .site-layout-background {
-//     background: #ffffff94;
-// }
-
-// .ant-layout-sider-trigger {
-//     background: #000000ad;
-// }
-// .ant-layout-sider {
-//     background: #000000;
-// }
-
-
-// THEME 4//
+/* .ant-layout-header */
 .ant-layout-header {
-    background-image: linear-gradient(rgb(0,0,0,0.1), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg);
-    background-repeat: no-repeat;
-    background-position: 1% 38%;
-    background-size: cover;
+    background-image: linear-gradient(rgb(0,0,0,0.1), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg) !important;
+    background-repeat: no-repeat !important;
+    background-position: 1% 38% !important;
+    background-size: cover!important;
 }
-// .ant-layout-sider {
-//     background: #096dd9;
-// }
-.ant-menu.ant-menu-dark { //menu
-    background-image: linear-gradient(rgb(0,0,0,0.5), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg);
-    background-repeat: no-repeat;
-    background-position: 77% 0%;
-    background-size: cover;
+.ant-menu.ant-menu-dark {
+    background-image: linear-gradient(rgb(0,0,0,0.5), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg) !important;
+    background-repeat: no-repeat !important;
+    background-position: 77% 0% !important;
+    background-size: cover !important;
 }
-.ant-menu-dark .ant-menu-inline.ant-menu-sub { //submenu
-    background: #000c172e;
+.ant-menu-dark .ant-menu-inline.ant-menu-sub {
+    background: #000c172e !important;
 }
 
 .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
-    background-color: #ffffff30;
+    background-color: #ffffff30 !important;
 }
 
 .ant-layout {
-    width: 100%;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg);
-    background-repeat: no-repeat;
-    background-position: 50% 0;
-    background-size: cover;
+    width: 100% !important;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg) !important;
+    background-repeat: no-repeat !important;
+    background-position: 50% 0 !important;
+    background-size: cover !important;
 }
 
 .site-layout .site-layout-background {
-    background: #ffffff94;
+    background: #ffffff94 !important;
 }
 
 .ant-layout-sider-trigger {
-    background: #000000ad;
+    background: #000000ad !important;
 }
 .ant-layout-sider {
-    background: #000000;
+    background: #000000 !important;
 }
 
 .background_login_register{
-    height: 101vh;
-    width: 100%;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg);
-    background-repeat: no-repeat;
-    background-position: 50% 0;
-    background-size: cover;
+    height: 101vh !important;
+    width: 100% !important;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg) !important;
+    background-repeat: no-repeat !important;
+    background-position: 50% 0 !important;
+    background-size: cover !important;
 }
 .ant-drawer-header {
-    background-image: linear-gradient(rgb(0,0,0,0.5), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg);
-    background-repeat: no-repeat;
-    background-position: 77% 0%;
-    background-size: cover;
-    color: white;
-    font-weight: bold;
-    border-radius: 0px;
+    background-image: linear-gradient(rgb(0,0,0,0.5), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg) !important;
+    background-repeat: no-repeat !important;
+    background-position: 77% 0% !important;
+    background-size: cover !important;
+    color: white !important;
+    font-weight: bold !important;
+    border-radius: 0px !important;
 }
 .ant-drawer-wrapper-body {
-    width: 100%;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg);
-    background-repeat: no-repeat;
-    background-position: 50% 0;
-    background-size: cover;
+    width: 100% !important;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg) !important;
+    background-repeat: no-repeat !important;
+    background-position: 50% 0 !important;
+    background-size: cover !important;
 }
 .ant-drawer-title {
-    color: white;
+    color: white !important;
 }
