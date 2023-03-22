@@ -9,6 +9,7 @@ var calculateTax = require("./calculateTax");
 var notificationList = require("./notificationList");
 const { uuid } = require('uuidv4');
 var mongoose = require('mongoose');
+const axios = require('axios');
 
 const User = require("../models/User");
 const UserAddress = require("../models/UserAddress");
@@ -21,6 +22,7 @@ const Order = require("../models/Order");
 const EmailSendList = require("../models/EmailSendList");
 const PageVisitRecord = require("../models/PageVisitRecord");
 const Notification = require("../models/Notification");
+const SettingsAdmin = require("../models/SettingsAdmin");
 
 
 
@@ -144,6 +146,27 @@ const login_with_google = (req,res) => {
                 })
 
 
+                // //notix
+                // const data={
+                //   "message":{
+                //       "icons":"https://blog.qtonix.com/images/logowhite.png",
+                //       "image":blog.thumbnail_image,
+                //       "text":blog.description,
+                //       "title":blog.title,
+                //       "url":"https://blog.qtonix.com/blog/"+blog.url
+                //   }
+                // };
+                //
+                // const headers = {
+                //   'Authorization-Token': '32f1df27da51736392e9e8f001a4b4f131cedae0e8fe59e4',
+                // }
+                //
+                // axios.post('http://notix.io/api/send?app=10058bb816419c1316dc7a85c5f39a8',data,{headers:headers})
+                // .then(ares=>{
+                //   console.log('push notification send success')
+                // })
+
+
 
 
 
@@ -251,6 +274,12 @@ const register = (req,res) => {
           console.log('send email_user_email_verification_code');
         })
 
+        //send new user register to admin
+        emailsenderAdmin.emailsendFunction('admin_new_user_registration',{datalink:`/users/${response._id}`,user:response,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_to_admin_new_user_registration')
+        .then(response=>{
+          console.log('send admin_new_user_registration');
+        })
+
 
       })
     }else{
@@ -302,6 +331,11 @@ const register_fromadmin = (req,res) => {
           data:response,
           message:'user_created'
         })
+
+
+
+
+
       })
     }else{
       res.json({
@@ -335,6 +369,33 @@ const registerfromcart = (req,res) => {
             data:response,
             message:'user_created'
           })
+
+
+          Notification.create({user_id:response._id,message:'notification_new_user_register',info_id:response._id,info_url:`/users/${response._id}`})
+          .then(resasac=>{
+            console.log('created_notification');
+          })
+
+          //send email thank you register email to users
+          emailsender.emailsendFunction('user_send_thanks_for_registration',response.email,{username:response.name.split(' ')[0]},'email_user_thanks_for_register',true,response._id)
+          .then(response=>{
+            console.log('send email_user_thanks_for_register');
+          })
+
+          //send email verification code email to users
+          emailsender.emailsendFunction('user_send_email_verification_code',response.email,{emailverificationcode:response.emailverificationcode},'email_user_email_verification_code',true,response._id)
+          .then(response=>{
+            console.log('send email_user_email_verification_code');
+          })
+
+          //send new user register to admin
+          emailsenderAdmin.emailsendFunction('admin_new_user_registration',{datalink:`/users/${response._id}`,user:response,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_to_admin_new_user_registration')
+          .then(response=>{
+            console.log('send admin_new_user_registration');
+          })
+
+
+
         })
 
       })
@@ -400,14 +461,37 @@ const loginadmin = (req,res) => {
 
           if(doc.type==='Admin'){
 
-            LoginRecord.create({user_id:doc._id,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
-            .then(resa=>{
+
+            if(doc.status===false){
               res.json({
-                response:true,
-                data:doc,
-                message:'Login Success'
+                response:false,
+                message:'User access disabled'
               })
-            })
+            }else{
+
+              User.findOneAndUpdate({_id:doc._id},{$set:{instant_logout_from_all_device:false}})
+              .then(res11=>{
+
+                SettingsAdmin.updateMany({}, {$set: {all_admin_instant_logout: false,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo}})
+                .then(res22=>{
+
+                  LoginRecord.create({user_id:doc._id,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
+                  .then(resa=>{
+                    res.json({
+                      response:true,
+                      data:doc,
+                      message:'Login Success'
+                    })
+                  })
+
+                })
+
+              })
+
+
+            }
+
+
 
           }else{
             res.json({

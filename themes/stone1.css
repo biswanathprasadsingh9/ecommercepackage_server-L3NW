@@ -27,6 +27,19 @@
   }
 
 
+  .ant-popover-buttons button {
+    margin-left: 8px;
+    font-size: 14px !important;
+    height: 24px !important;
+  }
+  .ant-btn-sm {
+    height: 27px !important;
+    padding: 0px 7px;
+    font-size: 14px;
+    border-radius: 2px;
+  }
+
+
 /* FORM */
 
 .ui.form .field .ui.input input, .ui.form .fields .field .ui.input input select {

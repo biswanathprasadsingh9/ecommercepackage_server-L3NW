@@ -22,6 +22,12 @@ const SettingsAdminSchema = new Schema({
     type:Boolean,
     default:false
   },
+  ipinfo:{
+    type:Object
+  },
+  deviceinfo:{
+    type:Object
+  },
 },{timestamps:true})
 
 const SettingsAdmin = mongoose.model('SettingsAdmin',SettingsAdminSchema)

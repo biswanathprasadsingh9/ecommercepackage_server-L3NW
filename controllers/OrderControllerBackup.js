@@ -4,7 +4,6 @@ const pdf2base64 = require('pdf-to-base64');
 var notificationList = require("./notificationList");
 var emailsender = require("./emailsender");
 var emailsenderForOrder = require("./emailsenderForOrder");
-var emailsenderAdmin = require("./emailsenderAdmin");
 
 
 var numeral = require("./numeral");
@@ -156,7 +155,6 @@ const payondelivery = (req,res) => {
               name:'1',
             }
 
-            //new order notification
             Notification.create({user_id:req.body.user_id,message:'notification_new_order',info_id:response._id,info_url:`/orders/${response._id}`})
             .then(resasac=>{
               console.log('created_notification');
@@ -167,7 +165,6 @@ const payondelivery = (req,res) => {
               console.log('tiline_created');
             })
 
-            //new order email
             User.findById(req.body.user_id)
             .then(user=>{
               emaildatas.username=user.name.split(' ')[0];
@@ -175,13 +172,6 @@ const payondelivery = (req,res) => {
               .then(response=>{
                 console.log('send user_send_thankyou_for_order');
               })
-
-              //send new user register to admin
-              emailsenderAdmin.emailsendFunction('admin_new_user_order',{datalink:`/orders/${response._id}`,user:user,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_to_admin_new_user_order')
-              .then(response=>{
-                console.log('send admin_new_user_order');
-              })
-
             })
 
           })
@@ -503,52 +493,34 @@ const update_order_status = (req,res) => {
             })
           }
 
-          //order in progress
-          if(req.body.order_status=='4'){
-            emailsenderForOrder.emailsendFunction('user_order_packing',user.email,emaildatas,'email_user_order_packing',true,user._id)
-            .then(response=>{
-              console.log('send user_order_packing');
-            })
-          }
-
-          //order in ready for pickup
-          if(req.body.order_status=='5'){
-            emailsenderForOrder.emailsendFunction('user_order_readyforpickup',user.email,emaildatas,'email_user_order_readyforpickup',true,user._id)
-            .then(response=>{
-              console.log('send user_order_readyforpickup');
-            })
-          }
-
-          //order shipped
-          if(req.body.order_status=='6'){
-
-            if(orderdetails.courier_id){ //check if courier available
-              emaildatas.courier_tracking_id=orderdetails.courier_tracking_id;
-              emaildatas.courier_name=orderdetails.courier_id.name;
-              emaildatas.courier_url=orderdetails.courier_id.tracking_url;
-
-              emailsenderForOrder.emailsendFunction('user_order_shipped',user.email,emaildatas,'email_user_order_shipped',true,user._id)
-              .then(response=>{
-                console.log('send user_order_shipped');
-              })
-            }
-          }
-
-          //order in ready for pickup
-          if(req.body.order_status=='7'){
-            emailsenderForOrder.emailsendFunction('user_order_delivered',user.email,emaildatas,'email_user_order_delivered',true,user._id)
-            .then(response=>{
-              console.log('send user_order_delivered');
-            })
-          }
-
-          //order calcelled
-          if(req.body.order_status=='0'){
-            emailsenderForOrder.emailsendFunction('user_order_cancelled',user.email,emaildatas,'email_user_order_cancelled',true,user._id)
-            .then(response=>{
-              console.log('send user_order_cancelled');
-            })
-          }
+          // //order in progress
+          // if(req.body.order_status=='4'){
+          //   emailsenderForOrder.emailsendFunction('user_order_packing',user.email,emaildatas,'email_user_order_packing',true,user._id)
+          //   .then(response=>{
+          //     console.log('send user_order_packing');
+          //   })
+          // }
+          //
+          // //order in ready for pickup
+          // if(req.body.order_status=='5'){
+          //   emailsenderForOrder.emailsendFunction('user_order_readyforpickup',user.email,emaildatas,'email_user_order_readyforpickup',true,user._id)
+          //   .then(response=>{
+          //     console.log('send user_order_readyforpickup');
+          //   })
+          // }
+          //
+          // //order shipped
+          // if(req.body.order_status=='6'){
+          //
+          //   emaildatas.courier_tracking_id=orderdetails.courier_tracking_id;
+          //   emaildatas.courier_name=orderdetails.courier_id.name;
+          //   emaildatas.courier_url=orderdetails.courier_id.tracking_url;
+          //
+          //   emailsenderForOrder.emailsendFunction('user_order_shipped',user.email,emaildatas,'email_user_order_shipped',true,user._id)
+          //   .then(response=>{
+          //     console.log('send user_order_shipped');
+          //   })
+          // }
 
         }
 
