@@ -88,21 +88,21 @@ border-radius: 7px !important;
 
 
 
-  
+
 
 
 
 /* .ant-layout-header */
 .ant-layout-header {
-    background-image: linear-gradient(rgb(0,0,0,0.1), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg) !important;
+    background-image: linear-gradient(rgb(0,0,0,0.1), rgb(0,0,0,0.5)), url(https://wallpaper.dog/large/20508486.jpg) !important;
     background-repeat: no-repeat !important;
-    background-position: 1% 38% !important;
+    background-position: 1% 1% !important;
     background-size: cover!important;
 }
 .ant-menu.ant-menu-dark {
-    background-image: linear-gradient(rgb(0,0,0,0.5), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg) !important;
+    background-image: linear-gradient(rgb(0,0,0,0.5), rgb(0,0,0,0.5)), url(https://wallpaper.dog/large/20508486.jpg) !important;
     background-repeat: no-repeat !important;
-    background-position: 77% 0% !important;
+    background-position: 19% 0% !important;
     background-size: cover !important;
 }
 .ant-menu-dark .ant-menu-inline.ant-menu-sub {
@@ -115,7 +115,7 @@ border-radius: 7px !important;
 
 .ant-layout {
     width: 100% !important;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg) !important;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url(https://wallpaper.dog/large/20508486.jpg) !important;
     background-repeat: no-repeat !important;
     background-position: 50% 0 !important;
     background-size: cover !important;
@@ -135,13 +135,13 @@ border-radius: 7px !important;
 .background_login_register{
     height: 101vh !important;
     width: 100% !important;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg) !important;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url(https://wallpaper.dog/large/20508486.jpg) !important;
     background-repeat: no-repeat !important;
     background-position: 50% 0 !important;
     background-size: cover !important;
 }
 .ant-drawer-header {
-    background-image: linear-gradient(rgb(0,0,0,0.5), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg) !important;
+    background-image: linear-gradient(rgb(0,0,0,0.5), rgb(0,0,0,0.5)), url(https://wallpaper.dog/large/20508486.jpg) !important;
     background-repeat: no-repeat !important;
     background-position: 77% 0% !important;
     background-size: cover !important;
@@ -151,7 +151,7 @@ border-radius: 7px !important;
 }
 .ant-drawer-wrapper-body {
     width: 100% !important;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url(https://r4.wallpaperflare.com/wallpaper/583/893/151/nature-2560x1600-water-rock-wallpaper-18261c0a6f9c57c90e3019a29299fbb0.jpg) !important;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url(https://wallpaper.dog/large/20508486.jpg) !important;
     background-repeat: no-repeat !important;
     background-position: 50% 0 !important;
     background-size: cover !important;

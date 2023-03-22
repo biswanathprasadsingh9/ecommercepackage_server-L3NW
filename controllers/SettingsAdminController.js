@@ -98,7 +98,7 @@ const logout_admin_from_all_devices = (req,res) => {
 
 const logout_myaccount_from_alldevices = (req,res) => {
   try {
-    User.findById(req.params.user_id,{$set:{instant_logout_from_all_device:true}})
+    User.findOneAndUpdate({_id:req.params.user_id},{$set:{instant_logout_from_all_device:true}})
     .then(res11=>{
       res.json({
         response:true,

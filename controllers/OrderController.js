@@ -650,7 +650,14 @@ const delete_order = (req,res) => {
   })
 }
 
+const mark_all_seen = (req,res) => {
+  Order.update({isAdminSeen:false}, {$set: { isAdminSeen: true }}, {multi: true}, (err,doc)=>{
+    res.json({
+      response:true
+    })
+  })
+}
 
 module.exports = {
-  index,vieworder_byorderid,delete_single_timeline_item,delete_order,update_order_address,vieworder,generate_invoice,pdf_store_test,payondelivery,payonstripe,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
+  index,vieworder_byorderid,mark_all_seen,delete_single_timeline_item,delete_order,update_order_address,vieworder,generate_invoice,pdf_store_test,payondelivery,payonstripe,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
 };

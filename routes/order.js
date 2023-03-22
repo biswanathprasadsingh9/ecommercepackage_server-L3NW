@@ -7,6 +7,9 @@ const PDFController = require('../controllers/PDFController');
 
 router.get('/',OrderController.index);
 
+router.get('/mark_all_seen',OrderController.mark_all_seen);
+
+
 router.post('/payondelivery',OrderController.payondelivery);
 router.post('/payonpaypal',OrderController.payonpaypal);
 router.post('/payonstripe',OrderController.payonstripe);
