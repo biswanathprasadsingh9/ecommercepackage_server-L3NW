@@ -6,6 +6,9 @@ const pagevisitRecordchema = new Schema({
   ipinfo:{
     type:Object
   },
+  deviceinfo:{
+    type:Object
+  },
   page_url:{
     type:'String'
   },

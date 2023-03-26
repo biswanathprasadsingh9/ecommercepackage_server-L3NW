@@ -1225,6 +1225,8 @@ const user_page_visit_tracking_store = (req,res) => {
   // console.log(req.body)
 
   if(req.body.user){
+
+
     User.findById(req.body.user_id)
     .then(response=>{
 
@@ -1252,6 +1254,11 @@ const user_page_visit_tracking_store = (req,res) => {
           message:'logout_now'
         })
       }
+
+      PageVisitRecord.create(req.body)
+      .then(response=>{
+
+      })
 
 
     }).catch(err=>{
