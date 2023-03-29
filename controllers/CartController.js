@@ -23,7 +23,8 @@ const getcartitems = (req,res) => {
               .populate('user_id',['name','email'])
               .populate({
                 path: 'parent_product_id',
-                select: 'url product_tax',
+                // select: 'url product_tax images',
+                select: { _id: 1, url: 1, product_tax: 1,showImagesInConfigProducts:1, images: { $slice: 1 } },
                 populate: [
                 {
                   path: 'product_tax',
@@ -83,7 +84,8 @@ const getcartitems = (req,res) => {
                 .populate('user_id',['name','email'])
                 .populate({
                   path: 'parent_product_id',
-                  select: 'url product_tax',
+                  // select: 'url product_tax images',
+                  select: { _id: 1, url: 1, product_tax: 1,showImagesInConfigProducts:1, images: { $slice: 1 } },
                   populate: [
                   {
                     path: 'product_tax',
@@ -123,7 +125,8 @@ const getcartitemsnologin = (req,res) => {
     .populate('user_id',['name','email'])
     .populate({
       path: 'parent_product_id',
-      select: 'url product_tax',
+      // select: 'url product_tax images',
+      select: { _id: 1, url: 1, product_tax: 1,showImagesInConfigProducts:1, images: { $slice: 1 } },
       populate: [
       {
         path: 'product_tax',

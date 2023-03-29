@@ -14,7 +14,8 @@ const pagevisitRecordchema = new Schema({
   },
   user:{
     type:Boolean
-  }
+  },
+  user_id:{type:mongoose.Schema.Types.ObjectId,ref:'User'},
 },{timestamps:true})
 
 const PageVisitRecord = mongoose.model('PageVisitRecord',pagevisitRecordchema);

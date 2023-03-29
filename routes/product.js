@@ -8,6 +8,17 @@ const upload = multer({});
 
 router.get('/',ProductController.index);
 
+
+router.post('/review_store',ProductController.review_store);
+router.get('/review_underproducts/:product_id',ProductController.review_underproducts);
+
+router.post('/review_edit',ProductController.review_edit);
+router.get('/review_delete/:id',ProductController.review_delete);
+
+
+
+
+
 router.get('/products',ProductController.allproducts);
 router.post('/productsearch',ProductController.productsearch);
 router.post('/productsearchfinal',ProductController.productsearchfinal);
@@ -22,10 +33,7 @@ router.get('/view_productinfo/:type/:id',ProductController.viewproductinfo);
 
 
 router.get('/view/:url',ProductController.viewurl);
-
 router.get('/viewweb/:url',ProductController.viewweb);
-
-
 
 
 

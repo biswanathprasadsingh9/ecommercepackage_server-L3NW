@@ -56,7 +56,7 @@ const admin_dashboard = async(req,res) => {
                                           ]);
 
 
-                                                console.log(xyz)
+                                                // console.log(xyz)
 
 
   const today = moment().endOf('day');

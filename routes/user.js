@@ -37,6 +37,8 @@ router.post('/admin_theme_update',UserController.admin_theme_update);
 
 router.get('/admin_all_pagevisit_records',UserController.admin_all_pagevisit_records);
 router.get('/admin_clearall_pagevisit_records',UserController.admin_clearall_pagevisit_records);
+router.get('/admin_mostviewed_page',UserController.admin_mostviewed_page);
+
 
 
 router.get('/admin_all_cart_items',UserController.admin_all_cart_items);

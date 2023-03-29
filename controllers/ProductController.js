@@ -4,10 +4,14 @@ const _ = require("lodash");
 var SpellCorrector = require('spelling-corrector');
 var spellCorrector = new SpellCorrector();
 spellCorrector.loadDictionary();
+const Notification = require("../models/Notification");
+
 
 const Product = require("../models/Product");
 const Attribute = require("../models/Attribute");
 const Cart = require("../models/Cart");
+const ProductReview = require("../models/ProductReview");
+
 
 
 
@@ -1283,6 +1287,89 @@ const searchproduct_byname = (req,res) => {
 }
 
 
+const review_store = (req,res) => {
+  ProductReview.findOne({product_id:req.body.product_id,user_id:req.body.user_id})
+  .then(data=>{
+    if(data===null){
+      ProductReview.create(req.body)
+      .then(response=>{
+        res.json({
+          response:true,
+        })
+
+        Notification.create({user_id:req.body.user_id,message:'notification_product_review',info_id:response._id,info_url:`/users/${response._id}`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
+        .then(resasac=>{
+          console.log('created notification_product_review');
+        })
+      })
+
+
+
+
+
+    }else{
+      res.json({
+        response:false,
+        message:'error2'
+      })
+    }
+  }).catch(err=>{
+    res.json({
+      response:false,
+      message:'error1'
+    })
+  })
+
+
+}
+
+const review_underproducts = (req,res) => {
+  ProductReview.find({product_id:req.params.product_id}).populate('user_id','name email')
+  .then(response=>{
+    res.json({
+      response:true,
+      datas:response
+    })
+  }).catch(err=>{
+    res.json({
+      response:false,
+    })
+  })
+}
+
+const review_edit = (req,res) =>{
+  ProductReview.findByIdAndUpdate(req.body._id,req.body)
+  .then(resp=>{
+    res.json({
+      response:true,
+    })
+
+    Notification.create({user_id:req.body.user_id,message:'notification_product_review_update',info_id:response._id,info_url:`/users/${response._id}`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
+    .then(resasac=>{
+      console.log('created notification_product_review_update');
+    })
+
+  }).catch(err=>{
+    res.json({
+      response:false,
+    })
+  })
+}
+
+const review_delete = (req,res) => {
+  ProductReview.findByIdAndRemove(req.params.id)
+  .then(resp=>{
+    res.json({
+      response:true,
+    })
+  }).catch(err=>{
+    res.json({
+      response:false,
+    })
+  })
+}
+
+
 module.exports = {
   index,
   singleproductinformation,
@@ -1308,5 +1395,9 @@ module.exports = {
   dummyentry,
   viewurl,
   viewweb,
-  searchproduct_byname
+  searchproduct_byname,
+  review_store,
+  review_underproducts,
+  review_edit,
+  review_delete
 };
