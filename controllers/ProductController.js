@@ -12,7 +12,8 @@ const Attribute = require("../models/Attribute");
 const Cart = require("../models/Cart");
 const ProductReview = require("../models/ProductReview");
 
-
+var emailsender = require("./emailsender");
+var emailsenderAdmin = require("./emailsenderAdmin");
 
 
 const ImageKit = require("imagekit");
@@ -1297,10 +1298,25 @@ const review_store = (req,res) => {
           response:true,
         })
 
-        Notification.create({user_id:req.body.user_id,message:'notification_product_review',info_id:response._id,info_url:`/users/${response._id}`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
+        Notification.create({user_id:req.body.user_id,message:'notification_product_review',info_id:response._id,info_url:`/reviews/${response._id}`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
         .then(resasac=>{
           console.log('created notification_product_review');
         })
+
+
+        // //send email thank you notification email to users
+        // emailsender.emailsendFunction('user_send_thankyou_for_product_review',req.body.user_email,{username:req.body.user_name.split(' ')[0]},'email_user_thankyou_for_product_review',true,rdata._id)
+        // .then(response=>{
+        //   console.log('send email_user_thankyou_for_product_review');
+        // })
+        //
+        // //send new user notification to admin
+        emailsenderAdmin.emailsendFunction('admin_new_user_new_product_review',{datalink:`/users/${req.body.user_id}`,user:{name:req.body.user_name,email:req.body.user_email},starrating:req.body.rating,comment:req.body.comment,productname:req.body.product_name,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_to_admin_new_user_product_review')
+        .then(response=>{
+          console.log('send admin_new_user_product_review');
+        })
+
+
       })
 
 
@@ -1369,6 +1385,35 @@ const review_delete = (req,res) => {
   })
 }
 
+const admin_all_reviews = (req,res) => {
+  ProductReview.find().populate('user_id','name email').sort({ _id: -1 })
+  .then(response=>{
+    res.json({
+      response:true,
+      datas:response
+    })
+  }).catch(err=>{
+    res.json({
+      response:false,
+    })
+  })
+}
+
+const seen_all_reviews = (req,res) => {
+  ProductReview.update({isAdminSeen:false}, {$set: { isAdminSeen: true }}, {multi: true}, (err,doc)=>{
+    res.json({
+      response:true
+    })
+  })
+}
+
+const admin_seen_allreviews_under_product = (req,res) => {
+  ProductReview.update({isAdminSeen:false,product_id:req.params.product_id}, {$set: { isAdminSeen: true }}, {multi: true}, (err,doc)=>{
+    res.json({
+      response:true
+    })
+  })
+}
 
 module.exports = {
   index,
@@ -1399,5 +1444,8 @@ module.exports = {
   review_store,
   review_underproducts,
   review_edit,
-  review_delete
+  review_delete,
+  admin_all_reviews,
+  seen_all_reviews,
+  admin_seen_allreviews_under_product
 };

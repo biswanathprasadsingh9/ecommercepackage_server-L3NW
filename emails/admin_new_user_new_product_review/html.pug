@@ -8,46 +8,12 @@ head
     GLOBAL RESETS
     ------------------------------------- */
     /*All the styling goes here*/
-
-    .producthead{
-      font-weight:600;
-      margin-bottom:2px;
-    }
-    .row {
-
-    }
-
-    .column {
-      display: inline-block;
-    }
-
-    .calctot{
-      text-align:right;
-
-    }
-    .calctot p{
-    line-height:9px
-    }
-
-    .delivery h3{
-      font-weight:bold;
-      margin-bottom: 9px;
-    }
-
-    .delivery p{
-      line-height:2px
-    }
-
-    th {
-      text-align: left;
-    }
-
-    .names2{
-     margin-bottom: 14px;
-    }
     .div56565{
     background-color: antiquewhite;
     padding: 17px;
+    }
+    .names2{
+     margin-bottom: 14px;
     }
     .myheading22 {
     margin-bottom: 9px;
@@ -362,11 +328,52 @@ table.body(role='presentation' border='0' cellpadding='0' cellspacing='0')
               table(role='presentation' border='0' cellpadding='0' cellspacing='0')
                 tr
                   td
-                    h2.names2 Hi !{locals.username},
-                    p Thank you so much for leaving us a review on ReactNodeEcommerce.
+                    h1
+                      center New product review
 
-                    p If you have any questions about your account or any other matter, please feel free to contact us at
-                    a(href=locals.helpemail) !{locals.helpemail}
+
+                    div.div56565
+                      h3.myheading22 Review Information
+                      p.mylineheight User Name: !{locals.user.name}
+                      p.mylineheight Product Name: !{locals.productname}
+                      p.mylineheight Star Rating: !{locals.starrating}
+                      p.mylineheight Comment: !{locals.comment}
+                    br
+                    div.div56565
+                        h3.myheading22 IP information
+                        p.mylineheight IP: !{locals.ipinfo.ipAddress}
+                        p.mylineheight Country: !{locals.ipinfo.countryName}
+                        p.mylineheight Region: !{locals.ipinfo.regionName}
+                        p.mylineheight City: !{locals.ipinfo.cityName}
+                        p.mylineheight ZIP: !{locals.ipinfo.zipCode}
+                        p.mylineheight Latitude: !{locals.ipinfo.latitude}
+                        p.mylineheight Longitude: !{locals.ipinfo.longitude}
+
+                    br
+                    div.div56565
+                      h3.myheading22 Device information
+                      p.mylineheight Browser: !{locals.deviceinfo.browserName}
+                      p.mylineheight Device Type: !{locals.deviceinfo.deviceType}
+                      p.mylineheight Mobile Model: !{locals.deviceinfo.mobileModel}
+                      p.mylineheight Mobile Vendor: !{locals.deviceinfo.mobileVendor}
+                      p.mylineheight OS Name: !{locals.deviceinfo.osName}
+                      p.mylineheight OS Version: !{locals.deviceinfo.osVersion}
+
+                    br
+                    table.btn.btn-primary(role='presentation' border='0' cellpadding='0' cellspacing='0')
+                      tbody
+                        tr
+                          td(align='left')
+                            table(role='presentation' border='0' cellpadding='0' cellspacing='0')
+                              tbody
+                                tr
+                                  td
+                                      a(href=locals.website_adminurl+locals.datalink target='_blank') View Details
+
+
+
+
+
           // END MAIN CONTENT AREA
         // END CENTERED WHITE CONTAINER
         // START FOOTER
