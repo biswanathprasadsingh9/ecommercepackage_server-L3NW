@@ -156,13 +156,21 @@ const ProductSchema = new Schema({
   meta_key:{
     type:String,
   },
+  review_total:{
+    type:Number,
+    default:0
+  },
+  review_heighest_star:{
+    type:Number,
+    default:0
+  },
 },{
-      timestamps: {
-          createdAt: 'createdAt',
-          updatedAt: 'updatedAt'
-      },
-      strict: false
-  })
+  timestamps: {
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  },
+  strict: false
+})
 
 const Product = mongoose.model('Product',ProductSchema)
 module.exports = Product;

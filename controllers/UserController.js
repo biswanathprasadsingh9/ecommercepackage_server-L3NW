@@ -64,6 +64,158 @@ const index = (req, res) => {
       });
     });
 
+
+
+
+
+
+
+
+
+
+
+
+  // PASSWORD: sam@gmail.com
+  // var entry_datas=[
+  //
+//
+  //   {
+  //     name:'Violet Robinson',
+  //     email:'violetrobinson@demoemail.com',
+  //     password:'$2a$10$PfE9cSzkiDK3aDFHzeUbNeogTkRbx6FZ4Dm220kc7YkkY5bdkCZgW',
+  //     type:'User',
+  //     created_by:'Demouser',
+  //     emailverification:true,
+  //
+  //     ipinfo: {
+  //       ipVersion: 4,
+  //       ipAddress: "103.151.128.152",
+  //       latitude: 20.23333,
+  //       longitude: 85.833328,
+  //       countryName: "India",
+  //       countryCode: "IN",
+  //       timeZone: "+05:30",
+  //       zipCode: "752101",
+  //       cityName: "Bhubaneshwar",
+  //       regionName: "Odisha"
+  //     },
+  //   },
+  //   {
+  //     name:'Lester Miles',
+  //     email:'lestermiles@demoemail.com',
+  //     password:'$2a$10$PfE9cSzkiDK3aDFHzeUbNeogTkRbx6FZ4Dm220kc7YkkY5bdkCZgW',
+  //     type:'User',
+  //     created_by:'Demouser',
+  //     emailverification:true,
+  //
+  //     ipinfo: {
+  //       ipVersion: 4,
+  //       ipAddress: "103.151.128.152",
+  //       latitude: 20.23333,
+  //       longitude: 85.833328,
+  //       countryName: "India",
+  //       countryCode: "IN",
+  //       timeZone: "+05:30",
+  //       zipCode: "752101",
+  //       cityName: "Bhubaneshwar",
+  //       regionName: "Odisha"
+  //     },
+  //   },
+  //   {
+  //     name:'Patrick Steeves',
+  //     email:'patricksteeves@demoemail.com',
+  //     password:'$2a$10$PfE9cSzkiDK3aDFHzeUbNeogTkRbx6FZ4Dm220kc7YkkY5bdkCZgW',
+  //     type:'User',
+  //     created_by:'Demouser',
+  //     emailverification:true,
+  //
+  //     ipinfo: {
+  //       ipVersion: 4,
+  //       ipAddress: "103.151.128.152",
+  //       latitude: 20.23333,
+  //       longitude: 85.833328,
+  //       countryName: "India",
+  //       countryCode: "IN",
+  //       timeZone: "+05:30",
+  //       zipCode: "752101",
+  //       cityName: "Bhubaneshwar",
+  //       regionName: "Odisha"
+  //     },
+  //   },
+  //   {
+  //     name:'patricksteeves',
+  //     email:'@demoemail.com',
+  //     password:'$2a$10$PfE9cSzkiDK3aDFHzeUbNeogTkRbx6FZ4Dm220kc7YkkY5bdkCZgW',
+  //     type:'User',
+  //     created_by:'Demouser',
+  //     emailverification:true,
+  //
+  //     ipinfo: {
+  //       ipVersion: 4,
+  //       ipAddress: "103.151.128.152",
+  //       latitude: 20.23333,
+  //       longitude: 85.833328,
+  //       countryName: "India",
+  //       countryCode: "IN",
+  //       timeZone: "+05:30",
+  //       zipCode: "752101",
+  //       cityName: "Bhubaneshwar",
+  //       regionName: "Odisha"
+  //     },
+  //   },
+  //   {
+  //     name:'Tina Chambers',
+  //     email:'tinachambers@demoemail.com',
+  //     password:'$2a$10$PfE9cSzkiDK3aDFHzeUbNeogTkRbx6FZ4Dm220kc7YkkY5bdkCZgW',
+  //     type:'User',
+  //     created_by:'Demouser',
+  //     emailverification:true,
+  //
+  //     ipinfo: {
+  //       ipVersion: 4,
+  //       ipAddress: "103.151.128.152",
+  //       latitude: 20.23333,
+  //       longitude: 85.833328,
+  //       countryName: "India",
+  //       countryCode: "IN",
+  //       timeZone: "+05:30",
+  //       zipCode: "752101",
+  //       cityName: "Bhubaneshwar",
+  //       regionName: "Odisha"
+  //     },
+  //   },
+  //   {
+  //     name:'Kathy Crawford',
+  //     email:'kathycrawford@demoemail.com',
+  //     password:'$2a$10$PfE9cSzkiDK3aDFHzeUbNeogTkRbx6FZ4Dm220kc7YkkY5bdkCZgW',
+  //     type:'User',
+  //     created_by:'Demouser',
+  //     emailverification:true,
+  //
+  //     ipinfo: {
+  //       ipVersion: 4,
+  //       ipAddress: "103.151.128.152",
+  //       latitude: 20.23333,
+  //       longitude: 85.833328,
+  //       countryName: "India",
+  //       countryCode: "IN",
+  //       timeZone: "+05:30",
+  //       zipCode: "752101",
+  //       cityName: "Bhubaneshwar",
+  //       regionName: "Odisha"
+  //     },
+  //   },
+  //
+  //
+  // ]
+  //
+  // User.create(entry_datas)
+  // .then(resp=>{
+  //   res.json({
+  //     response:true
+  //   })
+  // })
+
 };
 
 

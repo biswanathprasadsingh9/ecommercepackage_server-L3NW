@@ -5,7 +5,7 @@ var SpellCorrector = require('spelling-corrector');
 var spellCorrector = new SpellCorrector();
 spellCorrector.loadDictionary();
 const Notification = require("../models/Notification");
-
+const { ObjectId } = require('mongodb');
 
 const Product = require("../models/Product");
 const Attribute = require("../models/Attribute");
@@ -41,6 +41,31 @@ function ToSeoUrl(url) {
 
 
 
+function mostFrequent(arr) {
+
+  return arr
+        .reduce((acc, cur, ind, arr) => {
+          if (arr.indexOf(cur) === ind) {
+            return [...acc, [cur, 1]];
+          } else {
+            acc[acc.indexOf(acc.find(e => e[0] === cur))] = [
+              cur,
+              acc[acc.indexOf(acc.find(e => e[0] === cur))][1] + 1
+            ];
+            return acc;
+          }
+        }, [])
+        .sort((a, b) => b[1] - a[1])
+        .filter((cur, ind, arr) => cur[1] === arr[0][1])
+        .map(cur => cur[0]);
+}
+
+
+function randomIntFromInterval(min, max) { // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+
 // INDEX
 const index = (req, res) => {
   Product.find({type:['Configurable','Simple']})
@@ -53,6 +78,720 @@ const index = (req, res) => {
         datas: response,
       });
     });
+
+
+
+
+
+
+  // //update review
+  // Product.find({})
+  // .then(products=>{
+  //
+  //   products.forEach((item, i) => {
+  //     // console.log(item)
+  //
+  //     //for clear review
+  //     Product.findByIdAndUpdate(item._id,{$set:{review_total:19,review_heighest_star:5}})
+  //     .then(asd=>{
+  //       console.log('success',i);
+  //     })
+  //
+  //     // //for update review
+  //     // Product.findByIdAndUpdate(item._id,{$set:{review_total:randomIntFromInterval(290,1250),review_heighest_star:randomIntFromInterval(3,5)}})
+  //     // .then(asd=>{
+  //     //   console.log('success',i);
+  //     // })
+  //
+  //
+  //   });
+  //   res.json({
+  //     response:true
+  //   })
+  // })
+
+
+
+
+
+
+
+  // // Update Reviews 1
+  // Product.find({type:['Configurable','Simple']})
+  // .then(products=>{
+  //
+  //
+  //   products.forEach((item, i) => {
+  //     // console.log(item)
+  //
+  //     var demo_reviews=[
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('6428ec759ddae752f8a5a0d5'),
+  //         rating: 5,
+  //         comment: "good comfort , light weight, easy to use",
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('6428ec759ddae752f8a5a0d4'),
+  //         rating: 5,
+  //         comment: 'Very much comfortable...',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('6428ec759ddae752f8a5a0d3'),
+  //         rating: 5,
+  //         comment: 'I purchased it for my son. He is happy with the product.. and using on daily basis',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('6428ec759ddae752f8a5a0d2'),
+  //         rating: 1,
+  //         comment: 'Not comfirtable as its looks in photo & Also quility wise poor..',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('6428ec759ddae752f8a5a0d1'),
+  //         rating: 5,
+  //         comment: 'If you want good product but low price; this one is for you',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('6428ec759ddae752f8a5a0d0'),
+  //         rating: 2,
+  //         comment: 'Ok for daily use 👍',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('6428613754adba46d4e43339'),
+  //         rating: 2,
+  //         comment: 'Best quality and gorgeous look',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //
+  //
+  //
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('6428613754adba46d4e43338'),
+  //         rating:3 ,
+  //         comment: 'Good in this price range',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('6428613754adba46d4e43337'),
+  //         rating: 5,
+  //         comment: 'Nice product in the reasonable price',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('6428613754adba46d4e43336'),
+  //         rating: 2,
+  //         comment: 'High in price',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('6428613754adba46d4e43335'),
+  //         rating: 4,
+  //         comment: 'It is a good product go for it',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('6428613754adba46d4e43334'),
+  //         rating: 5,
+  //         comment: 'Received exchanged product, and it is a good one and really value for money product',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('6428613754adba46d4e43333'),
+  //         rating: 5,
+  //         comment: 'Value for money',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //
+  //
+  //
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('6428613754adba46d4e43332'),
+  //         rating: 1,
+  //         comment: 'Product is not comfortable even looks are below average',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('6428613754adba46d4e43331'),
+  //         rating: 4,
+  //         comment: 'Good product in low price',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('6428613754adba46d4e43330'),
+  //         rating: 5,
+  //         comment: 'Nice product 😊👍',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('64285f85ee39ca4434a14f5f'),
+  //         rating: 5,
+  //         comment: 'Nice product compare to price and comfortable also overall quality is best',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('64285f85ee39ca4434a14f5e'),
+  //         rating: 5,
+  //         comment: 'Good quality as expected..',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //       {
+  //         isAdminSeen: true,
+  //         user_id:ObjectId('64285f85ee39ca4434a14f5d'),
+  //         rating: 5,
+  //         comment: 'nice',
+  //         product_id: item._id,
+  //         product_type: item.type,
+  //         deviceinfo: {
+  //           osName: "Windows",
+  //           osVersion: "10",
+  //           mobileVendor: "none",
+  //           mobileModel: "none",
+  //           deviceType: "browser",
+  //           browserName: "Opera",
+  //           browserVersion: "96",
+  //           fullBrowserVersion: "96.0.0.0",
+  //           isMobile: false,
+  //           isDesktop: true,
+  //           isTablet: false
+  //         },
+  //         ipinfo: {
+  //           ipVersion: 4,
+  //           ipAddress: "103.151.128.152",
+  //           latitude: 20.23333,
+  //           longitude: 85.833328,
+  //           countryName: "India",
+  //           countryCode: "IN",
+  //           timeZone: "+05:30",
+  //           zipCode: "752101",
+  //           cityName: "Bhubaneshwar",
+  //           regionName: "Odisha"
+  //         },
+  //       },
+  //
+  //
+  //     ];
+  //
+  //
+  //     ProductReview.create(demo_reviews)
+  //     .then(response=>{
+  //
+  //
+  //       //update review under product
+  //       ProductReview.find({product_id:item._id}).distinct('rating')
+  //       .then(ratings=>{
+  //         console.log('review_done',i);
+  //
+  //         // var total = ratings.length;
+  //         // var max_val = _.max(ratings);
+  //         //
+  //         // Product.findByIdAndUpdate(item._id,{$set:{review_total:total,review_heighest_star:max_val}})
+  //         // .then(updpro=>{
+  //         //
+  //         // })
+  //
+  //       })
+  //     })
+  //   });
+  //
+  //   res.json({
+  //     response:true
+  //   })
+  // })
+
+
+
 };
 
 
@@ -414,7 +1153,7 @@ const productsearch = async (req,res) => {
   //***first 1
   // Product.find(searchQuery).limit(perPage).skip(perPage * page)
   var query = Product.find(searchQuery,).sort({[req.body.search_sortby.vname]:req.body.search_sortby.value}).limit(perPage).skip(perPage * page);
-  query.select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, images: { $slice: 1 } });
+  query.select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 } });
   query.exec(async function(err,main_datas){
 
 
@@ -1298,6 +2037,23 @@ const review_store = (req,res) => {
           response:true,
         })
 
+
+
+        //update review under product
+        ProductReview.find({product_id:req.body.product_id}).distinct('rating')
+        .then(ratings=>{
+          console.log(ratings);
+
+          var total = ratings.length;
+          var max_val = _.max(ratings);
+
+          Product.findByIdAndUpdate(req.body.product_id,{$set:{review_total:total,review_heighest_star:max_val}})
+          .then(updpro=>{
+
+          })
+        })
+
+
         Notification.create({user_id:req.body.user_id,message:'notification_product_review',info_id:response._id,info_url:`/reviews/${response._id}`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
         .then(resasac=>{
           console.log('created notification_product_review');
@@ -1358,6 +2114,26 @@ const review_edit = (req,res) =>{
   .then(resp=>{
     res.json({
       response:true,
+    })
+
+    //update review under product
+    ProductReview.find({product_id:req.body.product_id})
+    .then(ratings=>{
+      console.log(ratings);
+
+      // var total = ratings.length;
+      // var max_val = mostFrequent(ratings, total);
+      var total = ratings.length;
+      var max_val = mostFrequent(_.map(ratings,'rating'));
+
+
+      console.log('array',_.map(ratings,'rating'))
+      console.log('max_val',max_val[0]);
+
+      Product.findByIdAndUpdate(req.body.product_id,{$set:{review_total:total,review_heighest_star:max_val[0]}})
+      .then(updpro=>{
+
+      })
     })
 
     Notification.create({user_id:req.body.user_id,message:'notification_product_review_update',info_id:response._id,info_url:`/users/${response._id}`,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
