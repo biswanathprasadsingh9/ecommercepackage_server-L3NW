@@ -76,13 +76,13 @@ const ProductSchema = new Schema({
   },
   product_collection:{
     type:String,
-    default:''
-    // default:'-'
+    default:'New Arrivals'
+    // default:''
   },
   product_labels:{
     type:String,
-    default:''
-    // default:'-'
+    default:'New'
+    // default:''
   },
   // product_tax:{
   //   type:Object,

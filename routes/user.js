@@ -82,6 +82,13 @@ router.get('/admin_view_user_dashboard_details/:user_id',UserController.admin_vi
 
 router.post('/user_page_view',UserController.user_page_visit_tracking_store);
 
+router.post('/user_productvisit_store',UserController.user_productvisit_store);
+router.get('/user_productvisit_list/:user_id',UserController.user_productvisit_list);
+
+router.get('/admin_user_all_productvisit_list',UserController.admin_user_all_productvisit_list);
+router.get('/admin_delete_user_productvisit_list/:id',UserController.admin_delete_user_productvisit_list);
+
+
 
 
 router.post('/update_password',UserController.update_password);

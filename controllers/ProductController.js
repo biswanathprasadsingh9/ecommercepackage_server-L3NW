@@ -795,6 +795,24 @@ const index = (req, res) => {
 };
 
 
+const admin_list_view = (req,res) => {
+
+  // query.select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 } });
+
+
+  Product.find({})
+  // Product.find({type:['Configurable']})
+  // Product.find({})
+    .sort({ name: -1 })
+    .select({name:1,_id:1,type:1,product_labels:1,product_collection:1,stock:1,sku:1})
+    .then((response) => {
+      res.json({
+        response: true,
+        datas: response,
+      });
+    });
+}
+
 
 const singleproductinformation = (req,res) => {
   Product.findById(req.params.id)
@@ -2060,14 +2078,15 @@ const review_store = (req,res) => {
         })
 
 
-        // //send email thank you notification email to users
-        // emailsender.emailsendFunction('user_send_thankyou_for_product_review',req.body.user_email,{username:req.body.user_name.split(' ')[0]},'email_user_thankyou_for_product_review',true,rdata._id)
-        // .then(response=>{
-        //   console.log('send email_user_thankyou_for_product_review');
-        // })
-        //
+        //send email thank you notification email to users
+        emailsender.emailsendFunction('user_send_thankyou_for_product_review',req.body.user_email,{username:req.body.user_name.split(' ')[0]},'email_user_thankyou_for_product_review',true,req.body.user_id)
+        .then(response=>{
+          console.log('send email_user_thankyou_for_product_review');
+        })
+
+
         // //send new user notification to admin
-        emailsenderAdmin.emailsendFunction('admin_new_user_new_product_review',{datalink:`/users/${req.body.user_id}`,user:{name:req.body.user_name,email:req.body.user_email},starrating:req.body.rating,comment:req.body.comment,productname:req.body.product_name,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_to_admin_new_user_product_review')
+        emailsenderAdmin.emailsendFunction('admin_new_user_new_product_review',{datalink:`/reviews/${response._id}`,user:{name:req.body.user_name,email:req.body.user_email},starrating:req.body.rating,comment:req.body.comment,productname:req.body.product_name,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_to_admin_new_user_product_review')
         .then(response=>{
           console.log('send admin_new_user_product_review');
         })
@@ -2191,6 +2210,35 @@ const admin_seen_allreviews_under_product = (req,res) => {
   })
 }
 
+const user_product_reviews = (req,res) => {
+  ProductReview.find({user_id:req.params.user_id})
+  .populate('product_id','name url')
+  .select({product_id:1, rating:1, comment:1, createdAt:1})
+  .then(response=>{
+    res.json({
+      response:true,
+      datas:response
+    })
+  }).catch(err=>{
+    res.json({
+      response:false
+    })
+  })
+}
+
+const update_product_single_value = (req,res) => {
+  Product.findByIdAndUpdate(req.body._id,req.body)
+  .then(response=>{
+    res.json({
+      response:true
+    })
+  }).catch(err=>{
+    res.json({
+      response:false
+    })
+  })
+}
+
 module.exports = {
   index,
   singleproductinformation,
@@ -2223,5 +2271,8 @@ module.exports = {
   review_delete,
   admin_all_reviews,
   seen_all_reviews,
-  admin_seen_allreviews_under_product
+  admin_seen_allreviews_under_product,
+  user_product_reviews,
+  update_product_single_value,
+  admin_list_view
 };

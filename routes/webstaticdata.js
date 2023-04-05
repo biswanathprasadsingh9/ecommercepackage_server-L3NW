@@ -12,7 +12,7 @@ router.get('/viewproduct/:url',WebStaticDataController.viewproduct);
 router.get('/testpdf',WebStaticDataController.testpdf);
 
 
-
+router.get('/homepage',WebStaticDataController.homepage)
 
 
 

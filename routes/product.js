@@ -7,6 +7,8 @@ const multer  = require('multer')
 const upload = multer({});
 
 router.get('/',ProductController.index);
+router.get('/admin_list_view',ProductController.admin_list_view);
+
 
 
 
@@ -18,6 +20,7 @@ router.get('/review_delete/:id',ProductController.review_delete);
 router.get('/seen_all_reviews',ProductController.seen_all_reviews);
 router.get('/admin_seen_allreviews_under_product/:product_id',ProductController.admin_seen_allreviews_under_product);
 
+router.get('/user_product_reviews/:user_id',ProductController.user_product_reviews);
 
 
 
@@ -62,6 +65,8 @@ router.post('/updateimagejson',ProductController.updateimagejson);
 router.post('/update_config_product_with_parent',ProductController.updateconfigproductwithparent);
 router.post('/update_simple_product',ProductController.updatesimpleproduct);
 
+
+router.post('/update_product_single_value',ProductController.update_product_single_value);
 
 router.post('/update_config_product_image_status',ProductController.updateconfigproductimagestatus);
 
