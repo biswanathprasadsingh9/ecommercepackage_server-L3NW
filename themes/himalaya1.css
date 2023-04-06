@@ -1,0 +1,161 @@
+
+/* FIX FOR ALL */
+.ant-tabs-tab {
+    padding: 12px 14px !important;
+    font-size: 18px !important;
+}
+
+.ant-menu {
+  font-size: 14px !important;
+  }
+
+  .ant-btn {
+    height: 38px !important;
+    font-size: 14px !important;
+    border-radius: 32px !important;
+  }
+  .site-layout .site-layout-background {
+    border-radius: 8px !important;
+    box-shadow: 0px 17px 39px -23px rgb(0 0 0 / 55%) !important;
+  }
+
+  .ant-page-header-heading-title {
+    font-weight: 700 !important;
+    font-size: 39px !important;
+    /* font-family: 'Outfit', sans-serif !important; */
+    padding: 6px 0px !important;
+  }
+
+
+  .ant-popover-buttons button {
+    margin-left: 8px;
+    font-size: 14px !important;
+    height: 24px !important;
+  }
+  .ant-btn-sm {
+    height: 27px !important;
+    padding: 0px 7px;
+    font-size: 14px;
+    border-radius: 2px;
+  }
+
+
+/* FORM */
+
+.ui.form .field .ui.input input, .ui.form .fields .field .ui.input input select {
+    font-weight: 500 !important;
+      min-height: 49px !important;
+      border-radius: 7px !important;
+  }
+
+  .ui.form .field>label {
+    font-size: 15px !important;
+    font-weight: 500 !important;
+  }
+
+
+  .ui.form select{
+    font-weight: 500 !important;
+    min-height: 49px !important;
+    border-radius: 7px !important;
+  }
+
+
+  .ui.form textarea {
+font-weight: 500 !important;
+min-height: 49px !important;
+border-radius: 7px !important;
+
+
+  }
+
+  .ui.fluid.dropdown {
+    font-weight: 500 !important;
+      min-height: 49px !important;
+      border-radius: 7px !important;
+  }
+  /* FORM */
+
+  /* FIX FOR ALL */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .ant-layout-header */
+.ant-layout-header {
+    background-image: linear-gradient(rgb(0,0,0,0.1), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/444/19/627/sunrise-annapurna-massif-himalayas-minimal-wallpaper-28d62d6860d03c28a04c618e3892b4ba.jpg) !important;
+    background-repeat: no-repeat !important;
+    background-position: 1% 64% !important;
+    background-size: cover!important;
+}
+.ant-menu.ant-menu-dark {
+    background-image: linear-gradient(rgb(0,0,0,0.5), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/444/19/627/sunrise-annapurna-massif-himalayas-minimal-wallpaper-28d62d6860d03c28a04c618e3892b4ba.jpg) !important;
+    background-repeat: no-repeat !important;
+    background-position: 50% 0% !important;
+    background-size: cover !important;
+}
+.ant-menu-dark .ant-menu-inline.ant-menu-sub {
+    background: #000c172e !important;
+}
+
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: #ffffff30 !important;
+}
+
+.ant-layout {
+    width: 100% !important;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url(https://r4.wallpaperflare.com/wallpaper/444/19/627/sunrise-annapurna-massif-himalayas-minimal-wallpaper-28d62d6860d03c28a04c618e3892b4ba.jpg) !important;
+    background-repeat: no-repeat !important;
+    background-position: 50% 0 !important;
+    background-size: cover !important;
+}
+
+.site-layout .site-layout-background {
+    background: #ffffff94 !important;
+}
+
+.ant-layout-sider-trigger {
+    background: #000000ad !important;
+}
+.ant-layout-sider {
+    background: #000000 !important;
+}
+
+.background_login_register{
+    height: 101vh !important;
+    width: 100% !important;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url(https://r4.wallpaperflare.com/wallpaper/444/19/627/sunrise-annapurna-massif-himalayas-minimal-wallpaper-28d62d6860d03c28a04c618e3892b4ba.jpg) !important;
+    background-repeat: no-repeat !important;
+    background-position: 50% 0 !important;
+    background-size: cover !important;
+}
+.ant-drawer-header {
+    background-image: linear-gradient(rgb(0,0,0,0.5), rgb(0,0,0,0.5)), url(https://r4.wallpaperflare.com/wallpaper/444/19/627/sunrise-annapurna-massif-himalayas-minimal-wallpaper-28d62d6860d03c28a04c618e3892b4ba.jpg) !important;
+    background-repeat: no-repeat !important;
+    background-position: 77% 0% !important;
+    background-size: cover !important;
+    color: white !important;
+    font-weight: bold !important;
+    border-radius: 0px !important;
+}
+.ant-drawer-wrapper-body {
+    width: 100% !important;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url(https://r4.wallpaperflare.com/wallpaper/444/19/627/sunrise-annapurna-massif-himalayas-minimal-wallpaper-28d62d6860d03c28a04c618e3892b4ba.jpg) !important;
+    background-repeat: no-repeat !important;
+    background-position: 50% 0 !important;
+    background-size: cover !important;
+}
+.ant-drawer-title {
+    color: white !important;
+}

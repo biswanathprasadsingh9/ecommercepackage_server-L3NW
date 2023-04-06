@@ -10,6 +10,11 @@
       "id": "stone1",
       "name": "Stone 1",
       "image": "https://i.ibb.co/JzH4QVR/theme-stone-1.png"
+    },
+    {
+      "id": "himalaya1",
+      "name": "Himalaya",
+      "image": "https://i.ibb.co/51phxxb/download.png"
     }
   ]
 }
