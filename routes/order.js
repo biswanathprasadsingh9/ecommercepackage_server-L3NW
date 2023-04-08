@@ -36,7 +36,6 @@ router.post('/update_order_address',OrderController.update_order_address);
 router.post('/generate_invoice',OrderController.generate_invoice);
 
 
-router.get('/:id',OrderController.vieworder);
 
 router.get('/vieworder_byorderid/:order_id',OrderController.vieworder_byorderid);
 
@@ -46,5 +45,17 @@ router.get('/delete_single_timeline_item/:id',OrderController.delete_single_time
 router.get('/delete_order/:id',OrderController.delete_order);
 
 
+
+// payment
+router.get('/paypal_first',OrderController.paypal_first);
+router.get('/paypal_second',OrderController.paypal_second);
+
+router.get('/match_payment_recive_code/:user_id/:temp_receive_code',OrderController.match_payment_recive_code);
+
+
+
+
+
+router.get('/:id',OrderController.vieworder);
 
 module.exports=router;

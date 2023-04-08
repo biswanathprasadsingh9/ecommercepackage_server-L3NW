@@ -124,7 +124,8 @@ app.get("/paypal", function (req, res) {
           "payment_method": "paypal"
       },
       "redirect_urls": {
-          "return_url": "http://return.url",
+          // "return_url": "http://localhost:3001/payment?seccode=12121221&paypal_code=000022111",
+          "return_url": "http://localhost:5000/paypalsuccess",
           "cancel_url": "http://cancel.url"
       },
       "transactions": [{
@@ -149,8 +150,9 @@ app.get("/paypal", function (req, res) {
   paypal.payment.create(create_payment_json, function (error, payment) {
       if (error) {
           throw error;
+          console.log('error',error);
       } else {
-          console.log(payment);
+          console.log('payment',payment);
 
           for(let i = 0;i < payment.links.length;i++){
             if(payment.links[i].rel === 'approval_url'){
@@ -173,6 +175,18 @@ app.get("/paypal", function (req, res) {
 });
 
 
+
+
+app.get("/paypalsuccess", function (req, res) {
+
+  console.log(req.param("paymentId"))
+
+
+  res.json({
+    response:true
+  })
+
+});
 
 
 

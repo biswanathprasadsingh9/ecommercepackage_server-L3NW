@@ -5,6 +5,7 @@ var notificationList = require("./notificationList");
 var emailsender = require("./emailsender");
 var emailsenderForOrder = require("./emailsenderForOrder");
 var emailsenderAdmin = require("./emailsenderAdmin");
+var paypal = require('paypal-rest-sdk');
 
 
 var numeral = require("./numeral");
@@ -15,6 +16,8 @@ const User = require("../models/User");
 const Cart = require("../models/Cart");
 const OrderTimeline = require("../models/OrderTimeline");
 const Notification = require("../models/Notification");
+const TemporaryPaymentCode = require("../models/TemporaryPaymentCode");
+
 
 const fs = require('fs');
 const orderid = require('order-id')('key');
@@ -83,6 +86,9 @@ const vieworder = (req,res) => {
 
 // PAY ON DELIVERY
 const payondelivery = (req,res) => {
+
+
+  console.log(req.body);
 
   //***dont delete it will used in paypal paymenty
   // var payment_secret_uuid=uuid();
@@ -201,7 +207,6 @@ const payondelivery = (req,res) => {
 const payonpaypal = (req,res) => {
 
   var payment_secret_uuid=uuid();
-
   User.findByIdAndUpdate(req.body.user_id,{$set:{psuuid:payment_secret_uuid,pcitems:req.body}}) //update payment secret code under user
   .then(user_update=>{
     res.json({
@@ -658,6 +663,110 @@ const mark_all_seen = (req,res) => {
   })
 }
 
+const paypal_first = (req,res) => {
+
+  var tmpdata={
+    user_id:req.param("user_id"),
+    temp_send_code:req.param("temp_send_code"),
+  }
+
+  TemporaryPaymentCode.create(tmpdata)
+  .then(payment_code=>{
+
+
+      ///////////////////////////////PAYPAL///////////////////////////////
+      paypal.configure({
+        'mode': 'sandbox', //sandbox or live
+        'client_id': 'AY10bLMyZLtP3wVNODGh6mdmzGjc1XxBg7m_s61q07kFvEAfVCDYv_16XsX09KytlrAnCx_VTJTnFf-F',
+        'client_secret': 'EKFUR80NNpYESG7u5Au6oC-22noDWM7YzuSomDebJgWr61RqQpFA440NdtWqkbTJ_1CuAtXJ9QwGrVFc'
+      });
+
+      // paypal.configure({
+      //   'mode': 'live', //sandbox or live
+      //   'client_id': 'Ab620lyNESUWkl16w4MPK7HrCACSTTWB1Kd83rGeQAEw_fMiJ6BWbTzii2ZeJrLKU8QsA9p-1D-smjk6',
+      //   'client_secret': 'ECozQIybzglUgNq5Kb_QyagjS39vjlEFNjskpLUnWrLGZrDrj60a4ed1ZC0WNcyNKlLCDUnxIDIJtP3R'
+      // });
+
+
+        var create_payment_json = {
+          "intent": "sale",
+          "payer": {
+              "payment_method": "paypal"
+          },
+          "redirect_urls": {
+              "return_url": `${process.env.WEBSITE_URL}/payment?fullload=true&ptype=paypal&uid=${payment_code.user_id}&temp_receive_code=${payment_code.temp_receive_code}`,
+              "cancel_url": "http://cancel.url"
+          },
+          "transactions": [{
+              "item_list": {
+                  "items": [{
+                      "name": "ReactNodeEcommerce Payment",
+                      "sku": "item",
+                      "price": req.param("amount"),
+                      "currency": "USD",
+                      "quantity": 1
+                  }]
+              },
+              "amount": {
+                  "currency": "USD",
+                  "total": Number(req.param("amount"))
+              },
+              "description": "ReactNodeEcommerce product payment"
+          }]
+      };
+
+
+      paypal.payment.create(create_payment_json, function (error, payment) {
+          if (error) {
+              throw error;
+          } else {
+              console.log('payment',payment);
+              for(let i = 0;i < payment.links.length;i++){
+                if(payment.links[i].rel === 'approval_url'){
+                  res.redirect(payment.links[i].href);
+                }
+              }
+          }
+      });
+      ///////////////////////////////PAYPAL///////////////////////////////
+
+
+
+  })
+
+}
+
+
+const match_payment_recive_code = (req,res) => {
+  TemporaryPaymentCode.findOne({user_id:req.params.user_id,temp_receive_code:req.params.temp_receive_code})
+  .then(data=>{
+    console.log(data)
+    if(data){
+      res.json({
+        response:true
+      })
+    }else{
+      res.json({
+        response:false
+      })
+    }
+  }).catch(err=>{
+    res.json({
+      response:false
+    })
+  })
+}
+
+
+
+const paypal_second = (req,res) => {
+  console.log(req.param("paymentId"))
+
+  res.json({
+    response:true
+  })
+}
+
 module.exports = {
-  index,vieworder_byorderid,mark_all_seen,delete_single_timeline_item,delete_order,update_order_address,vieworder,generate_invoice,pdf_store_test,payondelivery,payonstripe,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
+  index,paypal_first,match_payment_recive_code,paypal_second,vieworder_byorderid,mark_all_seen,delete_single_timeline_item,delete_order,update_order_address,vieworder,generate_invoice,pdf_store_test,payondelivery,payonstripe,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
 };
