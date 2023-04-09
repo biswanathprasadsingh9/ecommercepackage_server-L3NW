@@ -44,6 +44,7 @@ router.get('/vieworder_byorderid/:order_id',OrderController.vieworder_byorderid)
 router.get('/delete_single_timeline_item/:id',OrderController.delete_single_timeline_item);
 router.get('/delete_order/:id',OrderController.delete_order);
 
+router.get('/admin_all_paymenthistory',OrderController.admin_all_paymenthistory);
 router.get('/payments_useruser/:user_id',OrderController.payments_useruser);
 
 

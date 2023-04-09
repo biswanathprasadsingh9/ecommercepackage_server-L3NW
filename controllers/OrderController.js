@@ -802,6 +802,20 @@ const payments_useruser = (req,res) => {
   })
 }
 
+const admin_all_paymenthistory = (req,res) => {
+  Payment.find({}).populate('order_id','name order_id').populate('user_id','name').sort({ _id: -1 })
+  .then(response=>{
+    res.json({
+      response:true,
+      datas:response
+    })
+  }).catch(err=>{
+    res.json({
+      response:false
+    })
+  })
+}
+
 module.exports = {
-  index,payments_useruser,paypal_first,stripe_first,match_payment_recive_code,paypal_second,vieworder_byorderid,mark_all_seen,delete_single_timeline_item,delete_order,update_order_address,vieworder,generate_invoice,pdf_store_test,payondelivery,payonstripe,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
+  index,admin_all_paymenthistory,payments_useruser,paypal_first,stripe_first,match_payment_recive_code,paypal_second,vieworder_byorderid,mark_all_seen,delete_single_timeline_item,delete_order,update_order_address,vieworder,generate_invoice,pdf_store_test,payondelivery,payonstripe,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
 };
