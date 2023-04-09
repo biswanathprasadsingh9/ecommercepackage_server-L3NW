@@ -348,7 +348,7 @@ const generate_invoice = (req,res) => {
   var html = fs.readFileSync(path.join(__dirname, "../pdf_templete/templete.html"), "utf8");
 
   var options = {
-    format: "A4",
+    format: "A3",
     orientation: "portrait",
     border: "10mm",
     footer: {
