@@ -683,3 +683,4 @@ app.use("/api/settingsadmin", SettingsAdmin);
 
 //STATIC FILE
 app.use('/themes', express.static('themes'));
+app.use('/public', express.static('public'));
