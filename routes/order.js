@@ -12,7 +12,7 @@ router.get('/mark_all_seen',OrderController.mark_all_seen);
 
 router.post('/payondelivery',OrderController.payondelivery);
 router.post('/payonpaypal',OrderController.payonpaypal);
-router.post('/payonstripe',OrderController.payonstripe);
+router.get('/payonstripe',OrderController.payonstripe);
 
 
 router.get('/findorder/:order_id',OrderController.view);
@@ -44,11 +44,16 @@ router.get('/vieworder_byorderid/:order_id',OrderController.vieworder_byorderid)
 router.get('/delete_single_timeline_item/:id',OrderController.delete_single_timeline_item);
 router.get('/delete_order/:id',OrderController.delete_order);
 
+router.get('/payments_useruser/:user_id',OrderController.payments_useruser);
+
 
 
 // payment
 router.get('/paypal_first',OrderController.paypal_first);
 router.get('/paypal_second',OrderController.paypal_second);
+
+router.get('/stripe_first',OrderController.stripe_first);
+
 
 router.get('/match_payment_recive_code/:user_id/:temp_receive_code',OrderController.match_payment_recive_code);
 

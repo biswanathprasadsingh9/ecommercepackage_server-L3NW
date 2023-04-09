@@ -17,6 +17,8 @@ const Cart = require("../models/Cart");
 const OrderTimeline = require("../models/OrderTimeline");
 const Notification = require("../models/Notification");
 const TemporaryPaymentCode = require("../models/TemporaryPaymentCode");
+const Payment = require("../models/Payment");
+
 
 
 const fs = require('fs');
@@ -90,32 +92,6 @@ const payondelivery = (req,res) => {
 
   console.log(req.body);
 
-  //***dont delete it will used in paypal paymenty
-  // var payment_secret_uuid=uuid();
-  // User.findByIdAndUpdate(req.body.user_id,{$set:{psuuid:payment_secret_uuid,pcitems:req.body}}) //update payment secret code under user
-  // .then(user_update=>{
-  //   res.json({
-  //     response:true,
-  //     uuid:payment_secret_uuid,
-  //     datas:req.body
-  //   })
-  // })
-
-  // Order.create(req.body)
-  // .then(response=>{
-  //   res.json({
-  //     response:true,
-  //     datas:req.body
-  //   })
-  // })
-
-  // Cart.find({user_id:req.body.user_id},(err,doc)=>{
-  //   if(doc!==null){
-  //     console.log(doc)
-  //   }
-  // })
-
-
   var emaildatas={products:[]};
   emaildatas.shippingaddress=req.body.user_shipping_address;
   emaildatas.amount_subtotal=numeral.toCurrency(req.body.amount_subtotal);
@@ -150,6 +126,15 @@ const payondelivery = (req,res) => {
 
           Order.create(tmp_data)
           .then(response=>{
+
+
+            //check if paid then insert payment history
+            if(response.payment_status==='Paid'){
+              Payment.create({user_id:response.user_id,order_id:response._id,order_code:response.order_id,amount:response.amount_total_final,payment_method:response.payment_type})
+              .then(rpas=>{
+                console.log('payment_history_created')
+              })
+            }
 
 
             res.json({
@@ -222,41 +207,41 @@ const payonpaypal = (req,res) => {
 // PAY ON STRIPE
 const payonstripe = async (req,res) => {
 
-  // var payment_secret_uuid=uuid();
-  //
-  //
-  // const session = await stripe.checkout.sessions.create({
-  //     payment_method_types: ["card"],
-  //     customer_email: req.body.email,
-  //     line_items: [
-  //       {
-  //         price_data: {
-  //           currency: "usd",
-  //           product_data: {
-  //             name: req.body.product,
-  //           },
-  //           unit_amount: req.body.totalamount * 100,
-  //         },
-  //         quantity: 1,
-  //         // description: 'My description ...',
-  //       },
-  //     ],
-  //     mode: "payment",
-  //     success_url: `http://localhost:3002/ea638decb4661519ea638decb46c8473a8061519ea638decb46c84/61519ea638decb46c8473/638decb46c8473a8061519ea638decb/${req.body.uuid}/38decb46c8473/638decb46c8473a8061519ea6`,
-  //     cancel_url: `http://localhost:3002/paymentfailed`,
-  //   });
-  //
-  //   res.redirect(303, session.url);
+  var payment_secret_uuid=uuid();
 
 
-  User.findByIdAndUpdate(req.body.user_id,{$set:{psuuid:payment_secret_uuid,pcitems:req.body}}) //update payment secret code under user
-  .then(user_update=>{
-    res.json({
-      response:true,
-      uuid:payment_secret_uuid,
-      datas:req.body
-    })
-  })
+  const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      customer_email: 'biswanath@gmail.com',
+      line_items: [
+        {
+          price_data: {
+            currency: "inr",
+            product_data: {
+              name: 'Test',
+            },
+            unit_amount: 11 * 100,
+          },
+          quantity: 1,
+          // description: 'My description ...',
+        },
+      ],
+      mode: "payment",
+      success_url: `http://localhost:3002/ea638decb4661519ea638decb46c8473a8061519ea638decb46c84/61519ea638decb46c8473/638decb46c8473a8061519ea638decb/${req.body.uuid}/38decb46c8473/638decb46c8473a8061519ea6`,
+      cancel_url: `http://localhost:3002/paymentfailed`,
+    });
+
+    res.redirect(303, session.url);
+
+
+  // User.findByIdAndUpdate(req.body.user_id,{$set:{psuuid:payment_secret_uuid,pcitems:req.body}}) //update payment secret code under user
+  // .then(user_update=>{
+  //   res.json({
+  //     response:true,
+  //     uuid:payment_secret_uuid,
+  //     datas:req.body
+  //   })
+  // })
 
 
 }
@@ -695,7 +680,7 @@ const paypal_first = (req,res) => {
           },
           "redirect_urls": {
               "return_url": `${process.env.WEBSITE_URL}/payment?fullload=true&ptype=paypal&uid=${payment_code.user_id}&temp_receive_code=${payment_code.temp_receive_code}`,
-              "cancel_url": "http://cancel.url"
+              "cancel_url": `${process.env.WEBSITE_URL}/payment`
           },
           "transactions": [{
               "item_list": {
@@ -714,8 +699,6 @@ const paypal_first = (req,res) => {
               "description": "ReactNodeEcommerce product payment"
           }]
       };
-
-
       paypal.payment.create(create_payment_json, function (error, payment) {
           if (error) {
               throw error;
@@ -729,12 +712,50 @@ const paypal_first = (req,res) => {
           }
       });
       ///////////////////////////////PAYPAL///////////////////////////////
-
-
-
   })
-
 }
+
+
+
+
+const stripe_first = async (req,res) => {
+
+  var tmpdata={
+    user_id:req.param("user_id"),
+    temp_send_code:req.param("temp_send_code"),
+  }
+
+  TemporaryPaymentCode.create(tmpdata)
+  .then(async payment_code =>{
+
+      ///////////////////////////////STRIPE///////////////////////////////
+      const session = await stripe.checkout.sessions.create({
+          // payment_method_types: ["card"],
+          // customer_email: 'bis@gmail.com',
+          line_items: [
+            {
+              price_data: {
+                currency: "inr",
+                product_data: {
+                  name: 'ReactNodeEcommerce Payment',
+                },
+                unit_amount: req.param("amount") * 100,
+              },
+              quantity: 1,
+              // description: 'My description ...',
+            },
+          ],
+          mode: "payment",
+          success_url: `${process.env.WEBSITE_URL}/payment?fullload=true&ptype=stripe&uid=${payment_code.user_id}&temp_receive_code=${payment_code.temp_receive_code}`,
+          cancel_url: `${process.env.WEBSITE_URL}/payment`,
+        });
+
+        res.redirect(303, session.url);
+      ///////////////////////////////STRIPE///////////////////////////////
+  })
+}
+
+
 
 
 const match_payment_recive_code = (req,res) => {
@@ -767,6 +788,20 @@ const paypal_second = (req,res) => {
   })
 }
 
+const payments_useruser = (req,res) => {
+  Payment.find({user_id:req.params.user_id}).populate('order_id','name order_id')
+  .then(response=>{
+    res.json({
+      response:true,
+      datas:response
+    })
+  }).catch(err=>{
+    res.json({
+      response:false
+    })
+  })
+}
+
 module.exports = {
-  index,paypal_first,match_payment_recive_code,paypal_second,vieworder_byorderid,mark_all_seen,delete_single_timeline_item,delete_order,update_order_address,vieworder,generate_invoice,pdf_store_test,payondelivery,payonstripe,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
+  index,payments_useruser,paypal_first,stripe_first,match_payment_recive_code,paypal_second,vieworder_byorderid,mark_all_seen,delete_single_timeline_item,delete_order,update_order_address,vieworder,generate_invoice,pdf_store_test,payondelivery,payonstripe,payonpaypal,view,order_complete_view,get_web_user_orderslist,get_web_user_order_details,update_order_status
 };
