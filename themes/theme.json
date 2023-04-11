@@ -15,6 +15,11 @@
       "id": "himalaya1",
       "name": "Himalaya",
       "image": "https://i.ibb.co/51phxxb/download.png"
-    }
+    },
+    {
+      "id": "desert1",
+      "name": "Desert",
+      "image": "https://i.ibb.co/QJ2Km3D/image-2023-04-11-160213320.png"
+    },
   ]
 }

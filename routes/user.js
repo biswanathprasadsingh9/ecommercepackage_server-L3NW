@@ -87,6 +87,7 @@ router.get('/user_productvisit_list/:user_id',UserController.user_productvisit_l
 
 router.get('/admin_user_all_productvisit_list',UserController.admin_user_all_productvisit_list);
 router.get('/admin_delete_user_productvisit_list/:id',UserController.admin_delete_user_productvisit_list);
+router.get('/admin_user_all_productvisit_list_clear',UserController.admin_user_all_productvisit_list_clear);
 
 
 

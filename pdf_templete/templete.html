@@ -432,9 +432,9 @@ b{
           {{#each invoicedata.products}}
           <tr>
             <td>{{this.name}}</td>
-            <td>$60.00</td>
-            <td>1</td>
-            <td>$60.00</td>
+            <td>{{this.price_without_tax}}</td>
+            <td>{{this.quantity}}</td>
+            <td>{{this.total_amount_without_tax}}</td>
           </tr>
           {{/each}}
         </tbody>
@@ -443,22 +443,31 @@ b{
     <br />
     <br />
     <div class="col-md-9 invoice-left">
-    <b>Payment Info:</b> Paid
+    <b>Payment Info:</b> {{invoicedata.payment_status}} | {{invoicedata.payment_type}}
     </div>
     <div class="col-md-3 invoice-right">
     <table class="total-table" style="width: 188px;float: right;">
       <tbody>
         <tr>
           <th>Sub Total:</th>
-          <td>$155.00</td>
+          <td>{{invoicedata.subtotal}}</td>
         </tr>
         <tr>
-          <th>Discount:</th>
-          <td>-$15.00</td>
+          <th>Tax:</th>
+          <td>{{invoicedata.taxes}}</td>
         </tr>
+        <tr>
+          <th>Shipping:</th>
+          <td>{{invoicedata.shipping}}</td>
+        </tr>
+        <tr>
+          <th>Coupon:</th>
+          <td>{{invoicedata.coupon}} - {{invoicedata.coupon_value}}</td>
+        </tr>
+
         <tr style="font-size:14px">
           <th>Total:</th>
-          <td>$140.00</td>
+          <td>{{invoicedata.total}}</td>
         </tr>
       </tbody>
     </table>

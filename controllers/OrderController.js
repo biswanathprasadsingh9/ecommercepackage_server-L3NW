@@ -101,7 +101,6 @@ const payondelivery = (req,res) => {
   emaildatas.amount_total_final= numeral.toCurrency(req.body.amount_total_final);
   emaildatas.shipping_method=req.body.shipping_method;
   emaildatas.coupon=req.body.coupon?req.body.coupon.name:'-';
-
   emaildatas.payment_type=req.body.payment_type;
   emaildatas.payment_status=req.body.payment_status;
 
@@ -167,7 +166,7 @@ const payondelivery = (req,res) => {
                 console.log('send user_send_thankyou_for_order');
               })
 
-              //send new user register to admin
+              //send  to admin
               emailsenderAdmin.emailsendFunction('admin_new_user_order',{datalink:`/orders/${response._id}`,user:user,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_to_admin_new_user_order')
               .then(response=>{
                 console.log('send admin_new_user_order');
@@ -341,6 +340,24 @@ const get_web_user_order_details = (req,res) => {
 const generate_invoice = (req,res) => {
   // console.log(req.body)
 
+  console.log('req.body',req.body);
+
+  var emaildatas={products:[]};
+  emaildatas.shippingaddress=req.body.user_shipping_address;
+  emaildatas.amount_subtotal=numeral.toCurrency(req.body.amount_subtotal);
+  emaildatas.amount_taxes=numeral.toCurrency(req.body.amount_taxes);
+  emaildatas.amount_shipping=numeral.toCurrency(req.body.amount_shipping);
+  emaildatas.amount_total=numeral.toCurrency(req.body.amount_total);
+  emaildatas.amount_total_final= numeral.toCurrency(req.body.amount_total_final);
+  emaildatas.shipping_method=req.body.shipping_method;
+  emaildatas.coupon=req.body.coupon?req.body.coupon.name:'-';
+  emaildatas.payment_type=req.body.payment_type;
+  emaildatas.payment_status=req.body.payment_status;
+
+
+  console.log(emaildatas);
+
+
   //PDF GENERATE
   var pdf = require("pdf-creator-node");
   var fs = require("fs");
@@ -369,6 +386,7 @@ const generate_invoice = (req,res) => {
     html: html,
     data: {
       invoicedata:req.body,
+      emaildatas:emaildatas
     },
     path: `./pdf/invoice_${req.body.order_id}.pdf`,
     type: "pdf", // "stream" || "buffer" || "" ("" defaults to pdf)
@@ -466,7 +484,7 @@ const update_order_status = (req,res) => {
       Order.findById(req.body.id).populate('courier_id user_id')
       .then(orderdetails=>{
 
-        console.log('orderdetails',orderdetails);
+        // console.log('orderdetails',orderdetails);
 
 
         if(user!==null){
