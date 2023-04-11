@@ -1648,7 +1648,7 @@ const user_productvisit_store = (req,res) => {
 }
 
 const user_productvisit_list = (req,res) => {
-  MostVisitedProduct.find({user_id:req.params.user_id}).populate('product_id',{ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
+  MostVisitedProduct.find({user_id:req.params.user_id}).populate('product_id',{ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1,pricedisplay:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
   .then(response=>{
     res.json({
       response:true,

@@ -22,23 +22,56 @@ const flushCache = (req,res) => {
 const homepage = async (req,res) => {
 
 
+  // Today’s Deals
+  // Featured products
+  // Suggested for You
+  // Most popular
+  // Weekly deals
+// Recommended Items
+// You May Like...
+// Recently Viewed
+// DEALS YOU DON'T WANT TO MISS
 
   // const new_products = await Product.find({type:['Configurable','Simple'],product_collection:'New Arrivals'}).select({name:1,url:1});
 
+
+
+// todays deals 10
+// trending_products 10
+// most popular 10
+const todays_deals = await Product
+                    .find({status:'Active',type:['Configurable','Simple'],product_collection:'Todays Deals'})
+                    .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
+                    .limit(8);
+
   const new_arrivals_products = await Product
                       .find({status:'Active',type:['Configurable','Simple'],product_collection:'New Arrivals'})
-                      .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }});
-
+                      .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
+                      .limit(8);
 
   const trending_products = await Product
                       .find({status:'Active',type:['Configurable','Simple'],product_collection:'Trending'})
-                      .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }});
+                      .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
+                      .limit(8);
 
+
+  const special_watch_section = await Product
+                      .find({status:'Active',type:['Configurable','Simple'],subcategory:['6426fc3ae36e120028e2147b']})
+                      .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
+                      .limit(6);
+
+
+
+  var datas={
+    new_arrivals_products,
+    todays_deals,
+    trending_products,
+    special_watch_section
+  }
 
   res.json({
     response:true,
-    new_arrivals_products,
-    trending_products
+    datas
   })
 
 
