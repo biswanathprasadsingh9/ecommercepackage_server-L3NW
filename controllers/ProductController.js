@@ -803,14 +803,14 @@ const admin_list_view = (req,res) => {
   Product.find({})
   // Product.find({type:['Configurable']})
   // Product.find({})
-    .sort({ name: -1 })
-    .select({name:1,_id:1,type:1,product_labels:1,product_collection:1,stock:1,sku:1})
-    .then((response) => {
-      res.json({
-        response: true,
-        datas: response,
-      });
+  .sort({ name: -1 })
+  .select({name:1, _id:1, type:1, product_labels:1, product_collection:1, stock:1, sku:1, price_lowest:1, price_heighest:1, pricemain:1,step:1})
+  .then((response) => {
+    res.json({
+      response: true,
+      datas: response,
     });
+  });
 }
 
 
