@@ -39,20 +39,20 @@ const homepage = async (req,res) => {
 // todays deals 10
 // trending_products 10
 // most popular 10
-const todays_deals = await Product
+  const todays_deals = await Product
                     .find({status:'Active',type:['Configurable','Simple'],product_collection:'Todays Deals'})
                     .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
-                    .limit(8);
+                    .limit(16);
 
   const new_arrivals_products = await Product
                       .find({status:'Active',type:['Configurable','Simple'],product_collection:'New Arrivals'})
                       .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
-                      .limit(8);
+                      .limit(16);
 
   const trending_products = await Product
                       .find({status:'Active',type:['Configurable','Simple'],product_collection:'Trending'})
                       .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
-                      .limit(8);
+                      .limit(16);
 
 
   const special_watch_section = await Product
@@ -62,11 +62,19 @@ const todays_deals = await Product
 
 
 
+  const most_popular = await Product
+                      .find({status:'Active',type:['Configurable','Simple'],product_collection:'Trending'})
+                      .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
+                      .limit(16);
+
+
+
   var datas={
     new_arrivals_products,
     todays_deals,
     trending_products,
-    special_watch_section
+    special_watch_section,
+    most_popular
   }
 
   res.json({
