@@ -9,7 +9,7 @@ function emailsendFunction(email_templete,locals,email_name,want_to_store) {
 
   return new Promise((Resolve, reject) => {
 
-      var email_to='b21341995returns@gmail.com';
+      var email_to=process.env.EMAIL_ADMIN_EMAIL;
       var want_to_store=true;
       var user_id=false;
 
@@ -35,7 +35,7 @@ function emailsendFunction(email_templete,locals,email_name,want_to_store) {
 
 
       const transporter = nodemailer.createTransport({
-        service: process.env.EMAIL_SERVICE,
+        // service: process.env.EMAIL_SERVICE,
         host: process.env.EMAIL_HOST,
         auth: {
           user: process.env.EMAIL_USER,

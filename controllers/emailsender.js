@@ -29,7 +29,7 @@ function emailsendFunction(email_templete,email_to,locals,email_name,want_to_sto
 
 
       const transporter = nodemailer.createTransport({
-        service: process.env.EMAIL_SERVICE,
+        // service: process.env.EMAIL_SERVICE,
         host: process.env.EMAIL_HOST,
         auth: {
           user: process.env.EMAIL_USER,
