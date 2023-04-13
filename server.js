@@ -332,7 +332,12 @@ app.get("/sendemail", (req, res) => {
         message:'send',
         res:response
       })
-    });
+    }).catch(err=>{
+      console.log(err)
+      res.json({
+        response:false,
+      })
+    })
 });
 
 
