@@ -650,6 +650,32 @@ app.get("/api/test-elementmatch", async (req, res) => {
 });
 
 
+// ****** CURRENCY CONVERTER
+// US dollar (USD)
+// Euro (EUR)
+// Japanese yen (JPY)
+// Pound sterling (GBP)
+// Australian dollar (AUD)
+// Canadian dollar (CAD)
+// Swiss franc (CHF)
+// Chinese renminbi (CNH)
+// Hong Kong dollar (HKD)
+// New Zealand dollar (NZD)
+
+var inr=1;
+var usd=82.10;
+var eur=82.10;
+var ukp=82.10;
+var jpy=82.10;
+var inr=1;
+
+
+
+console.log((inr/usd)*425)
+
+
+
+
 app.listen(process.env.PORT || 5000, function () {
   console.log(
     "USER Express server listening on port %d in %s mode",
