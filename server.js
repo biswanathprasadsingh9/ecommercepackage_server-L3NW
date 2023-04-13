@@ -304,10 +304,10 @@ app.get("/sendemail", (req, res) => {
   const Email = require('email-templates');
 
   const transporter = nodemailer.createTransport({
-    service: process.env.EMAIL_SERVICE,
+    // service: process.env.EMAIL_SERVICE,
     host: process.env.EMAIL_HOST,
-    secure: false,
-    port: 587,
+    // secure: false,
+    // port: 587
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
