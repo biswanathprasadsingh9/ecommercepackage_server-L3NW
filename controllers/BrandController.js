@@ -36,6 +36,13 @@ const store = (req, res) => {
         name: req.body.name,
         url: req.body.url,
         status: req.body.status,
+
+        meta_title: req.body.meta_title,
+        meta_desc: req.body.meta_desc,
+        meta_key: req.body.meta_key,
+        showin_homepage: req.body.showin_homepage,
+
+
         image: response.filePath,
         image_id: response.fileId,
       };
@@ -64,6 +71,12 @@ const update = (req,res) => {
       name: req.body.name,
       url: req.body.url,
       status: req.body.status,
+
+      meta_title: req.body.meta_title,
+      meta_desc: req.body.meta_desc,
+      meta_key: req.body.meta_key,
+      showin_homepage: req.body.showin_homepage,
+
     }
 
     Brand.findByIdAndUpdate(req.body._id,tempData)
@@ -92,6 +105,12 @@ const update = (req,res) => {
             name: req.body.name,
             url: req.body.url,
             status: req.body.status,
+
+            meta_title: req.body.meta_title,
+            meta_desc: req.body.meta_desc,
+            meta_key: req.body.meta_key,
+            showin_homepage: req.body.showin_homepage,
+
             image: response.filePath,
             image_id: response.fileId,
           };

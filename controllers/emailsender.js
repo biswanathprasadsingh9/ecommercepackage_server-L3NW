@@ -21,7 +21,7 @@ function emailsendFunction(email_templete,email_to,locals,email_name,want_to_sto
       locals.footer_address1='Company Inc, 3 Abbey Road, San Francisco CA 94102';
       locals.footer_address2='2023';
       locals.footer_unsubscribe=`Don't like these emails`;
-      locals.helpemail='help@reactnodeecommerce.cloud';
+      locals.helpemail='info@reactnodeecommerce.cloud';
       locals.websitename='ReactNodeEcomemrce';
 
 

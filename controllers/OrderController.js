@@ -310,7 +310,7 @@ const order_complete_view = (req,res) => {
 
 
 const get_web_user_orderslist = (req,res) => {
-  Order.find({user_id:req.params.user_id}).select('order_id products._id payment_type payment_status amount_total_final')
+  Order.find({user_id:req.params.user_id}).select('order_id products._id payment_type payment_status amount_total_final order_status')
   .then(response=>{
     res.json({
       response:true,

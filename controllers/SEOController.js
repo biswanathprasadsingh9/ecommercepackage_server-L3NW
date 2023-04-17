@@ -3,6 +3,8 @@ const response = require("express");
 const Category = require("../models/Category");
 const SubCategory = require("../models/SubCategory");
 const ChildCategory = require("../models/ChildCategory");
+const Brand = require("../models/Brand");
+
 
 // INDEX
 const index = (req, res) => {
@@ -29,6 +31,26 @@ const getCategoryNameFromURL = (req,res) => {
   })
 
 }
+
+
+
+const getBrandNameFromURL = (req,res) => {
+
+  Brand.findOne({name:req.params.name},(err,doc)=>{
+    if(doc===null){
+      res.json({
+        response:false,
+      })
+    }else{
+      res.json({
+        response:true,
+        data:doc
+      })
+    }
+  })
+
+}
+
 
 
 
@@ -75,7 +97,7 @@ const getCategorySubcategoryChildcategoryNameFromURL = (req,res) => {
               response:false,
             })
           }
-          
+
         }else{
           res.json({
             response:false,
@@ -87,5 +109,5 @@ const getCategorySubcategoryChildcategoryNameFromURL = (req,res) => {
 
 
 module.exports = {
-  index,getCategoryNameFromURL,getCategorySubcategoryNameFromURL,getCategorySubcategoryChildcategoryNameFromURL
+  index,getCategoryNameFromURL,getCategorySubcategoryNameFromURL,getCategorySubcategoryChildcategoryNameFromURL,getBrandNameFromURL
 };

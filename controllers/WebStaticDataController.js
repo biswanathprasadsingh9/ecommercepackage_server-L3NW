@@ -6,6 +6,7 @@ const Category = require("../models/Category");
 const SubCategory = require("../models/SubCategory");
 const ChildCategory = require("../models/ChildCategory");
 const Product = require("../models/Product");
+const Brand = require("../models/Brand");
 
 
 
@@ -41,40 +42,49 @@ const homepage = async (req,res) => {
 // most popular 10
   const todays_deals = await Product
                     .find({status:'Active',type:['Configurable','Simple'],product_collection:'Todays Deals'})
-                    .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
+                    .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1,pricedisplay:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
                     .limit(16);
-
-  const new_arrivals_products = await Product
-                      .find({status:'Active',type:['Configurable','Simple'],product_collection:'New Arrivals'})
-                      .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
-                      .limit(16);
 
   const trending_products = await Product
                       .find({status:'Active',type:['Configurable','Simple'],product_collection:'Trending'})
-                      .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
+                      .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1,pricedisplay:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
                       .limit(16);
+
+  const new_arrivals_products = await Product
+                      .find({status:'Active',type:['Configurable','Simple'],product_collection:'New Arrivals'})
+                      .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1,pricedisplay:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
+                      .limit(16);
+
+
 
 
   const special_watch_section = await Product
                       .find({status:'Active',type:['Configurable','Simple'],subcategory:['6426fc3ae36e120028e2147b']})
-                      .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
+                      .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1,pricedisplay:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
                       .limit(6);
 
 
 
   const most_popular = await Product
-                      .find({status:'Active',type:['Configurable','Simple'],product_collection:'Trending'})
-                      .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
-                      .limit(16);
+                      .find({status:'Active',type:['Configurable','Simple'],product_collection:'Most Popular'})
+                      .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1,pricedisplay:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
+                      .limit(12);
+
+
+  const top_brands = await Brand
+                      .find({status:'Active',showin_homepage:'Yes'})
+                      .select({ _id: 1, name: 1, image:1})
+                      // .limit(12);
 
 
 
   var datas={
-    new_arrivals_products,
     todays_deals,
     trending_products,
+    new_arrivals_products,
     special_watch_section,
-    most_popular
+    most_popular,
+    top_brands
   }
 
   res.json({
@@ -298,6 +308,56 @@ const testpdf = (req,res) => {
     });
 }
 
+const todaysdealspage = (req,res) => {
+  Product
+  .find({status:'Active',type:['Configurable','Simple'],product_collection:'Todays Deals'})
+  .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1,pricedisplay:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
+  .then(datas=>{
+    res.json({
+      response:false,
+      datas
+    })
+  })
+}
+
+const trendingpage = (req,res) => {
+  Product
+  .find({status:'Active',type:['Configurable','Simple'],product_collection:'Trending'})
+  .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1,pricedisplay:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
+  .then(datas=>{
+    res.json({
+      response:false,
+      datas
+    })
+  })
+}
+
+
+const newarrivalpage = (req,res) => {
+  Product
+  .find({status:'Active',type:['Configurable','Simple'],product_collection:'New Arrivals'})
+  .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1,pricedisplay:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
+  .then(datas=>{
+    res.json({
+      response:false,
+      datas
+    })
+  })
+}
+
+const popularproductspage = (req,res) => {
+  Product
+  .find({status:'Active',type:['Configurable','Simple'],product_collection:'Most Popular'})
+  .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1,pricedisplay:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
+  .then(datas=>{
+    res.json({
+      response:false,
+      datas
+    })
+  })
+}
+
+
 module.exports = {
-  navitems,flushCache,viewproduct,testpdf,homepage
+  navitems,flushCache,viewproduct,testpdf,homepage,todaysdealspage,trendingpage,newarrivalpage,popularproductspage
 };
