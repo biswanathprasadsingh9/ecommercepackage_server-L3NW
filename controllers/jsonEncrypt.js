@@ -1,4 +1,5 @@
+var CryptoJS = require("crypto-js");
 exports.encrypt = function(json){
-  var CryptoJS = require("crypto-js");
-  return CryptoJS.AES.encrypt(JSON.stringify(json), process.env.DB_JSON_ENC_KEY).toString();
+  var ss=CryptoJS.AES.encrypt(JSON.stringify(json), 'rnecom').toString();
+  return ss;
 };
