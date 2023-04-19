@@ -670,11 +670,11 @@ app.get("/api/test-elementmatch", async (req, res) => {
 // New Zealand dollar (NZD)
 
 var inr=1;
-var usd=82.10;
+var usd=82.04;
 var eur=82.10;
 var ukp=82.10;
 var jpy=82.10;
-var inr=1;
+// var inr=1;
 
 
 

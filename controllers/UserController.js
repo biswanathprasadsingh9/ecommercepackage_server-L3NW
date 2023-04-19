@@ -7,9 +7,15 @@ var _ = require('lodash');
 const imageToBase64 = require('image-to-base64');
 var calculateTax = require("./calculateTax");
 var notificationList = require("./notificationList");
+var jsonDecrypt = require("./jsonDecrypt");
+var jsonEncrypt = require("./jsonEncrypt");
+
+
 const { uuid } = require('uuidv4');
 var mongoose = require('mongoose');
 const axios = require('axios');
+var CryptoJS = require("crypto-js");
+
 
 const User = require("../models/User");
 const UserAddress = require("../models/UserAddress");
@@ -1376,7 +1382,20 @@ const admin_delete_emailrecord = (req,res) => {
 
 const user_page_visit_tracking_store = (req,res) => {
 
-  // console.log(req.body)
+  // console.log(req.body);
+  //
+
+  // var bytes = CryptoJS.AES.decrypt(req.body.rnecomtext, process.env.DB_JSON_ENC_KEY);
+  // var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+  // req.body=decryptedData;
+
+  // console.log('req.body',req.body);
+
+  req.body=jsonDecrypt.decrypt(req.body.rnecomtext);
+
+
+  console.log(req.body)
+
 
   if(req.body.user){
 
@@ -1387,7 +1406,9 @@ const user_page_visit_tracking_store = (req,res) => {
       if(response.status && response.instant_logout_from_all_device===false){
         res.json({
           response:true,
-          data:response
+          data:jsonEncrypt.encrypt(response)
+          // data:CryptoJS.AES.encrypt(JSON.stringify(response), process.env.DB_JSON_ENC_KEY).toString()
+          // data:response
         })
       }else if (response.status===false) {
         res.json({
