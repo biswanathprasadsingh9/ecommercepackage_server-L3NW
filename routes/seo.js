@@ -5,6 +5,7 @@ const SEOController = require('../controllers/SEOController');
 
 router.get('/',SEOController.index);
 
+router.get('/cacheflush',SEOController.cacheflush);
 
 router.get('/cat_name/:caturl',SEOController.getCategoryNameFromURL);
 router.get('/cat_name_subcat_name/:caturl/:subcaturl',SEOController.getCategorySubcategoryNameFromURL);

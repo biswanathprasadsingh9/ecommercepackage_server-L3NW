@@ -1,6 +1,8 @@
 const response = require("express");
 
 var notificationList = require("./notificationList");
+var jsonDecrypt = require("./jsonDecrypt");
+var jsonEncrypt = require("./jsonEncrypt");
 
 const Cart = require("../models/Cart");
 const Product = require("../models/Product");
@@ -11,6 +13,7 @@ const addcheckcart = (req,res) => {
     response:true
   })
 }
+
 
 //<<<=== get cart items ===>>>
 const getcartitems = (req,res) => {
@@ -36,7 +39,9 @@ const getcartitems = (req,res) => {
               .then((response) => {
                 res.json({
                   response: true,
-                  datas: response,
+                  datas:jsonEncrypt.encrypt(response),
+
+                  // datas: response,
                 });
               });
       }else{
@@ -97,7 +102,8 @@ const getcartitems = (req,res) => {
                 .then((response) => {
                   res.json({
                     response: true,
-                    datas: response,
+                    datas:jsonEncrypt.encrypt(response),
+
                   });
                 });
             // }
@@ -138,7 +144,8 @@ const getcartitemsnologin = (req,res) => {
     .then((response) => {
       res.json({
         response: true,
-        datas: response,
+        datas:jsonEncrypt.encrypt(response),
+
       });
     });
 }

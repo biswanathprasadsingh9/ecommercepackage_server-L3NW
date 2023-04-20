@@ -1,6 +1,4 @@
 const response = require("express");
-const NodeCache = require( "node-cache" );
-const myCache = new NodeCache();
 
 const Category = require("../models/Category");
 const SubCategory = require("../models/SubCategory");
@@ -8,7 +6,11 @@ const ChildCategory = require("../models/ChildCategory");
 const Product = require("../models/Product");
 const Brand = require("../models/Brand");
 
+const NodeCache = require( "node-cache" );
+const myCache = new NodeCache();
 
+var jsonDecrypt = require("./jsonDecrypt");
+var jsonEncrypt = require("./jsonEncrypt");
 
 
 // INDEX
@@ -16,30 +18,21 @@ const flushCache = (req,res) => {
   myCache.flushAll();
   res.json({
     response:true,
-    message:'done'
   })
 }
 
 const homepage = async (req,res) => {
 
 
-  // Today’s Deals
-  // Featured products
-  // Suggested for You
-  // Most popular
-  // Weekly deals
-// Recommended Items
-// You May Like...
-// Recently Viewed
-// DEALS YOU DON'T WANT TO MISS
-
-  // const new_products = await Product.find({type:['Configurable','Simple'],product_collection:'New Arrivals'}).select({name:1,url:1});
+  if(myCache.has('homepage923')){
+    res.json({
+      response:true,
+      cache:true,
+      datas:myCache.get('homepage923')
+    })
+  }else{
 
 
-
-// todays deals 10
-// trending_products 10
-// most popular 10
   const todays_deals = await Product
                     .find({status:'Active',type:['Configurable','Simple'],product_collection:'Todays Deals'})
                     .select({ _id: 1, name: 1, stock: 1, category: 1, url: 1, type:1,pricedisplay:1, price_lowest: 1, price_heighest: 1, pricemain: 1, review_heighest_star:1, review_total:1,product_labels:1,product_collection:1, images: { $slice: 1 }})
@@ -86,23 +79,21 @@ const homepage = async (req,res) => {
     most_popular,
     top_brands
   }
+  myCache.set('homepage923', datas)
 
   res.json({
     response:true,
+    cache:false,
     datas
   })
 
-
+  }
 }
 
 
 const navitems = async (req, res) => {
 
   Category.aggregate([
-    // {
-    //   $match:{categories:{status:'Active'}}
-    // },
-
   {
       $lookup: {
          from: "subcategories",
@@ -127,62 +118,17 @@ const navitems = async (req, res) => {
   },
   {$match:{status:'Active'}},
 
-
   ],(err,datas)=>{
-
     var navdata={
       datas
     }
     res.json({
       response:true,
       from:'db',
-      data:navdata
+      data:jsonEncrypt.encrypt(navdata),
+      // data:navdata
     })
   })
-
-
-    // nav = myCache.get( "nav_data" );
-    // if(nav){
-    //   res.json({
-    //     response:true,
-    //     from:'cache',
-    //     data:nav
-    //   })
-    // }else{
-    //   Category.aggregate([
-    //   {
-    //       $lookup: {
-    //          from: "subcategories",
-    //          localField: "_id",
-    //          foreignField: "category_id",
-    //          as: "subcategory_data",
-    //          pipeline:[
-    //            {
-    //              $lookup: {
-    //               from: "childcategories",
-    //               localField: "_id",
-    //               foreignField: "subcategory_id",
-    //               as: "childcategory_data",
-    //            }
-    //          }
-    //          ]
-    //       }
-    //   },
-    //   ],(err,datas)=>{
-    //
-    //     var navdata={
-    //       datas
-    //     }
-    //     myCache.set( "nav_data", navdata, 10000 );
-    //     res.json({
-    //       response:true,
-    //       from:'db',
-    //       data:navdata
-    //     })
-    //   })
-    //
-    //
-    // }
 
 };
 

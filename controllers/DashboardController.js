@@ -1,8 +1,10 @@
 const response = require("express");
-
-
 const moment = require("moment");
+var jsonDecrypt = require("./jsonDecrypt");
+var jsonEncrypt = require("./jsonEncrypt");
 
+const NodeCache = require( "node-cache" );
+const myCache = new NodeCache();
 
 const Attribute = require("../models/Attribute");
 const Category = require("../models/Category");
@@ -29,14 +31,36 @@ const index = async (req, res) => {
 };
 
 
-const dynamicdatas = async (req,res) => {
+const cacheflush = (req,res) => {
+  myCache.flushAll();
   res.json({
-    attributes: await Attribute.find().select('_id type name attrbutes_list'),
-    category: await Category.find().select('_id name url status'),
-    subcategory: await SubCategory.find().select('_id category name url status'),
-    childcategory: await ChildCategory.find().select('_id category subcategory name url status'),
-    product_brand: await Brand.find().select('_id name'),
+    resonse:true
   })
+}
+
+
+const dynamicdatas = async (req,res) => {
+
+  if(myCache.has('dynamicdatas')){
+    res.json({
+      cache:true,
+      data:myCache.get('dynamicdatas')
+    })
+  }else{
+    var datatmp={
+      attributes: await Attribute.find().select('_id type name attrbutes_list'),
+      category: await Category.find().select('_id name url status'),
+      subcategory: await SubCategory.find().select('_id category name url status'),
+      childcategory: await ChildCategory.find().select('_id category subcategory name url status'),
+      product_brand: await Brand.find().select('_id name'),
+    }
+    var encfile=jsonEncrypt.encrypt(datatmp);
+    myCache.set('dynamicdatas', encfile)
+    res.json({
+      cache:false,
+      data:encfile
+    })
+  }
 }
 
 
@@ -101,5 +125,5 @@ const admin_dashboard = async(req,res) => {
 
 
 module.exports = {
-  index,dynamicdatas,admin_dashboard
+  index,dynamicdatas,admin_dashboard,cacheflush
 };

@@ -7,6 +7,9 @@ const path = require("path");
 const result = require("dotenv").config();
 var paypal = require('paypal-rest-sdk');
 
+const NodeCache = require( "node-cache" );
+const myCache = new NodeCache();
+
 // FOR IMAGEKIT AUTH
 const ImageKit = require("imagekit");
 var imagekit = new ImageKit({

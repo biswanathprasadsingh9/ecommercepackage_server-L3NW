@@ -17,6 +17,8 @@ const axios = require('axios');
 var CryptoJS = require("crypto-js");
 
 
+
+
 const User = require("../models/User");
 const UserAddress = require("../models/UserAddress");
 const UserShippingMethod = require("../models/UserShippingMethod");
@@ -245,6 +247,9 @@ const admin_view_all_emails = (req,res) => {
 
 
 const login_with_google = (req,res) => {
+
+  req.body=jsonDecrypt.decrypt(req.body.rnecomtext);
+
   User.findOne({email:req.body.email},(err,doc)=>{
     if(doc===null){
 
@@ -284,7 +289,9 @@ const login_with_google = (req,res) => {
                 .then(resa=>{
                   res.json({
                     response:true,
-                    data:rdata
+                    data:jsonEncrypt.encrypt(rdata),
+
+                    // data:rdata
                   })
                 })
 
@@ -359,7 +366,7 @@ const login_with_google = (req,res) => {
 
         res.json({
           response:true,
-          data:response
+          data:jsonEncrypt.encrypt(response),
         })
 
         LoginRecord.create({user_id:response._id,ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo})
@@ -390,9 +397,9 @@ const login_with_google = (req,res) => {
 //REGISTER
 const register = (req,res) => {
 
+  req.body=jsonDecrypt.decrypt(req.body.rnecomtext);
 
   var hash = bcrypt.hashSync(req.body.password, salt);
-
   var bodydata=req.body;
   bodydata.password=hash;
   bodydata.created_by='user';
@@ -411,7 +418,7 @@ const register = (req,res) => {
         .then(resa=>{
           res.json({
             response:true,
-            data:response,
+            data:jsonEncrypt.encrypt(response),
             message:'user_created'
           })
         })
@@ -678,6 +685,8 @@ const loginadmin = (req,res) => {
 
 //LOGIN
 const login = (req,res) => {
+
+  req.body=jsonDecrypt.decrypt(req.body.rnecomtext);
   var bodydata=req.body;
 
   User.findOne({email:bodydata.email},(err,doc)=>{
@@ -693,7 +702,9 @@ const login = (req,res) => {
 
           res.json({
             response:true,
-            data:_.omit(doc, ['password']),
+            // data:_.omit(doc, ['password']),
+            data:jsonEncrypt.encrypt(_.omit(doc, ['password'])),
+
             message:'Login Success'
           })
 
@@ -707,7 +718,6 @@ const login = (req,res) => {
           emailsender.emailsendFunction('user_send_new_login_detected',doc.email,{secureuserid:doc._id+'9e6cfeexf5d8ccecgt6e6cce7dvc2de8dcece7',username:doc.name.split(' ')[0],ipinfo:req.body.ipinfo,deviceinfo:req.body.deviceinfo},'email_user_newlogin_detected',true,doc._id)
           .then(response=>{
             console.log('send user_send_new_login_detected');
-            console.log(response)
           })
 
 
@@ -744,7 +754,8 @@ const emailverification = (req,res) => {
             res.json({
               response:true,
               message:'Success',
-              data:doc2
+              data:jsonEncrypt.encrypt(doc2)
+              // data:doc2
             })
           })
         })
@@ -961,6 +972,9 @@ const update = (req,res) => {
 
   console.log('req.body.ipinfo',req.body.ipinfo)
 
+  req.body=jsonDecrypt.decrypt(req.body.rnecomtext);
+
+
   User.findByIdAndUpdate(req.params.id,req.body)
   .then(response=>{
 
@@ -968,7 +982,7 @@ const update = (req,res) => {
     .then(rdata=>{
       res.json({
         response:true,
-        data:rdata
+        data:jsonEncrypt.encrypt(rdata),
       })
 
       if(req.body.ipinfo && req.body.deviceinfo){
@@ -994,7 +1008,7 @@ const update = (req,res) => {
 
 const update_password = (req,res) => {
 
-
+  req.body=jsonDecrypt.decrypt(req.body.rnecomtext);
 
   User.findOne({_id:req.body.id},(err,doc)=>{
     if(doc===null){
@@ -1394,7 +1408,7 @@ const user_page_visit_tracking_store = (req,res) => {
   req.body=jsonDecrypt.decrypt(req.body.rnecomtext);
 
 
-  console.log(req.body)
+  // console.log(req.body)
 
 
   if(req.body.user){
@@ -1413,19 +1427,22 @@ const user_page_visit_tracking_store = (req,res) => {
       }else if (response.status===false) {
         res.json({
           response:false,
-          data:response,
+          // data:response,
+          data:jsonEncrypt.encrypt(response),
           message:'user_account_blocked'
         })
       }else if (response.instant_logout_from_all_device) {
         res.json({
           response:false,
-          data:response,
+          data:jsonEncrypt.encrypt(response),
+          // data:response,
           message:'logout_now'
         })
       }else{
         res.json({
           response:false,
-          data:response,
+          // data:response,
+          data:jsonEncrypt.encrypt(response),
           message:'logout_now'
         })
       }
