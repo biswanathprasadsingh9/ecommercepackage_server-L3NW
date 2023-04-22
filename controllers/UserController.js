@@ -18,7 +18,6 @@ var CryptoJS = require("crypto-js");
 
 
 
-
 const User = require("../models/User");
 const UserAddress = require("../models/UserAddress");
 const UserShippingMethod = require("../models/UserShippingMethod");

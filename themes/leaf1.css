@@ -1,3 +1,8 @@
+.btnsui{
+  border-radius: 7px !important;
+  height: 47px !important;
+}
+
 
 /* FIX FOR ALL */
 .ant-tabs-tab {
