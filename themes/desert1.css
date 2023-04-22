@@ -1,7 +1,4 @@
-.btnsui{
-  border-radius: 7px !important;
-  height: 47px !important;
-}
+
 
 
 /* FIX FOR ALL */
@@ -163,4 +160,11 @@ border-radius: 7px !important;
 }
 .ant-drawer-title {
     color: white !important;
+}
+
+
+
+.btnsui{
+  border-radius: 7px !important;
+  height: 47px !important;
 }
