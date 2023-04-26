@@ -17,6 +17,9 @@ const orderSchema = new Schema({
   deviceinfo:{
     type:Object
   },
+  currency_info:{
+    type:Object
+  },
   order_id:{
     type:String
   },

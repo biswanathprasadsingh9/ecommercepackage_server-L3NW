@@ -8,13 +8,16 @@ const paymentSchema = new Schema({
   // user_payment_sec_code:{
   //   type:String
   // },
-  
+
   payment_method:{
     type:String
   },
   amount:{
     type:String
   },
+  currency_info:{
+    type:Object
+  }
   // payment_status:{
   //   type:String
   // },

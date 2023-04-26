@@ -90,22 +90,25 @@ const vieworder = (req,res) => {
 const payondelivery = (req,res) => {
 
 
-  console.log(req.body);
+  console.log('req.body',req.body);
 
   var emaildatas={products:[]};
   emaildatas.shippingaddress=req.body.user_shipping_address;
-  emaildatas.amount_subtotal=numeral.toCurrency(req.body.amount_subtotal);
-  emaildatas.amount_taxes=numeral.toCurrency(req.body.amount_taxes);
-  emaildatas.amount_shipping=numeral.toCurrency(req.body.amount_shipping);
-  emaildatas.amount_total=numeral.toCurrency(req.body.amount_total);
-  emaildatas.amount_total_final= numeral.toCurrency(req.body.amount_total_final);
+  emaildatas.amount_subtotal=numeral.toCurrency(req.body.amount_subtotal,req.body.currency_info);
+  emaildatas.amount_taxes=numeral.toCurrency(req.body.amount_taxes,req.body.currency_info);
+  emaildatas.amount_shipping=numeral.toCurrency(req.body.amount_shipping,req.body.currency_info);
+  emaildatas.amount_total=numeral.toCurrency(req.body.amount_total,req.body.currency_info);
+  emaildatas.amount_total_final= numeral.toCurrency(req.body.amount_total_final,req.body.currency_info);
   emaildatas.shipping_method=req.body.shipping_method;
   emaildatas.coupon=req.body.coupon?req.body.coupon.name:'-';
   emaildatas.payment_type=req.body.payment_type;
   emaildatas.payment_status=req.body.payment_status;
 
+
+  console.log('emaildatas',emaildatas)
+
   req.body.products.forEach((item, i) => {
-    emaildatas.products.push({name:item. product_name,quantity:item.quantity,amount:numeral.toCurrency(item.product_price)})
+    emaildatas.products.push({name:item. product_name,quantity:item.quantity,amount:numeral.toCurrency(item.product_price,req.body.currency_info)})
   });
 
 
@@ -129,7 +132,7 @@ const payondelivery = (req,res) => {
 
             //check if paid then insert payment history
             if(response.payment_status==='Paid'){
-              Payment.create({user_id:response.user_id,order_id:response._id,order_code:response.order_id,amount:response.amount_total_final,payment_method:response.payment_type})
+              Payment.create({user_id:response.user_id,order_id:response._id,order_code:response.order_id,amount:response.amount_total_final,payment_method:response.payment_type,currency_info:req.body.currency_info})
               .then(rpas=>{
                 console.log('payment_history_created')
               })
@@ -310,7 +313,7 @@ const order_complete_view = (req,res) => {
 
 
 const get_web_user_orderslist = (req,res) => {
-  Order.find({user_id:req.params.user_id}).select('order_id products._id payment_type payment_status amount_total_final order_status')
+  Order.find({user_id:req.params.user_id}).select('order_id products._id payment_type payment_status amount_total_final order_status currency_info')
   .then(response=>{
     res.json({
       response:true,
