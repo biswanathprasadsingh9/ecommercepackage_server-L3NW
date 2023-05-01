@@ -53,7 +53,9 @@ const Courier = require("./routes/courier");
 const Contact = require("./routes/contact");
 const Image = require("./routes/image");
 const Blog = require("./routes/blog");
+const Currency = require("./routes/currency");
 const SettingsAdmin = require("./routes/settingsadmin");
+const RolesAdmin = require("./routes/rolesadmin");
 
 
 
@@ -714,7 +716,10 @@ app.use("/api/courier", Courier);
 app.use("/api/contact", Contact);
 app.use("/api/image", Image);
 app.use("/api/blog", Blog);
+app.use("/api/currency", Currency);
 app.use("/api/settingsadmin", SettingsAdmin);
+app.use("/api/rolesadmin", RolesAdmin);
+
 
 
 //STATIC FILE

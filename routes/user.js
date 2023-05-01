@@ -9,6 +9,9 @@ const upload = multer({});
 router.get('/',UserController.index);
 router.put('/:id',UserController.update);
 
+router.put('/updateaccountinfobyadmin/:id',UserController.updateaccountinfobyadmin);
+
+
 
 
 router.get('/mark_all_seen',UserController.mark_all_seen);

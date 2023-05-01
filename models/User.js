@@ -8,7 +8,7 @@ const UserSchema = new Schema({
     type:Boolean,
     default:false
   },
-
+  admin_role:{type:mongoose.Schema.Types.ObjectId,ref:'RolesAdmin'},
   isAdminSeen:{
     type:Boolean,
     default:false
