@@ -48,6 +48,19 @@ const get_getcity = (req,res) => {
 }
 
 
+const getstatelistundercountry = (req,res) => {
+  console.log(req.body)
+
+  DataState.find({country_name:req.body.country_names}).sort('country_name').select('name country_name')
+  .then(datas=>{
+    res.json({
+      response:true,
+      datas
+    })
+  })
+}
+
+
 const insert_data_city = (req,res) => {
 
 
@@ -60,24 +73,28 @@ const insert_data_city = (req,res) => {
 
 
 
-    // var urls = ['http://mylink1', 'http://mylink2', 'http://mylink3', 'http://mylink4'],
-    interval = 1, //  = 2s1
-    increment = 1;
-
-    urls.forEach(function(url) {
-      var runner = setTimeout(function() {
-        // Do your stuff.
-        // console.log(url);
-        DataCity.create(url)
-        .then(res=>{
-          console.log('success')
-        })
-
-        clearTimeout(runner);
-      }, interval * increment);
-
-      increment = increment + 1;
+    res.json({
+      resp:true
     })
+
+    // var urls = ['http://mylink1', 'http://mylink2', 'http://mylink3', 'http://mylink4'],
+    // interval = 1, //  = 2s1
+    // increment = 1;
+    //
+    // urls.forEach(function(url) {
+    //   var runner = setTimeout(function() {
+    //     // Do your stuff.
+    //     // console.log(url);
+    //     DataCity.create(url)
+    //     .then(res=>{
+    //       console.log('success')
+    //     })
+    //
+    //     clearTimeout(runner);
+    //   }, interval * increment);
+    //
+    //   increment = increment + 1;
+    // })
 
 
 
@@ -86,5 +103,5 @@ const insert_data_city = (req,res) => {
 }
 
 module.exports = {
-  index,insert_data_city,get_country,get_getstate,get_getcity
+  index,insert_data_city,get_country,get_getstate,get_getcity,getstatelistundercountry
 };

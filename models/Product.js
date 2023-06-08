@@ -60,7 +60,6 @@ const ProductSchema = new Schema({
     default:5
   },
 
-
   category:{
     type:Object,
     default:[]

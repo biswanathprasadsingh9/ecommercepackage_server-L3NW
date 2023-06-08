@@ -141,6 +141,11 @@ router.get('/getuserdefaultshippingaddress/:user_id',UserController.getuserdefau
 router.get('/getusershippingmethodselected/:user_id',UserController.getusershippingmethodselected);
 
 router.post('/saveusershippingmethodselected',UserController.saveusershippingmethodselected);
+router.get('/clearusershippingmethodselected/:user_id',UserController.clearusershippingmethodselected);
+
+
+
+
 
 router.get('/getcartinfo/:user_id',UserController.getcartinfo);
 

@@ -64,10 +64,24 @@ const deletefile = (req,res) => {
   })
 }
 
+const updatestatus = (req,res) => {
+  var tempData={
+    status:req.params.status==='Active'?true:false
+  }
+  console.log(req.params)
+  Shipping.findByIdAndUpdate(req.params.id,tempData)
+  .then(response=>{
+    res.json({
+      response:true
+    })
+  })
+}
+
 
 module.exports = {
   index,
   store,
   update,
-  deletefile
+  deletefile,
+  updatestatus
 };

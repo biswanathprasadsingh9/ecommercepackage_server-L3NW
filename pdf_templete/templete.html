@@ -442,10 +442,12 @@ b{
     </div>
     <br />
     <br />
-    <div class="col-md-9 invoice-left">
-    <b>Payment Info:</b> {{invoicedata.payment_status}} | {{invoicedata.payment_type}}
+    <div class="col-md-8 invoice-left">
+    <b>Payment Info:</b> {{invoicedata.payment_status}}
+    <br />
+    ({{invoicedata.payment_type}})
     </div>
-    <div class="col-md-3 invoice-right">
+    <div class="col-md-4 invoice-right">
     <table class="total-table" style="width: 188px;float: right;">
       <tbody>
         <tr>
@@ -457,12 +459,28 @@ b{
           <td>{{invoicedata.taxes}}</td>
         </tr>
         <tr>
+          <th>Discounts:</th>
+          <td>{{invoicedata.amount_discount}}</td>
+        </tr>
+        <tr>
           <th>Shipping:</th>
-          <td>{{invoicedata.shipping}}</td>
+          <td>{{invoicedata.amount_shipping}}</td>
+        </tr>
+        <tr>
+          <th>Shipping Method:</th>
+          <td>{{invoicedata.amount_shipping_method}}</td>
+        </tr>
+        <tr>
+          <th></th>
+          <td>{{invoicedata.amount_shipping_method_name}}</td>
         </tr>
         <tr>
           <th>Coupon:</th>
-          <td>{{invoicedata.coupon}} - {{invoicedata.coupon_value}}</td>
+          <td>{{invoicedata.coupon}}</td>
+        </tr>
+        <tr>
+          <th></th>
+          <td>{{invoicedata.coupon_value}}</td>
         </tr>
 
         <tr style="font-size:14px">

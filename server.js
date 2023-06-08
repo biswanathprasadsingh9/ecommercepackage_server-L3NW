@@ -56,12 +56,7 @@ const Blog = require("./routes/blog");
 const Currency = require("./routes/currency");
 const SettingsAdmin = require("./routes/settingsadmin");
 const RolesAdmin = require("./routes/rolesadmin");
-
-
-
-
-
-
+const ShippingRule = require("./routes/shippingrule");
 
 
 
@@ -719,7 +714,7 @@ app.use("/api/blog", Blog);
 app.use("/api/currency", Currency);
 app.use("/api/settingsadmin", SettingsAdmin);
 app.use("/api/rolesadmin", RolesAdmin);
-
+app.use("/api/shippingrule", ShippingRule);
 
 
 //STATIC FILE

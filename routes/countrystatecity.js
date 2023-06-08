@@ -15,6 +15,10 @@ router.get('/getstate/:country',CountryStateCityController.get_getstate);
 router.get('/getcity/:state',CountryStateCityController.get_getcity);
 
 
+router.post('/getstatelistundercountry',CountryStateCityController.getstatelistundercountry);
+
+
+
 
 
 

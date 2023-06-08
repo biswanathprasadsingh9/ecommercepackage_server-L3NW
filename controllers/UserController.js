@@ -879,7 +879,6 @@ const getusershippingmethodselected = (req,res) => {
 
 //SAVE USER SHIPPING METHOD (shipping amount)
 const saveusershippingmethodselected = (req,res) => {
-
   UserShippingMethod.deleteMany({user_id:req.body.user_id},{multi:true})
   .then(respo=>{
     UserShippingMethod.create(req.body)
@@ -890,19 +889,15 @@ const saveusershippingmethodselected = (req,res) => {
       })
     })
   })
+}
 
-  // UserShippingMethod.findOne({user_id:req.params.user_id},(err,doc)=>{
-  //   if(doc===null){
-  //     res.json({
-  //       response:false
-  //     })
-  //   }else{
-  //     res.json({
-  //       response:true,
-  //       data:doc
-  //     })
-  //   }
-  // })
+const clearusershippingmethodselected = (req,res) => {
+  UserShippingMethod.deleteMany({user_id:req.params.user_id},{multi:true})
+  .then(respo=>{
+    res.json({
+      response:true
+    })
+  })
 }
 
 
@@ -1784,5 +1779,5 @@ const admin_user_all_productvisit_list_clear = (req,res) => {
 }
 
 module.exports = {
-  index,fetch_auth_user_admin,admin_user_all_productvisit_list_clear,admin_delete_user_productvisit_list,admin_user_all_productvisit_list,user_productvisit_list,user_productvisit_store,admin_theme_update,admin_account_information_update,send_email_verification_code,admin_clearall_notifications,admin_readall_notifications,admin_delete_notification,admin_delete_items_from_cart,admin_all_cart_items,admin_clearall_loginrecords,admin_clearall_pagevisit_records,admin_all_pagevisit_records,admin_delete_emailrecord,admin_all_notifications,admin_view_all_emailrecords,admin_view_emailrecord,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,admin_setseen_notifications,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,user_page_visit_tracking_store,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,admin_mostviewed_page,updateshppingadditionalcomments,mark_all_seen_cart,admin_setseen_notifications_byuserid,mark_all_seen,admin_setseen_notifications_bymessage_of_user,admin_setseen_notifications_bymessage,admin_setseen_notifications_byurl,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,logout_from_alldevice,login_as_user_step1,login_as_user_step2,admin_delete_loginrecord,updateaccountinfobyadmin
+  index,fetch_auth_user_admin,admin_user_all_productvisit_list_clear,admin_delete_user_productvisit_list,admin_user_all_productvisit_list,user_productvisit_list,user_productvisit_store,admin_theme_update,admin_account_information_update,send_email_verification_code,admin_clearall_notifications,admin_readall_notifications,admin_delete_notification,admin_delete_items_from_cart,admin_all_cart_items,admin_clearall_loginrecords,admin_clearall_pagevisit_records,admin_all_pagevisit_records,admin_delete_emailrecord,admin_all_notifications,admin_view_all_emailrecords,admin_view_emailrecord,admin_view_all_loginrecords,admin_view_all_emails,admin_view_user_details,admin_view_user_login_details,admin_delete_user_details,forgotpassword,register_fromadmin,update_password_web,check_reset_password_code,login_with_google,register,login_with_google,update_profile_picture,update_password,update,login,emailverification,admin_setseen_notifications,loginadmin,registerfromcart,getusershippingaddress,addaddressfromcart,deleteaddress,updateuseraddress,user_page_visit_tracking_store,updatedefauladdress,getusershippingmethodselected,saveusershippingmethodselected,getuserdefaultshippingaddress,getcartinfo,admin_mostviewed_page,updateshppingadditionalcomments,mark_all_seen_cart,admin_setseen_notifications_byuserid,mark_all_seen,admin_setseen_notifications_bymessage_of_user,admin_setseen_notifications_bymessage,admin_setseen_notifications_byurl,admin_view_user_cart_details,admin_view_user_order_details,admin_view_user_dashboard_details,admin_view_user_payment_history,logout_from_alldevice,login_as_user_step1,login_as_user_step2,admin_delete_loginrecord,updateaccountinfobyadmin,clearusershippingmethodselected
 };

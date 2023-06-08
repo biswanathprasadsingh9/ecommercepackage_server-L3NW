@@ -345,20 +345,35 @@ const generate_invoice = (req,res) => {
 
   console.log('req.body',req.body);
 
-  var emaildatas={products:[]};
-  emaildatas.shippingaddress=req.body.user_shipping_address;
-  emaildatas.amount_subtotal=numeral.toCurrency(req.body.amount_subtotal);
-  emaildatas.amount_taxes=numeral.toCurrency(req.body.amount_taxes);
-  emaildatas.amount_shipping=numeral.toCurrency(req.body.amount_shipping);
-  emaildatas.amount_total=numeral.toCurrency(req.body.amount_total);
-  emaildatas.amount_total_final= numeral.toCurrency(req.body.amount_total_final);
+  var emaildatas={products:req.body.products};
+  // emaildatas.shippingaddress=req.body.user_shipping_address;
+  // emaildatas.amount_subtotal=numeral.toCurrency(req.body.amount_subtotal);
+  // emaildatas.amount_taxes=numeral.toCurrency(req.body.amount_taxes);
+  // emaildatas.amount_shipping=numeral.toCurrency(req.body.amount_shipping);
+  // emaildatas.amount_total=numeral.toCurrency(req.body.amount_total);
+  // emaildatas.amount_total_final= numeral.toCurrency(req.body.amount_total_final);
+  // emaildatas.shipping_method=req.body.shipping_method;
+  // emaildatas.coupon=req.body.coupon?req.body.coupon.name:'-';
+  // emaildatas.payment_type=req.body.payment_type;
+  // emaildatas.payment_status=req.body.payment_status;
+
+
+  emaildatas.shippingaddress=req.body.invoice_user_info;
+  emaildatas.amount_subtotal=req.body.amount_subtotal;
+  emaildatas.amount_taxes=req.body.amount_taxes;
+  emaildatas.amount_discount=req.body.amount_discount;
+  emaildatas.amount_shipping=req.body.amount_shipping;
+  emaildatas.amount_shipping_method=req.body.amount_shipping_method;
+  emaildatas.amount_shipping_method_name=req.body.amount_shipping_method_name;
+  emaildatas.amount_total=req.body.amount_total;
+  emaildatas.amount_total_final=req.body.amount_total_final;
   emaildatas.shipping_method=req.body.shipping_method;
   emaildatas.coupon=req.body.coupon?req.body.coupon.name:'-';
   emaildatas.payment_type=req.body.payment_type;
   emaildatas.payment_status=req.body.payment_status;
 
 
-  console.log(emaildatas);
+  console.log('emaildatas',emaildatas);
 
 
   //PDF GENERATE
@@ -433,25 +448,11 @@ const generate_invoice = (req,res) => {
       })
     })
 
-
-
-
-
-
-
   })
   .catch((error) => {
     console.error(error);
   });
   //PDF GENERATE
-
-
-
-
-
-
-
-
 
 }
 
