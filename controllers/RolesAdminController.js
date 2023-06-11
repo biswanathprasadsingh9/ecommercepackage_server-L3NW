@@ -33,7 +33,16 @@ const update = (req,res) => {
   })
 }
 
+const deletefile = (req,res) => {
+  RolesAdmin.findByIdAndRemove(req.params.id)
+  .then(response=>{
+    res.json({
+      response:true
+    })
+  })
+}
+
 
 module.exports = {
-  index,store,update
+  index,store,update,deletefile
 };
