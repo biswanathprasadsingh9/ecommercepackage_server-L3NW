@@ -39,7 +39,7 @@ const rolesAdminSchema = new Schema({
     default:true
   },
 
-  
+
   login_record_index:{
     type:Boolean,
     default:true
@@ -77,6 +77,26 @@ const rolesAdminSchema = new Schema({
     default:true
   },
   order_record_view:{
+    type:Boolean,
+    default:true
+  },
+  order_record_update_status:{
+    type:Boolean,
+    default:true
+  },
+  order_record_update_courier:{
+    type:Boolean,
+    default:true
+  },
+  order_record_update_paymentinfo:{
+    type:Boolean,
+    default:true
+  },
+  order_record_update_billingshipping:{
+    type:Boolean,
+    default:true
+  },
+  order_record_invoice:{
     type:Boolean,
     default:true
   },
