@@ -3,6 +3,8 @@ const { uuid } = require('uuidv4');
 
 const MyEmailSenderEmail = require("../models/MyEmailSenderEmail");
 const MyEmailSenderEmailInfo = require("../models/MyEmailSenderEmailInfo");
+const MyEmailSenderViewEmail = require("../models/MyEmailSenderViewEmail");
+
 var validator = require("email-validator");
 
 var nodemailer = require("nodemailer");
@@ -49,9 +51,9 @@ const emailinfo = (req, res) => {
 const sendemail = async (req, res) => {
   console.log(req.body);
 
-  res.json({
-    response: true,
-  });
+  // res.json({
+  //   response: true,
+  // });
 
   var tmp = {
     uuid: req.body.uuid,
@@ -62,7 +64,13 @@ const sendemail = async (req, res) => {
     user_id: req.body.user_id
   };
 
-  MyEmailSenderEmailInfo.create(tmp);
+  MyEmailSenderEmailInfo.create(tmp)
+  .then(reer=>{
+    res.json({
+      response:true
+    })
+  })
+
   if (req.body.emailservice === "gmail") {
     var transporter = nodemailer.createTransport({
       service: "gmail",
@@ -244,14 +252,19 @@ const emailviewed = (req,res) => {
   MyEmailSenderEmail.findOne({email_view_count_code:req.params.email_view_count_code})
   .then(data=>{
     if(data){
-      console.log(data);
-      // var count=data.email_view_count+1;
+
+      MyEmailSenderViewEmail.create({email_send_id:data._id,user_id:data.user_id})
+      .then(ass=>{
+        // console.log('success cccc');
+      })
+
+
       MyEmailSenderEmail.findOneAndUpdate({email_view_count_code:req.params.email_view_count_code},{$set:{email_view_count:data.email_view_count+1}})
       .then(as=>{
-        console.log('success');
+        // console.log('success');
       })
     }else{
-      console.log('not found')
+      // console.log('not found')
     }
   })
   res.json({
@@ -259,4 +272,15 @@ const emailviewed = (req,res) => {
   })
 }
 
-module.exports = { index, emailinfo, sendemail, viewsendemailinfo,emailviewed,getfiles };
+
+const viewed_emails_list = (req,res) => {
+  MyEmailSenderViewEmail.find({user_id:req.params.user_id}).populate('email_send_id','email to subject')
+  .then(datas=>{
+    res.json({
+      response:true,
+      datas
+    })
+  })
+}
+
+module.exports = { index, emailinfo, sendemail, viewsendemailinfo,emailviewed,getfiles,viewed_emails_list };
