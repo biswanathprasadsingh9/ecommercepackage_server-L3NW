@@ -113,7 +113,7 @@ const sendemail = async (req, res) => {
         // }
         // const html = options.html || '';
         // const imageTag =  `<img src='https://d719-106-216-74-216.ngrok-free.app/api/myemailsender_email/emailviewed/62a17665-d7a8-41a0' height="1" width="1">`;
-        const imageTag =  "<img src='https://d719-106-216-74-216.ngrok-free.app/api/myemailsender_email/emailviewed/"+email_view_count_code+"' height='1' width='1'>";
+        const imageTag =  "<img src='https://api.reactnodeecommerce.cloud/api/myemailsender_email/emailviewed/"+email_view_count_code+"' height='1' width='1'>";
 
         // const imageUrl = 'https://reactnodeecommerce.cloud/file/11';
         //for track//
