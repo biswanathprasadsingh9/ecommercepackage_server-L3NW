@@ -23,7 +23,7 @@ const index = (req, res) => {
 };
 
 const getfiles = (req,res) => {
-  MyEmailSenderEmail.find({user_id:req.params.user_id}).sort({_id:-1})
+  MyEmailSenderEmailInfo.find({user_id:req.params.user_id}).sort({_id:-1})
   .then(response=>{
     res.json({
       response:true,
