@@ -59,7 +59,9 @@ const RolesAdmin = require("./routes/rolesadmin");
 const ShippingRule = require("./routes/shippingrule");
 
 
-
+const RouteEmailSenderTemplete = require('./routes/myemailsender_templete');
+const RouteEmailSenderEmail = require('./routes/myemailsender_email');
+const RouteEmailSenderUser = require('./routes/myemailsender_user');
 
 
 const app = express();
@@ -716,6 +718,11 @@ app.use("/api/settingsadmin", SettingsAdmin);
 app.use("/api/rolesadmin", RolesAdmin);
 app.use("/api/shippingrule", ShippingRule);
 
+
+
+app.use('/api/myemailsender_templete',RouteEmailSenderTemplete);
+app.use('/api/myemailsender_email',RouteEmailSenderEmail);
+app.use('/api/myemailsender_user',RouteEmailSenderUser);
 
 //STATIC FILE
 app.use('/themes', express.static('themes'));
