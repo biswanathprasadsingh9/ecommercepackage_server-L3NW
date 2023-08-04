@@ -64,6 +64,12 @@ const RouteEmailSenderEmail = require('./routes/myemailsender_email');
 const RouteEmailSenderUser = require('./routes/myemailsender_user');
 
 
+
+////special for emailextractor////
+const RouteEmailExtractor = require('./routes_emailextractor/emailextractor');
+////special for emailextractor////
+
+
 const app = express();
 
 app.use(function (req, res, next) {
@@ -723,6 +729,9 @@ app.use("/api/shippingrule", ShippingRule);
 app.use('/api/myemailsender_templete',RouteEmailSenderTemplete);
 app.use('/api/myemailsender_email',RouteEmailSenderEmail);
 app.use('/api/myemailsender_user',RouteEmailSenderUser);
+
+
+app.use('/api/emailextractor',RouteEmailExtractor);
 
 //STATIC FILE
 app.use('/themes', express.static('themes'));
